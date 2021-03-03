@@ -1,28 +1,52 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+<div :key="$route.fullPath" @contextmenu="handler($event)" id="app">
+    <globalNav :key="$route.fullPath"></globalNav>
+    <router-view :key="$route.fullPath"></router-view>
+</div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+const globalNav = () => import(/* webpackChunkName: "globalNav" */ './components/global/navbar.vue');
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    globalNav
+  },
+  methods: {
+    logout() {
+      const vm = this;
+      vm.$parent.$swal.fire({
+        title: `Are you sure you want to logoff?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#FF4500',
+        cancelButtonColor: '#00B32C',
+        confirmButtonText: 'Yes',
+        reverseButtons: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$auth.logout({
+            returnTo: window.location.origin,
+          });
+        }
+      })
+    },
+  },
+  data: function () {
+    return {
+      API_BASE_URL: "http://localhost:5000/api/v1",
+      USER_INFO: null,
+      JWT_TOKEN: this.$parent.token,
+      USER_AUTHORIZED: true,
+    };
+  },
 }
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
