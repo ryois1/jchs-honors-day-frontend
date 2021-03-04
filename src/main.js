@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import { BootstrapVue } from 'bootstrap-vue'
+import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import Vuex from 'vuex'
 import router from './router'
 import { domain, clientId, audience } from "../auth_config.json";
@@ -17,6 +17,7 @@ import 'vue-toast-notification/dist/theme-default.css';
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
+Vue.use(BootstrapVueIcons)
 Vue.use(Vuex)
 Vue.use(Auth0Plugin, {
   domain,

@@ -2,7 +2,11 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { authGuard } from "../auth/authGuard";
 const homepage = () => import(/* webpackChunkName: "homepage" */ '../views/homepage.vue');
-const certs = () => import(/* webpackChunkName: "certs" */ '../views/certs.vue');
+const certificates = () => import(/* webpackChunkName: "certificates" */ '../views/certificates.vue');
+const single_certificate = () => import(/* webpackChunkName: "single_certificate" */ '../views/single_certificate.vue');
+const new_certificate_parent = () => import(/* webpackChunkName: "new_certificate_parent" */ '../views/new_certificate_parent.vue');
+const new_certificate_child = () => import(/* webpackChunkName: "new_certificate_child" */ '../views/new_certificate_child.vue');
+const check_child_certs = () => import(/* webpackChunkName: "check_child_certs" */ '../views/check_child_certs.vue');
 const students = () => import(/* webpackChunkName: "students" */ '../views/students.vue');
 
 Vue.use(VueRouter);
@@ -19,12 +23,54 @@ const routes = [
     },
   },
   {
-    path: '/certs',
-    name: 'Certs',
-    component: certs,
+    path: '/certificates',
+    name: 'Certificates',
+    component: certificates,
     beforeEnter: authGuard,
     meta: {
       title: 'Certificates',
+      visible: true
+    },
+  },
+  {
+    path: '/certificates/new',
+    name: 'CertificateNewParent',
+    component: new_certificate_parent,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'New Parent Certificate',
+      visible: true
+    },
+  },
+  {
+    path: '/certificates/:cert_id',
+    name: 'CertificatePage',
+    component: single_certificate,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Viewing Certificate',
+      visible: true
+    },
+  },
+  {
+    path: '/certificates/:cert_id/new',
+    name: 'CertificatePageChild',
+    component: new_certificate_child,
+    beforeEnter: authGuard,
+    props: true,
+    meta: {
+      title: 'New Child Certificates',
+      visible: true
+    },
+  },
+  {
+    path: '/certificates/:cert_id/new/verify',
+    name: 'CertificatePageChildVerify',
+    component: check_child_certs,
+    beforeEnter: authGuard,
+    props: true,
+    meta: {
+      title: 'Very Child Certificates',
       visible: true
     },
   },

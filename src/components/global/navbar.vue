@@ -6,7 +6,7 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item :to="{ path: '/' }" :active="$route.name == 'Home'">Home</b-nav-item>
-          <b-nav-item :to="{ path: '/certs' }" :active="$route.name == 'Certs'">Certificates</b-nav-item>
+          <b-nav-item :to="{ path: '/certificates' }" :active="$route.name.startsWith('Certificate')">Certificates</b-nav-item>
           <b-nav-item :to="{ path: '/students' }" :active="$route.name == 'Students'">Students</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">

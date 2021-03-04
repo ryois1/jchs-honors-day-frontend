@@ -1,9 +1,12 @@
 <template>
   <div id="students">
-        <b-container>
-            <b-table :empty-html="EMTPY_TABLE" bordered show-empty :items="items" :fields="fields" :current-page="currentPage" :per-page="0"></b-table>
-            <b-pagination size="md" :total-rows="totalItems" v-model="currentPage" :per-page="perPage"></b-pagination>
+        <b-container fluid>
+            <b-row>
+                <b-col><h1>Viewing All Students</h1></b-col>
+            </b-row>
         </b-container>
+        <b-table :empty-html="EMTPY_TABLE" bordered show-empty :items="items" :fields="fields" :current-page="currentPage" :per-page="0"></b-table>
+        <b-pagination size="md" :total-rows="totalItems" v-model="currentPage" :per-page="perPage"></b-pagination>
   </div>
 </template>
 <script>
@@ -13,7 +16,7 @@ export default {
     name: "students",
     data: function () {
         return {
-            EMTPY_TABLE: '<p class="text-white">Loading data...</p>',
+            EMTPY_TABLE: '<p>Loading data...</p>',
             fields: [
                 {
                     key: 'id',
@@ -64,7 +67,7 @@ export default {
                     },
                 });
                 if(data.count == 0){
-                    vm.EMTPY_TABLE = '<h3 class="text-white">There are no students to show</h3>';
+                    vm.EMTPY_TABLE = '<h3>There are no students to show</h3>';
                 }
                 vm.totalItems = data.count;
                 vm.items = data.data.students;
@@ -76,7 +79,7 @@ export default {
                     },
                 });
                 if(data.count == 0){
-                    vm.EMTPY_TABLE = '<h3 class="text-white">There are no students to show</h3>';
+                    vm.EMTPY_TABLE = '<h3>There are no students to show</h3>';
                 }
                 vm.totalItems = data.count;
                 vm.items = data.data.students;
@@ -98,5 +101,8 @@ export default {
 <style scoped>
 #students{
     padding-top: 2em;
+    padding-left: 5em;
+    padding-right: 5em;
+    width: 100%;
 }
 </style>

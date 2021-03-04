@@ -1,16 +1,19 @@
 <template>
 <div :key="$route.fullPath" @contextmenu="handler($event)" id="app">
-    <globalNav :key="$route.fullPath"></globalNav>
-    <router-view :key="$route.fullPath"></router-view>
+    <globalNav></globalNav>
+    <mecheck/>
+    <router-view></router-view>
 </div>
 </template>
 
 <script>
 const globalNav = () => import(/* webpackChunkName: "globalNav" */ './components/global/navbar.vue');
+const mecheck = () => import(/* webpackChunkName: "mecheck" */ './components/global/me.vue');
 
 export default {
   name: 'App',
   components: {
+    mecheck,
     globalNav
   },
   methods: {
@@ -18,7 +21,7 @@ export default {
       const vm = this;
       vm.$parent.$swal.fire({
         title: `Are you sure you want to logoff?`,
-        icon: 'warning',
+        icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#FF4500',
         cancelButtonColor: '#00B32C',
