@@ -8,7 +8,7 @@
           </h1></b-col
         >
         <b-col class="text-right" v-if="this.allowed_edit"
-          ><b-button @click="transferCert" variant="primary"
+          ><b-button @click="transferCert" class="mr-1" variant="primary"
             >Transfer Certificate</b-button
           >
           <b-button

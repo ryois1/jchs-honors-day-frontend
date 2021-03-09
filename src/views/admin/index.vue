@@ -4,6 +4,7 @@
       <template #header>{{ LANG_WELCOME }}</template>
       <hr class="my-4" />
       <b-button
+        class="mr-1"
         v-if="this.$parent.USER_INFO.role == 'ADMIN'"
         variant="primary"
         @click="downloadCertsCSV"

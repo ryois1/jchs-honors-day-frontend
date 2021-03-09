@@ -19,6 +19,7 @@
       <template #cell(view)="data">
         <b-button
           variant="primary"
+          class="mr-2"
           :to="{ path: `/departments/${data.item.dept_id}/certificates` }"
           >View Department Certificates</b-button
         >
