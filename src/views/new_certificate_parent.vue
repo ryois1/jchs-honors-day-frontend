@@ -54,7 +54,6 @@ export default {
                     console.error(response);
                     vm.$parent.$toast.error('There was an error creating the certificate.', { position: 'top-right' });
                 }else{
-                    console.log(response);
                     vm.$parent.$toast.success('Successfully created the certificate.', { position: 'top-right' });
                     vm.cert_name = '';
                     vm.cert_max_child = '';

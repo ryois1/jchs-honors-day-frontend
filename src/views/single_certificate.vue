@@ -105,7 +105,6 @@ export default {
                             console.error(response);
                             vm.$parent.$toast.error('There was an error deleting the certificate.', { position: 'top-right' });
                         }else{
-                            console.log(response);
                             vm.$parent.$toast.success('Successfully deleted the certificate.', { position: 'top-right' });
                         }
                     })
@@ -126,7 +125,6 @@ export default {
                             console.error(response);
                             vm.$parent.$toast.error('There was an error deleting the certificate.', { position: 'top-right' });
                         }else{
-                            console.log(response);
                             vm.$parent.$toast.success('Successfully deleted the certificate.', { position: 'top-right' });
                         }
                         vm.API_certs().catch(error=>{
@@ -184,7 +182,6 @@ export default {
                             text: `${result.value.first_name} ${result.value.last_name} (${result.value.email})`,
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                console.log(swal_result);
             const vm = this;
             const data = { "certs": [{"user_id": swal_result.value.id, "cert_name": vm.CERT_NAME}]}
             axios({
@@ -200,7 +197,6 @@ export default {
                     console.error(response);
                     vm.$parent.$toast.error('There was an error modifying the certificate.', { position: 'top-right' });
                 }else{
-                    console.log(response);
                     vm.$parent.$toast.success('Successfully transferred the certificate.', { position: 'top-right' });
                     vm.cert_name = '';
                 }
@@ -258,12 +254,9 @@ export default {
                 }
                 vm.totalItems = data.data.certs.length;
                 vm.CERT_COUNT = `${data.data.certs.length}/${vm.CERT_MAX_CHILD}`;
-                console.log(data.data.certs.length > vm.CERT_MAX_CHILD);
                 if(data.data.certs.length > vm.CERT_MAX_CHILD){
-                    console.log("Disabling adding");
                     vm.DISABLED_ADD = true;
                 }else{
-                    console.log("Enabling adding");
                     vm.DISABLED_ADD = false;
                 }
                 vm.items = data.data.certs;

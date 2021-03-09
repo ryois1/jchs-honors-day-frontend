@@ -86,7 +86,6 @@ export default {
                             console.error(response);
                             vm.$parent.$toast.error('There was an error deleting the user.', { position: 'top-right' });
                         }else{
-                            console.log(response);
                             vm.$parent.$toast.success('Successfully deleted the user.', { position: 'top-right' });
                             vm.API_users().catch(error=>{
                                 vm.$parent.$toast.error('There was an error getting users.', { position: 'top-right' });

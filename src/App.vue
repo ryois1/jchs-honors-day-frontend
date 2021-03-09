@@ -47,7 +47,6 @@ export default {
                     .then(async function (response) {
                         if(response.data.error){
                           const address = vm.$auth.user.email.split('@').pop();
-                          console.log(address);
                           if(address == "jcboe.net"){
                             vm.$router.push({ name: 'AuthNewUser'});
                             vm.$toast.error('There was an error logging in (Unknown User)', { position: 'top-right' });
@@ -67,7 +66,6 @@ export default {
                     })
                     .catch(function (response) {
                         const address = vm.$auth.user.email.split('@').pop();
-                        console.log(address);
                         if(address == "jcboe.net"){
                           vm.$router.push({ name: 'AuthNewUser'});
                           vm.$toast.error('There was an error logging in (Unknown User)', { position: 'top-right' });

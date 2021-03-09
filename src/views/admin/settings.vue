@@ -49,7 +49,6 @@ export default {
     },
     methods: {
         editConfig: async function (config_name, config_value){
-            console.log(`${config_name}: ${config_value}`);
             const vm = this;
             axios({
                 method: 'put',

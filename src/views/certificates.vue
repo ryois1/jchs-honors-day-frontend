@@ -74,7 +74,6 @@ export default {
                     console.error(response);
                     vm.$parent.$toast.error('There was an error downloading the CSV.', { position: 'top-right' });
                 }else{
-                    console.log(response.data.data.file_name);
                     let blob = new Blob([response.data.data.csv], { type: "application/octet-stream" }),
                     url = window.URL.createObjectURL(blob);
                     let tempLink = document.createElement("a");
@@ -114,7 +113,6 @@ export default {
                 }
             }).then(async function(result){
                 if (result.isConfirmed) {
-            console.log(cert_id);
             let authToken = vm.$parent.JWT_TOKEN;
             if (await authToken == null){
                 await this.getAuthToken();
@@ -128,7 +126,6 @@ export default {
                             console.error(response);
                             vm.$parent.$toast.error('There was an error deleting the certificate.', { position: 'top-right' });
                         }else{
-                            console.log(response);
                             vm.$parent.$toast.success('Successfully deleted the certificate.', { position: 'top-right' });
                         }
                     })
@@ -148,7 +145,6 @@ export default {
                             console.error(response);
                             vm.$parent.$toast.error('There was an error deleting the certificate.', { position: 'top-right' });
                         }else{
-                            console.log(response);
                             vm.$parent.$toast.success('Successfully deleted the certificate.', { position: 'top-right' });
                         }
                         vm.API_certs().catch(error=>{

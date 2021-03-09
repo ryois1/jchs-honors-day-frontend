@@ -69,7 +69,6 @@ export default {
                     console.error(response);
                     vm.$parent.$toast.error('There was an error creating the user.', { position: 'top-right' });
                 }else{
-                    console.log(response);
                     vm.$parent.$toast.success('Successfully created the user.', { position: 'top-right' });
                     vm.user_first_name = '';
                     vm.user_last_name = '';

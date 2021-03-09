@@ -53,7 +53,6 @@ export default {
                     console.error(response);
                     vm.$parent.$toast.error('There was an error signing up.', { position: 'top-right' });
                 }else{
-                    console.log(response);
                     vm.$parent.$toast.success('Successfully signed up.', { position: 'top-right' });
                     vm.$router.push({ name: 'Home'});
                     vm.$forceUpdate();

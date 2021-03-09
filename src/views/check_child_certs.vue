@@ -98,7 +98,6 @@ export default {
             const ok_student_ids = this.ok_student_ids;
             const invalid_student_ids = this.invalid_student_ids;
             const duplicates = findDuplicates(student_ids);
-            console.log(`Duplicates ${duplicates}`);
             if(duplicates.length > 0){
             vm.$parent.$swal.fire({
                 title: `You have duplicate students`,
@@ -118,7 +117,6 @@ export default {
                     errors.push(errorinput);
                     continue;
                 }else{
-                console.log(student_ids[index]);
                     const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/students/${student_ids[index]}`, {
                         headers: {
                             Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
@@ -156,13 +154,11 @@ export default {
             const ok_student_ids = this.ok_student_ids_nondupe;
             const invalid_student_ids = this.invalid_student_ids;
             for (let index = 0; index < student_ids.length; index++){
-                console.log(student_ids[index]);
                     const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}/${student_ids[index]}`, {
                         headers: {
                             Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
                         },
                     });
-                    console.log(data);
                     if(!data.error){
                         invalid_student_ids.push(student_ids[index]);
                         const errorinput = {
@@ -219,7 +215,6 @@ export default {
                             console.error(response);
                             vm.$parent.$toast.error('There was an error creating the certificate(s).', { position: 'top-right' });
                         }else{
-                            console.log(response);
                             const cert_id = vm.$route.params.cert_id;
                             vm.$parent.$toast.success('Successfully created the certificate(s).', { position: 'top-right' });
                             vm.$router.push({ name: 'CertificatePage', params: { cert_id } }) 
@@ -248,7 +243,6 @@ export default {
                             console.error(response);
                             vm.$parent.$toast.error('There was an error creating the certificate(s).', { position: 'top-right' });
                         }else{
-                            console.log(response);
                             const cert_id = vm.$route.params.cert_id;
                             vm.$parent.$toast.success('Successfully created the certificate(s).', { position: 'top-right' });
                             vm.$router.push({ name: 'CertificatePage', params: { cert_id } }) 
@@ -285,7 +279,6 @@ export default {
                 }
                 const vm = this;
                 const ok_checkbox_count = getOccurrence(vm.ok_student_checkboxes, 'verified');
-                console.log(ok_checkbox_count);
                 if(ok_checkbox_count == vm.ok_student_ids.length){
                     vm.ok_button_variant = 'success';
                     vm.ok_button_disabled = 0;

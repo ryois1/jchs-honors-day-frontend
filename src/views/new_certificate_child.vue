@@ -10,7 +10,7 @@
                     <b-card bg-variant="light">
                     <b-form @submit.prevent="processForm">
                         <b-form-group id="cert_name-group" label="Certificate Name:" label-for="cert_name" description="Alphanumerical characters">
-                            <b-form-input id="cert_name" v-model="cert_name" type="text" placeholder="Name" required></b-form-input>
+                            <b-form-input disabled id="cert_name" v-model="cert_name" type="text" placeholder="Name" required></b-form-input>
                         </b-form-group>
                         <div v-for="index in input_index" :key="index">
                             <b-container fluid>
@@ -74,19 +74,16 @@ export default {
                 this.length = from < 0 ? this.length + from : from;
                 return this.push.apply(this, rest);
             };
-            console.log(e);
             const array = this.student_id;
             this.input_index--;
             this.current_certs_count--;
             array.remove(e);
-            console.log(array);
         },
         lookupStudent: async function(index){
             const vm = this;
             let authToken = vm.$parent.JWT_TOKEN;
             const search = this.student_id[index];
             vm.lookedup_student = [];
-            console.log(search);
             const loookup_data = { "search_query": search}
             if (await authToken == null){
                 await this.getAuthToken();
@@ -133,10 +130,8 @@ export default {
                         };
                     output.push(cert);
                     });
-                console.log(output);
                 vm.lookedup_student = output;
             }
-            console.log(vm.lookedup_student);
         },
         remove(){
             this.input_index--;
@@ -147,20 +142,15 @@ export default {
         },
         API_certs: async function () {
             const vm = this;
-            const offset = 0;
                 axios.get(`${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}/certs`, {
-                    params: { offset: offset, limit: vm.perPage },
                     headers: {
                      Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
                     },
                 })
                 .then(function (response) {
-                    console.log(response);
+                    vm.certs_remaining = vm.max_certs;
                     vm.current_certs_count = response.data.data.certs.length;
-                    console.log(vm.current_certs_count)
-                    console.log(vm.max_certs)
                     vm.certs_remaining = vm.max_certs-vm.current_certs_count;
-                    console.log(vm.certs_remaining)
                 })
                 .catch(function () {
                     vm.current_certs_count = 0;
@@ -190,29 +180,19 @@ export default {
             }
         },
     },
-    mounted: function () {
-        this.API_cert_info();
-        this.API_certs();
+    mounted: async function () {
+        await this.API_cert_info();
+        await this.API_certs();
         if(this.$attrs.prop){
-        if(typeof this.$attrs.prop.student_id !== "undefined"){
-            this.student_id = this.$attrs.prop.student_id;
-            this.input_index = this.$attrs.prop.student_id.length;
-        }
-        if(typeof this.$attrs.prop.cert_name !== "undefined"){
-            this.cert_name = this.$attrs.prop.cert_name;
-        }
-        }
-    },
-    watch: {
-        current_certs_count: {
-            handler: function() {
-                this.certs_remaining = this.max_certs-this.current_certs_count;
-                if(this.certs_remaining < 0){
-                    this.certs_remaining = 0;
-                }
+            if(typeof this.$attrs.prop.student_id !== "undefined"){
+                this.student_id = this.$attrs.prop.student_id;
+                this.input_index = this.$attrs.prop.student_id.length;
+            }
+            if(typeof this.$attrs.prop.cert_name !== "undefined"){
+                this.cert_name = this.$attrs.prop.cert_name;
             }
         }
-    }
+    },
 };
 </script>
 <style scoped>
