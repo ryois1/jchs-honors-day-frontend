@@ -1,83 +1,103 @@
 <template>
-<div :key="$route.fullPath" @contextmenu="handler($event)" id="app">
-    <loading :active.sync="isLoading" :can-cancel="onCancel" :is-full-page="fullPage"></loading>
+  <div :key="$route.fullPath" @contextmenu="handler($event)" id="app">
+    <loading
+      :active.sync="isLoading"
+      :can-cancel="onCancel"
+      :is-full-page="fullPage"
+    ></loading>
     <globalNav></globalNav>
+    <globalBreadcrumbs></globalBreadcrumbs>
     <router-view></router-view>
-</div>
+  </div>
 </template>
 
 <script>
-const globalNav = () => import(/* webpackChunkName: "globalNav" */ './components/global/navbar.vue');
+const globalNav = () =>
+  import(/* webpackChunkName: "components" */ "./components/global/navbar.vue");
+const globalBreadcrumbs = () =>
+  import(
+    /* webpackChunkName: "components" */ "./components/global/breadcrumbs.vue"
+  );
 import axios from "axios";
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Loading,
     globalNav,
+    globalBreadcrumbs,
   },
   methods: {
     logout() {
       const vm = this;
-      vm.$parent.$swal.fire({
-        title: `Are you sure you want to logoff?`,
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#FF4500',
-        cancelButtonColor: '#00B32C',
-        confirmButtonText: 'Yes',
-        reverseButtons: true,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.$auth.logout({
-            returnTo: window.location.origin,
-          });
-        }
-      })
+      vm.$parent.$swal
+        .fire({
+          title: `Are you sure you want to logoff?`,
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonColor: "#FF4500",
+          cancelButtonColor: "#00B32C",
+          confirmButtonText: "Yes",
+          reverseButtons: true,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            this.$auth.logout({
+              returnTo: window.location.origin,
+            });
+          }
+        });
     },
-        API_me: async function () {
-            const vm = this;
-                await axios.get(`${vm.API_BASE_URL}/me`, {
-                    headers: {
-                     Authorization: `Bearer ${vm.JWT_TOKEN}`,
-                    },
-                })
-                    .then(async function (response) {
-                        if(response.data.error){
-                          const address = vm.$auth.user.email.split('@').pop();
-                          if(address == "jcboe.net"){
-                            vm.$router.push({ name: 'AuthNewUser'});
-                            vm.$toast.error('There was an error logging in (Unknown User)', { position: 'top-right' });
-                            console.error(response);
-                            vm.isLoading = false;
-                          }else{
-                            vm.$router.push({ name: 'UnknownUser'});
-                            vm.isLoading = false;
-                          }
-                        }else{
-                          vm.USER_AUTHORIZED = true;
-                          vm.USER_INFO = response.data.data;
-                          vm.$toast.success('Successfully logged in', { position: 'top-right' });
-                          vm.$forceUpdate();
-                          vm.isLoading = false;
-                        }
-                    })
-                    .catch(function (response) {
-                        const address = vm.$auth.user.email.split('@').pop();
-                        if(address == "jcboe.net"){
-                          vm.$router.push({ name: 'AuthNewUser'});
-                          vm.$toast.error('There was an error logging in (Unknown User)', { position: 'top-right' });
-                          console.error(response);
-                          vm.isLoading = false;
-                        }else{
-                          vm.$router.push({ name: 'UnknownUser'});
-                          vm.isLoading = false;
-                        }
-                    });
-        },
+    API_me: async function () {
+      const vm = this;
+      await axios
+        .get(`${vm.API_BASE_URL}/me`, {
+          headers: {
+            Authorization: `Bearer ${vm.JWT_TOKEN}`,
+          },
+        })
+        .then(async function (response) {
+          if (response.data.error) {
+            const address = vm.$auth.user.email.split("@").pop();
+            if (address == "jcboe.net") {
+              vm.$router.push({ name: "AuthNewUser" });
+              vm.$toast.error("There was an error logging in (Unknown User)", {
+                position: "top-right",
+              });
+              console.error(response);
+              vm.isLoading = false;
+            } else {
+              vm.$router.push({ name: "UnknownUser" });
+              vm.isLoading = false;
+            }
+          } else {
+            vm.USER_AUTHORIZED = true;
+            vm.USER_INFO = response.data.data;
+            vm.$toast.success("Successfully logged in", {
+              position: "top-right",
+            });
+            vm.$forceUpdate();
+            vm.isLoading = false;
+          }
+        })
+        .catch(function (response) {
+          const address = vm.$auth.user.email.split("@").pop();
+          if (address == "jcboe.net") {
+            vm.$router.push({ name: "AuthNewUser" });
+            vm.$toast.error("There was an error logging in (Unknown User)", {
+              position: "top-right",
+            });
+            console.error(response);
+            vm.isLoading = false;
+          } else {
+            vm.$router.push({ name: "UnknownUser" });
+            vm.isLoading = false;
+          }
+        });
     },
+  },
   data: function () {
     return {
       API_BASE_URL: "http://localhost:5000/api/v1",
@@ -89,10 +109,10 @@ export default {
       isLoading: true,
     };
   },
-      created: function () {
-        this.API_me();
-    },
-}
+  created: function () {
+    this.API_me();
+  },
+};
 </script>
 
 <style>
@@ -100,7 +120,8 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-html, body{
+html,
+body {
   height: 100%;
   width: 100%;
 }

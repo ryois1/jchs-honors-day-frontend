@@ -2,21 +2,30 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { authGuard } from "../auth/authGuard";
 const homepage = () => import(/* webpackChunkName: "homepage" */ '../views/homepage.vue');
-const certificates = () => import(/* webpackChunkName: "certificates" */ '../views/certificates.vue');
-const single_certificate = () => import(/* webpackChunkName: "single_certificate" */ '../views/single_certificate.vue');
-const new_certificate_parent = () => import(/* webpackChunkName: "new_certificate_parent" */ '../views/new_certificate_parent.vue');
-const new_certificate_child = () => import(/* webpackChunkName: "new_certificate_child" */ '../views/new_certificate_child.vue');
-const check_child_certs = () => import(/* webpackChunkName: "check_child_certs" */ '../views/check_child_certs.vue');
+const certificates = () => import(/* webpackChunkName: "certificates" */ '../views/certs/certificates.vue');
+const single_certificate = () => import(/* webpackChunkName: "certificates" */ '../views/certs/single_certificate.vue');
+const new_certificate_parent = () => import(/* webpackChunkName: "certificates" */ '../views/certs/new_certificate_parent.vue');
+const new_certificate_child = () => import(/* webpackChunkName: "certificates" */ '../views/certs/new_certificate_child.vue');
+const check_child_certs = () => import(/* webpackChunkName: "certificates" */ '../views/certs/check_child_certs.vue');
 const students = () => import(/* webpackChunkName: "students" */ '../views/students.vue');
-const admin_index = () => import(/* webpackChunkName: "admin_index" */ '../views/admin/index.vue');
-const admin_users = () => import(/* webpackChunkName: "admin_users" */ '../views/admin/users.vue');
-const admin_settings = () => import(/* webpackChunkName: "admin_settings" */ '../views/admin/settings.vue');
-const authNewUser = () => import(/* webpackChunkName: "authNewUser" */ '../views/auth/new_user.vue');
-const unknownUser = () => import(/* webpackChunkName: "unknownUser" */ '../views/unknown_user.vue');
-const admin_new_user = () => import(/* webpackChunkName: "admin_new_user" */ '../views/admin/new_user.vue');
-const import_pdfs_1 = () => import(/* webpackChunkName: "import_pdfs_1" */ '../views/import_pdfs_step_1.vue');
-const import_pdfs_2 = () => import(/* webpackChunkName: "import_pdfs_2" */ '../views/import_pdfs_step_2.vue');
-const admin_email = () => import(/* webpackChunkName: "admin_email" */ '../views/admin/email.vue');
+const admin_index = () => import(/* webpackChunkName: "admin" */ '../views/admin/index.vue');
+const admin_users = () => import(/* webpackChunkName: "admin" */ '../views/admin/users.vue');
+const admin_settings = () => import(/* webpackChunkName: "admin" */ '../views/admin/settings.vue')
+const admin_email = () => import(/* webpackChunkName: "admin" */ '../views/admin/email.vue');
+const admin_depts = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments.vue');
+const admin_depts_edit = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments_edit.vue');
+const authNewUser = () => import(/* webpackChunkName: "auth" */ '../views/auth/new_user.vue');
+const unknownUser = () => import(/* webpackChunkName: "auth" */ '../views/unknown_user.vue');
+const admin_new_user = () => import(/* webpackChunkName: "admin" */ '../views/admin/new_user.vue');
+const import_pdfs_1 = () => import(/* webpackChunkName: "import" */ '../views/import_pdfs_step_1.vue');
+const import_pdfs_2 = () => import(/* webpackChunkName: "import" */ '../views/import_pdfs_step_2.vue');
+const dept_all = () => import(/* webpackChunkName: "dept" */ '../views/depts/all.vue');
+const dept_certs = () => import(/* webpackChunkName: "dept" */ '../views/depts/cert.vue');
+const dept_users = () => import(/* webpackChunkName: "dept" */ '../views/depts/users.vue');
+const admin_depts_new = () => import(/* webpackChunkName: "dept" */ '../views/admin/departments_new.vue');
+const admin_depts_add = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments_add_user.vue');
+const admin_depts_verify = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments_verify_user.vue');
+
 
 Vue.use(VueRouter);
 
@@ -116,6 +125,36 @@ const routes = [
     },
   },
   {
+    path: '/departments',
+    name: 'Departments',
+    component: dept_all,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Departments',
+      visible: true
+    },
+  },
+  {
+    path: '/departments/:dept_id/certificates',
+    name: 'DepartmentsCertificates',
+    component: dept_certs,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Department Certificates',
+      visible: true
+    },
+  },
+  {
+    path: '/departments/:dept_id/users',
+    name: 'DepartmentsUsers',
+    component: dept_users,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Department Users',
+      visible: true
+    },
+  },
+  {
     path: '/admin',
     name: 'Admin',
     component: admin_index,
@@ -132,6 +171,58 @@ const routes = [
     beforeEnter: authGuard,
     meta: {
       title: 'Admin Email',
+      visible: true
+    },
+  },
+  {
+    path: '/admin/departments',
+    name: 'AdminDepts',
+    component: admin_depts,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Admin Departments',
+      visible: true
+    },
+  },
+  {
+    path: '/admin/departments/new',
+    name: 'AdminDeptsNew',
+    component: admin_depts_new,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'New Department',
+      visible: true
+    },
+  },
+  {
+    path: '/admin/departments/:dept_id',
+    name: 'AdminDeptsEdit',
+    component: admin_depts_edit,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Edit Department Admin',
+      visible: true
+    },
+  },
+  {
+    path: '/admin/departments/:dept_id/add',
+    name: 'AdminDeptsAdd',
+    component: admin_depts_add,
+    beforeEnter: authGuard,
+    props: true,
+    meta: {
+      title: 'Add User to Department Admin',
+      visible: true
+    },
+  },
+  {
+    path: '/admin/departments/:dept_id/add/verify',
+    name: 'AdminDeptAddVerify',
+    component: admin_depts_verify,
+    props: true,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Verify Adding User to Department Admin',
       visible: true
     },
   },

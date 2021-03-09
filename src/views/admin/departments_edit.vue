@@ -9,8 +9,10 @@
           ><b-button
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             variant="primary"
-            :to="{ path: `/admin/users/new` }"
-            >New User</b-button
+            :to="{
+              path: `/admin/departments/${this.$route.params.dept_id}/add`,
+            }"
+            >Add Existing User to Department</b-button
           >
         </b-col>
       </b-row>
@@ -45,7 +47,7 @@ export default {
   name: "certs",
   data: function () {
     return {
-      LANG_HEADER: "Viewing All Users",
+      LANG_HEADER: "Editing Department ???",
       EMTPY_TABLE: "<p>Loading data...</p>",
       fields: [
         {
@@ -79,13 +81,14 @@ export default {
     };
   },
   methods: {
-    deleteUser: async function (cert_id) {
+    deleteUser: async function (user_id) {
+      console.log(user_id);
       const vm = this;
       this.$parent.$swal
         .fire({
-          title: `Delete this user?`,
+          title: `Remove this user?`,
           html:
-            '<p>Are you sure you want to delete this user?</p><br><b>This action cannot be undone.<br>This DELETES certificates owned by the user.</b><br><i>Type "DELETE" below</i>',
+            '<p>Are you sure you want to remove this user from the department?</p><br><b>THIS DOES NOT DELETE USERS, use Admin > Users<br>This DOES NOT delete certificates.</b><br><i>Type "DELETE" below</i>',
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
@@ -104,23 +107,26 @@ export default {
         .then(async function (result) {
           if (result.isConfirmed) {
             axios
-              .delete(`${vm.$parent.API_BASE_URL}/users/${cert_id}`, {
-                headers: {
-                  Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-                },
-              })
+              .delete(
+                `${vm.$parent.API_BASE_URL}/dept/${vm.$route.params.dept_id}/users/${user_id}`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+                  },
+                }
+              )
               .then(function (response) {
                 if (response.data.error) {
                   console.error(response);
                   vm.$parent.$toast.error(
-                    "There was an error deleting the user.",
+                    "There was an error removing the user.",
                     { position: "top-right" }
                   );
                 } else {
-                  vm.$parent.$toast.success("Successfully deleted the user.", {
+                  vm.$parent.$toast.success("Successfully removing the user.", {
                     position: "top-right",
                   });
-                  vm.API_users().catch((error) => {
+                  this.API_users().catch((error) => {
                     vm.$parent.$toast.error(
                       "There was an error getting users.",
                       { position: "top-right" }
@@ -131,7 +137,7 @@ export default {
               })
               .catch(function (response) {
                 vm.$parent.$toast.error(
-                  "There was an error deleting the user.",
+                  "There was an error removing the user.",
                   { position: "top-right" }
                 );
                 console.error(response);
@@ -141,22 +147,38 @@ export default {
     },
     API_users: async function () {
       const vm = this;
-      vm.EMTPY_TABLE = "<h3>There are no certs to show</h3>";
+      vm.EMTPY_TABLE = "<h3>There are no users to show</h3>";
       const offset = vm.currentPage * vm.perPage - 10;
-      const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/users`, {
-        params: { offset: offset, limit: vm.perPage },
-        headers: {
-          Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-        },
-      });
+      const { data } = await axios.get(
+        `${vm.$parent.API_BASE_URL}/dept/${vm.$route.params.dept_id}/users`,
+        {
+          params: { offset: offset, limit: vm.perPage },
+          headers: {
+            Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+          },
+        }
+      );
       if (data.count == 0) {
-        vm.EMTPY_TABLE = "<h3>There are no certs to show</h3>";
+        vm.EMTPY_TABLE = "<h3>There are no users to show</h3>";
       }
       vm.totalItems = data.count;
       vm.items = data.data.users;
     },
+    API_dept: async function () {
+      const vm = this;
+      const { data } = await axios.get(
+        `${vm.$parent.API_BASE_URL}/dept/${vm.$route.params.dept_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+          },
+        }
+      );
+      vm.LANG_HEADER = `Editing "${data.data.depts[0].department_name}"`;
+    },
   },
   mounted: function () {
+    this.API_dept();
     this.API_users().catch((error) => {
       this.$parent.$toast.error(`There was an error getting users. ${error}`, {
         position: "top-right",
