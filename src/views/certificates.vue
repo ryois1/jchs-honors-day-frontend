@@ -2,8 +2,8 @@
   <div id="certs">
         <b-container fluid>
             <b-row>
-                <b-col><h1>Viewing All Parent Certificates</h1></b-col>
-                <b-col class="text-right"><b-button v-if="this.$parent.USER_INFO.role == 'ADMIN'" variant="primary" :to="{ path: `/certificates/new` }">New Parent Certificate</b-button>  <b-button v-if="this.$parent.USER_INFO.role == 'ADMIN'" variant="primary" @click="downloadCertsCSV">Download CSV</b-button></b-col>
+                <b-col><h1>{{LANG_HEADER}}</h1></b-col>
+                <b-col class="text-right"><b-button v-if="this.$parent.USER_INFO.role == 'ADMIN'" variant="primary" :to="{ path: `/certificates/new` }">New Parent Certificate</b-button>  <b-button v-if="this.$parent.USER_INFO.role == 'ADMIN'" variant="primary" @click="downloadCertsCSV">Download CSV</b-button>  <b-button v-if="this.$parent.USER_INFO.role == 'ADMIN'" variant="primary" :to="{ path: `/certificates/import/step/1` }">Import PDFs</b-button></b-col>
             </b-row>
         </b-container>
         <b-table :empty-html="EMTPY_TABLE" bordered show-empty :items="items" :fields="fields" :current-page="currentPage" :per-page="0">
@@ -24,6 +24,7 @@ export default {
     name: "certs",
     data: function () {
         return {
+            LANG_HEADER: 'Viewing All Parent Certificates',
             EMTPY_TABLE: '<p>Loading data...</p>',
             fields: [
                 {
@@ -48,6 +49,10 @@ export default {
                     key: 'cert_id',
                     label: 'View Certificate',
                 },
+                {
+                    key: 'cert_max_child',
+                    label: 'Max Child Certificates',
+                },
                 'delete'
             ],
             items: [],
@@ -59,31 +64,44 @@ export default {
     methods: {
         downloadCertsCSV: async function(){
             const vm = this;
-            const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/certs_csv`, {
+            axios.get(`${vm.$parent.API_BASE_URL}/certs_csv`, {
                 headers: {
                     Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
                 },
+            })
+            .then(function (response) {
+                if(response.data.error){
+                    console.error(response);
+                    vm.$parent.$toast.error('There was an error downloading the CSV.', { position: 'top-right' });
+                }else{
+                    console.log(response.data.data.file_name);
+                    let blob = new Blob([response.data.data.csv], { type: "application/octet-stream" }),
+                    url = window.URL.createObjectURL(blob);
+                    let tempLink = document.createElement("a");
+                    tempLink.style.display = "none";
+                    tempLink.href = url;
+                    tempLink.setAttribute("download", response.data.data.file_name);
+                    document.body.appendChild(tempLink);
+                    tempLink.click();
+                    document.body.removeChild(tempLink);
+                    window.URL.revokeObjectURL(url);
+                    vm.$parent.$toast.success('Successfully downloaded the CSV.', { position: 'top-right' });
+                }
+            })
+            .catch(function (response) {
+                vm.$parent.$toast.error('There was an error downloading the CSV.', { position: 'top-right' });
+                console.error(response);
             });
-            let blob = new Blob([data.data.csv], { type: "application/octet-stream" }),
-            url = window.URL.createObjectURL(blob);
-            let tempLink = document.createElement("a");
-            tempLink.style.display = "none";
-            tempLink.href = url;
-            tempLink.setAttribute("download", data.data.file_name);
-            document.body.appendChild(tempLink);
-            tempLink.click();
-            document.body.removeChild(tempLink);
-            window.URL.revokeObjectURL(url);
         },
         deleteCert: async function(cert_id){
             const vm = this;
             this.$parent.$swal.fire({
-                title: `Are you sure you want delete this certificate (THIS IS PERMANENT)?`,
+                title: `Delete this certificate?`,
+                html: '<p>Are you sure you want to delete this certificate?</p><br><b>This action cannot be undone.<br>This deletes child certificates.</b><br><i>Type "DELETE" below</i>',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#FF4500',
-                cancelButtonColor: '#00B32C',
-                confirmButtonText: 'Yes',
+                confirmButtonColor: '#dc3545',
+                confirmButtonText: 'Delete',
                 reverseButtons: true,
                 input: 'text',
                 inputAttributes: {
@@ -180,6 +198,9 @@ export default {
         },
     },
     mounted: function () {
+        if(this.$parent.USER_INFO.role != 'ADMIN'){
+            this.LANG_HEADER = "Viewing Your Certificates";
+        }
         this.API_certs().catch(error=>{
             this.$parent.$toast.error(`There was an error getting certificates. ${error}`, { position: 'top-right' });
             console.error(error);

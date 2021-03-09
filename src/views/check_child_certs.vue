@@ -5,11 +5,11 @@
                 <b-col><h1>Please Verify Your Input - "{{cert_name}}"</h1></b-col>
             </b-row>
         </b-container>
-        <h3>Unknown students ({{count_invalid_students}})</h3>
+        <h3>Unverified students ({{count_invalid_students}})</h3>
         <b-table bordered show-empty :items="invalid_students" :fields="invalid_fields">
         </b-table>
         <h3>Verified students ({{count_ok_students}})</h3>
-        <b-table bordered show-empty :items="students" :fields="success_fields">
+        <b-table bordered show-empty :items="students_verified" :fields="success_fields">
             <template #cell(checkbox)>
                 <b-form-checkbox v-model="ok_student_checkboxes" value="verified" unchecked-value="not_verified">I verify that this record is accurate</b-form-checkbox>
             </template>
@@ -36,9 +36,12 @@ export default {
             count_ok_students: 0,
             cert_name: this.$attrs.prop.cert_name,
             ok_student_ids: [],
+            ok_student_ids_nondupe: [],
             invalid_student_ids: [],
             ok_student_checkboxes: [],
             students: [],
+            students_verified: [],
+            duplicate_students: [],
             ok_button_disabled: 1,
             ok_button_variant: 'danger',
             invalid_students: [],
@@ -46,6 +49,10 @@ export default {
                 {
                     key: 'id',
                     label: 'Invalid Student ID'
+                },
+                {
+                    key: 'reason',
+                    label: 'Reason'
                 }
             ],
             success_fields: [
@@ -83,43 +90,35 @@ export default {
     },
     methods: {
         verifyStudents: async function(){
+            const findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index);
             const vm = this;
-            const output = this.students;
+            const output = this.students_verified;
             const errors = this.invalid_students;
             const student_ids = this.student_ids;
             const ok_student_ids = this.ok_student_ids;
             const invalid_student_ids = this.invalid_student_ids;
+            const duplicates = findDuplicates(student_ids);
+            console.log(`Duplicates ${duplicates}`);
+            if(duplicates.length > 0){
+            vm.$parent.$swal.fire({
+                title: `You have duplicate students`,
+                icon: 'warning',
+                confirmButtonText: 'Ok',
+            })
+            }
+            this.duplicate_students = duplicates;
+            const duplicate_students = this.duplicate_students;
             for (let index = 0; index < student_ids.length; index++){
-                console.log(student_ids[index]);
-                let authToken = vm.$parent.JWT_TOKEN;
-                if (await authToken == null){
-                    await this.getAuthToken();
-                    const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/students/${student_ids[index]}`, {
-                        headers: {
-                            Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-                        },
-                    });
-                    if(data.error){
-                        invalid_student_ids.push(student_ids[index]);
+                if(duplicate_students.includes(student_ids[index])){
+                    invalid_student_ids.push(student_ids[index]);
                         const errorinput = {
                             id: student_ids[index],
+                            reason: 'Duplicate student [Entry]!'
                         }
-                        errors.push(errorinput);
-                    }else{
-                    ok_student_ids.push(student_ids[index]);
-                    const row = data.data.students[0];
-                    const student = {
-                        id: row.id,
-                        first_name: row.first_name,
-                        middle_name: row.middle_name,
-                        last_name: row.last_name,
-                        yog: row.yog,
-                        email: row.email,
-                        homeroom: row.homeroom,
-                        };
-                    output.push(student);
-                    }
+                    errors.push(errorinput);
+                    continue;
                 }else{
+                console.log(student_ids[index]);
                     const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/students/${student_ids[index]}`, {
                         headers: {
                             Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
@@ -129,6 +128,7 @@ export default {
                         invalid_student_ids.push(student_ids[index]);
                         const errorinput = {
                             id: student_ids[index],
+                            reason: 'Unknown student!'
                         }
                         errors.push(errorinput);
                     }else{
@@ -148,6 +148,44 @@ export default {
                 }
             }
         },
+        checkforExisting: async function(){
+            const vm = this;
+            const output = this.students;
+            const errors = this.invalid_students;
+            const student_ids = this.ok_student_ids;
+            const ok_student_ids = this.ok_student_ids_nondupe;
+            const invalid_student_ids = this.invalid_student_ids;
+            for (let index = 0; index < student_ids.length; index++){
+                console.log(student_ids[index]);
+                    const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}/${student_ids[index]}`, {
+                        headers: {
+                            Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+                        },
+                    });
+                    console.log(data);
+                    if(!data.error){
+                        invalid_student_ids.push(student_ids[index]);
+                        const errorinput = {
+                            id: student_ids[index],
+                            reason: 'Duplicate certificate [Already exists]!'
+                        }
+                        errors.push(errorinput);
+                    }else{
+                    ok_student_ids.push(student_ids[index]);
+                    const row = data.data.students[0];
+                    const student = {
+                        id: row.id,
+                        first_name: row.first_name,
+                        middle_name: row.middle_name,
+                        last_name: row.last_name,
+                        yog: row.yog,
+                        email: row.email,
+                        homeroom: row.homeroom,
+                        };
+                    output.push(student);
+                }
+            }
+        },
         goBack(){
             const prop = {'cert_name': this.cert_name, 'student_id': this.student_ids}
             this.$router.replace({name:'CertificatePageChild', params:{prop}});
@@ -156,7 +194,7 @@ export default {
             const vm = this;
             if(this.invalid_student_ids.length > 0){
                 vm.$parent.$swal.fire({
-                    title: `Are you sure you want submit this with unknown students?`,
+                    title: `Are you sure you want submit this with unverified students?`,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#FF4500',
@@ -166,7 +204,7 @@ export default {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         const cert_name = this.cert_name;
-                        const student_id = this.ok_student_ids;
+                        const student_id = this.ok_student_ids_nondupe;
                         const data = { "certs": [{"cert_name": cert_name, "student_id": student_id}]}
                         axios({
                             method: 'post',
@@ -223,8 +261,9 @@ export default {
             }
         },
     },
-    mounted: function () {
-        this.verifyStudents();
+    mounted: async function () {
+        await this.verifyStudents();
+        await this.checkforExisting();
     },
     watch: {
         ok_student_ids: {

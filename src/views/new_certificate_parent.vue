@@ -11,6 +11,9 @@
                         <b-form-group id="cert_name-group" label="Certificate Name:" label-for="cert_name" description="Alphanumerical characters">
                             <b-form-input id="cert_name" v-model="cert_name" type="text" placeholder="Name" required></b-form-input>
                         </b-form-group>
+                        <b-form-group id="cert_max_child-group" label="Max Certificates:" label-for="cert_max_child" description="Numbers Only">
+                            <b-form-input id="cert_max_child" v-model="cert_max_child" type="number" placeholder="Number" required></b-form-input>
+                        </b-form-group>
                         <b-button type="submit" variant="primary">Submit</b-button>
                     </b-form>
                     </b-card>
@@ -27,7 +30,8 @@ export default {
         return {
             STATUS_TEXT: 'Please input certificate data',
             RESULT: null,
-            cert_name: this.$parent.STATION_ID,
+            cert_name: null,
+            cert_max_child: null
         };
     },
     methods: {
@@ -35,7 +39,8 @@ export default {
             const vm = this;
             vm.$parent.showLoader = true;
             const cert_name = this.cert_name;
-            const data = { "certs": [{"cert_name": cert_name}]}
+            const cert_max_child = this.cert_max_child;
+            const data = { "certs": [{"cert_name": cert_name, "cert_max_child": cert_max_child}]}
             axios({
                 method: 'post',
                 url: `${this.$parent.API_BASE_URL}/certs`,
@@ -52,6 +57,7 @@ export default {
                     console.log(response);
                     vm.$parent.$toast.success('Successfully created the certificate.', { position: 'top-right' });
                     vm.cert_name = '';
+                    vm.cert_max_child = '';
                 }
             })
             .catch(function (response) {

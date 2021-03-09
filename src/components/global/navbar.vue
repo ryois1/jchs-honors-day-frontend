@@ -10,7 +10,14 @@
           <b-nav-item :to="{ path: '/students' }" :active="$route.name == 'Students'">Students</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
-          <b-nav-item @click="this.$parent.logout">Sign Out</b-nav-item>
+          <b-nav-item-dropdown :active="$route.name == 'Admin'" v-if="this.$parent.USER_INFO.role == 'ADMIN'" text="Admin" right>
+            <b-dropdown-item :to="{ path: '/admin/users' }">Users</b-dropdown-item>
+            <b-dropdown-item :to="{ path: '/admin/settings/email' }">Email Settings</b-dropdown-item>
+            <b-dropdown-item :to="{ path: '/admin/settings' }">App Settings</b-dropdown-item>
+          </b-nav-item-dropdown>
+          <b-nav-item-dropdown :text="`Hi ${this.$parent.USER_INFO.first_name}`" right>
+            <b-dropdown-item @click="this.$parent.logout">Sign Out</b-dropdown-item>
+          </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>

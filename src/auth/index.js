@@ -72,7 +72,8 @@ export const useAuth0 = ({
         ...options,
         client_id: options.clientId,
         redirect_uri: redirectUri,
-        cacheLocation: 'localstorage'
+        cacheLocation: 'localstorage',
+        scope: "openid email profile"
       });
       try {
         if (
