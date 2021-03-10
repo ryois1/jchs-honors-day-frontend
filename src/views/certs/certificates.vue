@@ -6,7 +6,7 @@
           ><h1>{{ LANG_HEADER }}</h1></b-col
         >
         <b-col class="text-right"
-          ><b-button
+          ><b-button class="mr-1"
             v-if="
               this.$parent.USER_INFO.role == 'ADMIN' ||
               this.$parent.USER_INFO.role == 'DEPT_ADMIN'
@@ -15,7 +15,7 @@
             :to="{ path: `/certificates/new` }"
             >New Parent Certificate</b-button
           >
-          <b-button
+          <b-button class="mr-1"
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             variant="primary"
             @click="downloadCertsCSV"

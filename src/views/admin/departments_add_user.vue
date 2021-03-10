@@ -37,7 +37,7 @@
                   </b-row>
                 </b-container>
               </div>
-              <b-button @click="addTeacher" variant="success"
+              <b-button @click="addTeacher" class="mr-1" variant="success"
                 >Add Teacher</b-button
               >
               <b-button @click="verify" variant="primary">Check Input</b-button>

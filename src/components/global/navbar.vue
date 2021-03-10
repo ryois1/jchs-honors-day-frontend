@@ -23,30 +23,14 @@
             :active="$route.name == 'Students'"
             >Students</b-nav-item
           >
+          <b-nav-item
+            :to="{ path: '/admin' }"
+            v-if="this.$parent.USER_INFO.role == 'ADMIN'"
+            :active="$route.name.startsWith('Admin')"
+            >Admin</b-nav-item
+          >
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
-          <b-nav-item-dropdown
-            :active="$route.name == 'Admin'"
-            v-if="this.$parent.USER_INFO.role == 'ADMIN'"
-            text="Admin"
-            right
-          >
-            <b-dropdown-item :to="{ path: '/admin' }"
-              >Admin Home</b-dropdown-item
-            >
-            <b-dropdown-item :to="{ path: '/admin/departments' }"
-              >Departments</b-dropdown-item
-            >
-            <b-dropdown-item :to="{ path: '/admin/users' }"
-              >Users</b-dropdown-item
-            >
-            <b-dropdown-item :to="{ path: '/admin/settings/email' }"
-              >Email Settings</b-dropdown-item
-            >
-            <b-dropdown-item :to="{ path: '/admin/settings' }"
-              >App Settings</b-dropdown-item
-            >
-          </b-nav-item-dropdown>
           <b-nav-item-dropdown
             :text="`Hi ${this.$parent.USER_INFO.first_name}`"
             right

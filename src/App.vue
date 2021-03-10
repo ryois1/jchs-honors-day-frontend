@@ -6,6 +6,7 @@
       :is-full-page="fullPage"
     ></loading>
     <globalNav></globalNav>
+    <adminNav v-if="$route.name.startsWith('Admin')"></adminNav>
     <router-view></router-view>
   </div>
 </template>
@@ -13,6 +14,8 @@
 <script>
 const globalNav = () =>
   import(/* webpackChunkName: "components" */ "./components/global/navbar.vue");
+const adminNav = () =>
+  import(/* webpackChunkName: "components" */ "./components/admin_nav.vue");
 import axios from "axios";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
@@ -22,6 +25,7 @@ export default {
   components: {
     Loading,
     globalNav,
+    adminNav,
   },
   methods: {
     logout() {

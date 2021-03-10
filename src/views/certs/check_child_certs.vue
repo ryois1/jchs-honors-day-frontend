@@ -34,7 +34,7 @@
     <b-container fluid>
       <b-row>
         <b-col class="text-right"
-          ><b-button id="go_back" @click="goBack" variant="primary"
+          ><b-button id="go_back" class="mr-1" @click="goBack" variant="primary"
             >Go Back</b-button
           ></b-col
         >

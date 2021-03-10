@@ -8,12 +8,6 @@ const new_certificate_parent = () => import(/* webpackChunkName: "certificates" 
 const new_certificate_child = () => import(/* webpackChunkName: "certificates" */ '../views/certs/new_certificate_child.vue');
 const check_child_certs = () => import(/* webpackChunkName: "certificates" */ '../views/certs/check_child_certs.vue');
 const students = () => import(/* webpackChunkName: "students" */ '../views/students.vue');
-const admin_index = () => import(/* webpackChunkName: "admin" */ '../views/admin/index.vue');
-const admin_users = () => import(/* webpackChunkName: "admin" */ '../views/admin/users.vue');
-const admin_settings = () => import(/* webpackChunkName: "admin" */ '../views/admin/settings.vue')
-const admin_email = () => import(/* webpackChunkName: "admin" */ '../views/admin/email.vue');
-const admin_depts = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments.vue');
-const admin_depts_edit = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments_edit.vue');
 const authNewUser = () => import(/* webpackChunkName: "auth" */ '../views/auth/new_user.vue');
 const unknownUser = () => import(/* webpackChunkName: "auth" */ '../views/unknown_user.vue');
 const admin_new_user = () => import(/* webpackChunkName: "admin" */ '../views/admin/new_user.vue');
@@ -22,9 +16,17 @@ const import_pdfs_2 = () => import(/* webpackChunkName: "import" */ '../views/im
 const dept_all = () => import(/* webpackChunkName: "dept" */ '../views/depts/all.vue');
 const dept_certs = () => import(/* webpackChunkName: "dept" */ '../views/depts/cert.vue');
 const dept_users = () => import(/* webpackChunkName: "dept" */ '../views/depts/users.vue');
+const admin_index = () => import(/* webpackChunkName: "admin" */ '../views/admin/index.vue');
+const admin_users = () => import(/* webpackChunkName: "admin" */ '../views/admin/users.vue');
+const admin_settings = () => import(/* webpackChunkName: "admin" */ '../views/admin/settings.vue')
+const admin_email = () => import(/* webpackChunkName: "admin" */ '../views/admin/email.vue');
+const admin_depts = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments.vue');
+const admin_depts_edit = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments_edit.vue');
 const admin_depts_new = () => import(/* webpackChunkName: "dept" */ '../views/admin/departments_new.vue');
 const admin_depts_add = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments_add_user.vue');
 const admin_depts_verify = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments_verify_user.vue');
+const admin_students = () => import(/* webpackChunkName: "admin" */ '../views/admin/students.vue');
+
 
 
 Vue.use(VueRouter);
@@ -161,6 +163,16 @@ const routes = [
     beforeEnter: authGuard,
     meta: {
       title: 'Admin',
+      visible: true
+    },
+  },
+  {
+    path: '/admin/students',
+    name: 'AdminStudents',
+    component: admin_students,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Students Admin',
       visible: true
     },
   },
