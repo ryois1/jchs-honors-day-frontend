@@ -5,18 +5,21 @@
         <b-col
           ><h1>
             {{ LANG_VIEWING_CERT }} <b-badge>{{ CERT_COUNT }}</b-badge>
-          </h1></b-col
+          </h1>
+          <h3>Your certificate slots <b-badge>{{ SELF_CERT_COUNT }}</b-badge></h3></b-col
         >
-        <b-col class="text-right" v-if="this.allowed_edit"
-          ><b-button @click="transferCert" class="mr-1" variant="primary"
-            >Transfer Certificate</b-button
+        <b-col class="text-right"
+          >
+            <b-button v-if="this.allowed_delegate && (this.$parent.USER_INFO.role=='ADMIN' || this.$parent.USER_INFO.role=='DEPT_ADMIN')" :to="{ path: `/certificates/${this.$route.params.cert_id}/delegate` }" class="mr-1" variant="primary">Delegate Award</b-button>
+          <b-button v-if="this.allowed_delegate && this.$parent.USER_INFO.role=='TEACHER'" @click="releaseCert" class="mr-1" variant="primary"
+            >Release Slots</b-button
           >
           <b-button
-            v-if="this.CERT_MAX_CHILD >= this.totalItems"
+            v-if="this.CERT_MAX_CHILD >= this.totalItems && this.allowed_edit"
             variant="primary"
             :disabled="DISABLED_ADD"
             :to="{ path: `/certificates/${this.$route.params.cert_id}/new` }"
-            >New Child Certificate</b-button
+            >New Certificate</b-button
           ></b-col
         >
         <b-col class="text-right" v-if="!this.allowed_edit"
@@ -54,14 +57,18 @@ export default {
   name: "certs",
   data: function () {
     return {
-      LANG_VIEWING_CERT: "Viewing Certificate",
+      LANG_VIEWING_CERT: "Viewing Award",
       CERT_COUNT: "None",
+      SELF_CERT_COUNT: "None",
       CERT_NAME: "Unknown",
       CERT_OWNER_ID: "Unknown",
       CERT_EMAIL: "Unknown",
       CERT_OWNER_NAME: "Unknown",
       CERT_MAX_CHILD: 0,
+      SELF_MAX_CERT: 0,
+      SELF_CURRENT_CERT: 0,
       allowed_edit: false,
+      allowed_delegate: false,
       EMTPY_TABLE: "<p>Loading data...</p>",
       fields: [
         {
@@ -207,7 +214,7 @@ export default {
       const vm = this;
       vm.$parent.$swal
         .fire({
-          title: `Are you sure you want transfer this certificate? (Search by Email)`,
+          title: `Are you sure you want delegate this certificate? (Search by Email)`,
           icon: "warning",
           showCancelButton: true,
           confirmButtonText: "Find Teacher",
@@ -244,7 +251,7 @@ export default {
                 showCancelButton: true,
                 confirmButtonColor: "#dc3545",
                 confirmButtonText: "Transfer",
-                title: "Are you sure you want to transfer to this user?",
+                title: "Are you sure you want to delegate to this user?",
                 text: `${result.value.first_name} ${result.value.last_name} (${result.value.email})`,
               })
               .then((result) => {
@@ -325,12 +332,24 @@ export default {
         vm.CERT_EMAIL = data.data.certs[0].user_email;
         vm.CERT_OWNER_NAME = data.data.certs[0].user_name;
         vm.CERT_MAX_CHILD = data.data.certs[0].cert_max_child;
+        vm.SELF_MAX_CERT = data.data.certs[0].user_cert_max;
+        vm.SELF_CURRENT_CERT = data.data.certs[0].user_cert_current;
+        if(vm.$parent.USER_INFO.role=='ADMIN' || vm.$parent.USER_INFO.role=='DEPT_ADMIN'){
+          vm.SELF_CERT_COUNT = 'Same as award';
+        }
+        else{
+          if(data.data.certs[0].user_cert_current){
+            vm.SELF_CERT_COUNT = `${data.data.certs[0].user_cert_current}/${data.data.certs[0].user_cert_max}`;
+          }else{
+            vm.SELF_CERT_COUNT = `0/${data.data.certs[0].user_cert_max}`;
+          }
+        }
       }
-      vm.LANG_VIEWING_CERT = `Viewing Child Certificate '${vm.CERT_NAME}'`;
+      vm.LANG_VIEWING_CERT = `Viewing Award '${vm.CERT_NAME}'`;
     },
     API_certs: async function () {
       const vm = this;
-      vm.EMTPY_TABLE = "<h3>There are no certs to show</h3>";
+      vm.EMTPY_TABLE = "<h3>There are no certificates to show</h3>";
       const offset = vm.currentPage * vm.perPage - 10;
       const { data } = await axios.get(
         `${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}/certs`,
@@ -342,10 +361,14 @@ export default {
         }
       );
       if (data.count == 0) {
-        vm.EMTPY_TABLE = "<h3>There are no certs to show</h3>";
+        vm.EMTPY_TABLE = "<h3>There are no certificates to show</h3>";
       }
       vm.totalItems = data.data.certs.length;
-      vm.CERT_COUNT = `${data.data.certs.length}/${vm.CERT_MAX_CHILD}`;
+      if(data.data.certs.length > 0){
+        vm.CERT_COUNT = `${data.data.certs.length}/${vm.CERT_MAX_CHILD}`;
+      } else{
+        vm.CERT_COUNT = `0/${vm.CERT_MAX_CHILD}`;
+      }
       if (data.data.certs.length > vm.CERT_MAX_CHILD) {
         vm.DISABLED_ADD = true;
       } else {
@@ -355,19 +378,46 @@ export default {
     },
   },
   mounted: async function () {
-    await this.API_cert_info();
-    await this.API_certs().catch((error) => {
-      this.EMTPY_TABLE = "<h3>There are no certs to show</h3>";
-      this.$parent.$toast.error(
-        `There was an error getting certificates. ${error}`,
-        { position: "top-right" }
-      );
-      console.error(error);
-    });
-    if (this.CERT_OWNER_ID == this.$parent.USER_INFO.user_id) {
-      this.allowed_edit = true;
+    const vm = this;
+    if (
+      vm.$parent.USER_INFO.role == "ADMIN" ||
+      vm.$parent.USER_INFO.role == "DEPT_ADMIN"
+    ) {
+      vm.allowed_edit = true;
+      vm.allowed_delegate = true;
+      await this.API_cert_info();
+      await this.API_certs().catch((error) => {
+        this.EMTPY_TABLE = "<h3>There are no certificates to show</h3>";
+        this.CERT_COUNT = `0/${vm.CERT_MAX_CHILD}`;
+        this.items = [];
+        this.$parent.$toast.error(
+          `There was an error getting certificates. ${error}`,
+          { position: "top-right" }
+        );
+        console.error(error);
+      });
     } else {
-      this.allowed_edit = false;
+      await this.API_cert_info();
+      await this.API_certs().catch((error) => {
+        this.EMTPY_TABLE = "<h3>There are no certificates to show</h3>";
+        this.CERT_COUNT = `0/${vm.CERT_MAX_CHILD}`;
+        this.items = [];
+        this.$parent.$toast.error(
+          `There was an error getting certificates. ${error}`,
+          { position: "top-right" }
+        );
+        console.error(error);
+      });
+      if (vm.SELF_MAX_CERT > 0) {
+        vm.allowed_edit = true;
+      } else {
+        vm.allowed_edit = false;
+      }
+      if (vm.CERT_OWNER_ID == vm.$parent.USER_INFO.user_id) {
+        vm.allowed_delegate = true;
+      } else {
+        vm.allowed_delegate = false;
+      }
     }
   },
   watch: {

@@ -2,7 +2,7 @@
   <div id="newcert">
     <b-container fluid>
       <b-row>
-        <b-col><h1>Creating Parent Certificate</h1></b-col>
+        <b-col><h1>Creating Award</h1></b-col>
       </b-row>
       <b-row>
         <b-col>
@@ -10,12 +10,13 @@
             <b-form @submit.prevent="processForm">
               <b-form-group
                 id="cert_name-group"
-                label="Certificate Name:"
+                label="Award Name:"
                 label-for="cert_name"
                 description="Alphanumerical characters"
               >
                 <b-form-input
                   id="cert_name"
+                  ref="top"
                   v-model="cert_name"
                   type="text"
                   placeholder="Name"
@@ -116,6 +117,7 @@ export default {
               { position: "top-right" }
             );
           } else {
+            vm.$refs.top.focus();
             vm.$parent.$toast.success("Successfully created the certificate.", {
               position: "top-right",
             });

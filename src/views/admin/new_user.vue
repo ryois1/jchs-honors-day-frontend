@@ -14,6 +14,7 @@
                 label-for="user_first_name"
               >
                 <b-form-input
+                  ref="top"
                   id="user_first_name"
                   v-model="user_first_name"
                   type="text"
@@ -118,6 +119,7 @@ export default {
               position: "top-right",
             });
           } else {
+            vm.$refs.top.focus();
             vm.$parent.$toast.success("Successfully created the user.", {
               position: "top-right",
             });

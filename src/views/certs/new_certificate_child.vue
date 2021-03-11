@@ -48,7 +48,7 @@
                     </b-col>
                     <b-col>
                       <h4>Actions</h4>
-                      <b-button variant="danger" @click="deleteRow(index - 1)"
+                      <b-button variant="danger" class="mr-1" @click="deleteRow(index - 1)"
                         >Remove</b-button
                       >
                       <b-button
@@ -76,7 +76,7 @@
                   </b-row>
                 </b-container>
               </div>
-              <b-button @click="addStudent" variant="success"
+              <b-button @click="addStudent" class="mr-1" variant="success"
                 >Add Student</b-button
               >
               <b-button @click="verify" variant="primary">Check Input</b-button>
@@ -99,6 +99,7 @@ export default {
       max_certs: null,
       current_certs_count: 0,
       certs_remaining: 0,
+      all_certs_count: 0,
       cert_name: null,
       student_id: [],
       lookedup_student: [],
@@ -213,9 +214,16 @@ export default {
           }
         )
         .then(function (response) {
-          vm.certs_remaining = vm.max_certs;
-          vm.current_certs_count = response.data.data.certs.length;
-          vm.certs_remaining = vm.max_certs - vm.current_certs_count;
+          if(vm.$parent.USER_INFO.role=='ADMIN' || vm.$parent.USER_INFO.role=='DEPT_ADMIN'){
+            vm.certs_remaining = vm.max_certs;
+            vm.all_certs_count = response.data.data.certs.length;
+            vm.current_certs_count = response.data.data.certs.length;
+            vm.certs_remaining = vm.max_certs - vm.current_certs_count;
+          }else{
+            //vm.certs_remaining = vm.max_certs;
+            vm.all_certs_count = response.data.data.certs.length;
+            //vm.certs_remaining = vm.max_certs - vm.current_certs_count;
+          }
         })
         .catch(function () {
           vm.current_certs_count = 0;
@@ -224,9 +232,6 @@ export default {
     },
     API_cert_info: async function () {
       const vm = this;
-      let authToken = vm.$parent.JWT_TOKEN;
-      if ((await authToken) == null) {
-        await this.getAuthToken();
         const { data } = await axios.get(
           `${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}`,
           {
@@ -236,19 +241,14 @@ export default {
           }
         );
         vm.cert_name = data.data.certs[0].cert_name;
-        vm.max_certs = data.data.certs[0].cert_max_child;
-      } else {
-        const { data } = await axios.get(
-          `${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-            },
-          }
-        );
-        vm.cert_name = data.data.certs[0].cert_name;
-        vm.max_certs = data.data.certs[0].cert_max_child;
-      }
+        if(vm.$parent.USER_INFO.role=='ADMIN' || vm.$parent.USER_INFO.role=='DEPT_ADMIN'){
+          vm.max_certs = data.data.certs[0].cert_max_child;
+        }
+        else{
+          vm.current_certs_count = data.data.certs[0].user_cert_current;
+          vm.certs_remaining = data.data.certs[0].user_cert_max - data.data.certs[0].user_cert_current;
+          vm.max_certs = data.data.certs[0].user_cert_max;
+        }
     },
   },
   mounted: async function () {

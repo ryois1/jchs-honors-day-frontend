@@ -7,6 +7,8 @@ const single_certificate = () => import(/* webpackChunkName: "certificates" */ '
 const new_certificate_parent = () => import(/* webpackChunkName: "certificates" */ '../views/certs/new_certificate_parent.vue');
 const new_certificate_child = () => import(/* webpackChunkName: "certificates" */ '../views/certs/new_certificate_child.vue');
 const check_child_certs = () => import(/* webpackChunkName: "certificates" */ '../views/certs/check_child_certs.vue');
+const certificate_delegate = () => import(/* webpackChunkName: "certificates" */ '../views/certs/delegate.vue');
+const certificate_delegate_verify = () => import(/* webpackChunkName: "certificates" */ '../views/certs/check_delegating.vue');
 const students = () => import(/* webpackChunkName: "students" */ '../views/students.vue');
 const authNewUser = () => import(/* webpackChunkName: "auth" */ '../views/auth/new_user.vue');
 const unknownUser = () => import(/* webpackChunkName: "auth" */ '../views/unknown_user.vue');
@@ -58,7 +60,7 @@ const routes = [
     component: new_certificate_parent,
     beforeEnter: authGuard,
     meta: {
-      title: 'New Parent Certificate',
+      title: 'New Award',
       visible: true
     },
   },
@@ -95,13 +97,35 @@ const routes = [
     },
   },
   {
+    path: '/certificates/:cert_id/delegate',
+    name: 'CertificatePageDelegate',
+    component: certificate_delegate,
+    beforeEnter: authGuard,
+    props: true,
+    meta: {
+      title: 'Delegate Certificates',
+      visible: true
+    },
+  },
+  {
+    path: '/certificates/:cert_id/delegate/verify',
+    name: 'CertificateDelegateVerify',
+    component: certificate_delegate_verify,
+    beforeEnter: authGuard,
+    props: true,
+    meta: {
+      title: 'Delegate Certificates',
+      visible: true
+    },
+  },
+  {
     path: '/certificates/:cert_id/new',
     name: 'CertificatePageChild',
     component: new_certificate_child,
     beforeEnter: authGuard,
     props: true,
     meta: {
-      title: 'New Child Certificates',
+      title: 'New Certificates',
       visible: true
     },
   },
@@ -112,7 +136,7 @@ const routes = [
     beforeEnter: authGuard,
     props: true,
     meta: {
-      title: 'Very Child Certificates',
+      title: 'Verify Certificates',
       visible: true
     },
   },

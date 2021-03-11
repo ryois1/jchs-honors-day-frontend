@@ -39,6 +39,9 @@
               >Sign Out</b-dropdown-item
             >
           </b-nav-item-dropdown>
+          <b-nav-text
+            >Your role: {{ROLE}}</b-nav-text
+          >
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -48,6 +51,15 @@
 export default {
   name: "navbar",
   computed: {
+    ROLE(){
+      if(this.$parent.USER_INFO.role=='ADMIN'){
+        return "System Administrator";
+      }else if (this.$parent.USER_INFO.role=='DEPT_ADMIN'){
+        return "Department Administrator";
+      }else{
+        return "Teacher";
+      }
+    },
     routes() {
       return this.$router.options.routes;
     },

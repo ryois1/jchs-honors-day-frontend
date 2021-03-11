@@ -8,12 +8,11 @@
         <b-col class="text-right"
           ><b-button
             v-if="
-              this.$parent.USER_INFO.role == 'ADMIN' ||
-              this.$parent.USER_INFO.role == 'DEPT_ADMIN'
+              this.$parent.USER_INFO.role == 'ADMIN'
             "
             variant="primary"
             :to="{ path: `/certificates/new` }"
-            >New Parent Certificate</b-button
+            >New Award</b-button
           ></b-col
         >
       </b-row>
@@ -31,7 +30,7 @@
         <b-button
           variant="primary"
           :to="{ path: `/certificates/${data.item.cert_id}` }"
-          >View Child Certificates</b-button
+          >View Certificates</b-button
         >
       </template>
     </b-table>
@@ -56,29 +55,29 @@ export default {
       fields: [
         {
           key: "cert_owner_id",
-          label: "Certificate Owner ID",
+          label: "Award Owner ID",
           thClass: "d-none",
           tdClass: "d-none",
         },
         {
           key: "cert_name",
-          label: "Certificate Name",
+          label: "Award Name",
         },
         {
           key: "user_name",
-          label: "Certificate Owner",
+          label: "Award Owner",
         },
         {
           key: "user_email",
-          lable: "Certificate Owner Email",
+          lable: "Award Owner Email",
         },
         {
           key: "cert_id",
-          label: "View Certificate",
+          label: "View Award",
         },
         {
           key: "cert_max_child",
-          label: "Max Child Certificates",
+          label: "Max Certificates",
         },
       ],
       items: [],
@@ -90,7 +89,7 @@ export default {
   methods: {
     API_certs: async function () {
       const vm = this;
-      vm.EMTPY_TABLE = "<h3>There are no certs to show</h3>";
+      vm.EMTPY_TABLE = "<h3>There are no awards to show</h3>";
       const offset = vm.currentPage * vm.perPage - 10;
       const { data } = await axios.get(
         `${vm.$parent.API_BASE_URL}/dept/${vm.$route.params.dept_id}/certs`,
@@ -102,7 +101,7 @@ export default {
         }
       );
       if (data.count == 0) {
-        vm.EMTPY_TABLE = "<h3>There are no certs to show</h3>";
+        vm.EMTPY_TABLE = "<h3>There are no awards to show</h3>";
       }
       vm.totalItems = data.count;
       vm.items = data.data.certs;
@@ -122,9 +121,9 @@ export default {
         vm.$parent.USER_INFO.role == "ADMIN" ||
         vm.$parent.USER_INFO.role == "DEPT_ADMIN"
       ) {
-        vm.LANG_HEADER = `Viewing Certificates in "${vm.DEPT_NAME}"`;
+        vm.LANG_HEADER = `Viewing Awards in "${vm.DEPT_NAME}"`;
       } else {
-        vm.LANG_HEADER = `Viewing Certificates You Have Access to in "${vm.DEPT_NAME}"`;
+        vm.LANG_HEADER = `Viewing Awards You Have Access to in "${vm.DEPT_NAME}"`;
       }
     },
   },

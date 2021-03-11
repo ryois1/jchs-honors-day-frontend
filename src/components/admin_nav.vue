@@ -50,6 +50,14 @@ export default {
       return this.$router.options.routes;
     },
   },
+  methods: {
+    checkAdmin: async function () {
+      const vm = this;
+      if(this.$parent.USER_INFO.role!='ADMIN'){
+        vm.$router.push({ name: "NotAdmin" });
+      }
+    },
+  }
 };
 </script>
 <style scoped>

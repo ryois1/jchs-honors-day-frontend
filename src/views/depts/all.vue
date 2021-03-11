@@ -19,14 +19,8 @@
       <template #cell(view)="data">
         <b-button
           variant="primary"
-          class="mr-2"
           :to="{ path: `/departments/${data.item.dept_id}/certificates` }"
-          >View Department Certificates</b-button
-        >
-        <b-button
-          variant="primary"
-          :to="{ path: `/departments/${data.item.dept_id}/users` }"
-          >View Department Users</b-button
+          >View Department Awards</b-button
         >
       </template>
     </b-table>

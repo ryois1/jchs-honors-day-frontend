@@ -6,7 +6,7 @@
       :is-full-page="fullPage"
     ></loading>
     <globalNav></globalNav>
-    <adminNav v-if="$route.name.startsWith('Admin')"></adminNav>
+    <adminNav v-if="this.$route.name.startsWith('Admin')"></adminNav>
     <router-view></router-view>
   </div>
 </template>
@@ -98,7 +98,7 @@ export default {
   },
   data: function () {
     return {
-      API_BASE_URL: "https://api.jchs-honors-day.cf/api/v1",
+      API_BASE_URL: "http://localhost:5000/api/v1",
       USER_INFO: null,
       JWT_TOKEN: this.$parent.token,
       USER_AUTHORIZED: false,
