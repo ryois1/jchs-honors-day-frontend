@@ -22,14 +22,6 @@
       :items="students_verified"
       :fields="success_fields"
     >
-      <template #cell(checkbox)>
-        <b-form-checkbox
-          v-model="ok_student_checkboxes"
-          value="verified"
-          unchecked-value="not_verified"
-          >I verify that this record is accurate</b-form-checkbox
-        >
-      </template>
     </b-table>
     <b-container fluid>
       <b-row>
@@ -67,12 +59,11 @@ export default {
       ok_student_ids: [],
       ok_student_ids_nondupe: [],
       invalid_student_ids: [],
-      ok_student_checkboxes: [],
       students: [],
       students_verified: [],
       duplicate_students: [],
-      ok_button_disabled: 1,
-      ok_button_variant: "danger",
+      ok_button_disabled: 0,
+      ok_button_variant: "success",
       invalid_students: [],
       invalid_fields: [
         {
@@ -85,7 +76,6 @@ export default {
         },
       ],
       success_fields: [
-        "checkbox",
         {
           key: "id",
           label: "Student ID",
@@ -331,27 +321,6 @@ export default {
     invalid_student_ids: {
       handler: function () {
         this.count_invalid_students++;
-      },
-    },
-    ok_student_checkboxes: {
-      handler: function () {
-        function getOccurrence(array, value) {
-          var count = 0;
-          array.forEach((v) => v === value && count++);
-          return count;
-        }
-        const vm = this;
-        const ok_checkbox_count = getOccurrence(
-          vm.ok_student_checkboxes,
-          "verified"
-        );
-        if (ok_checkbox_count == vm.ok_student_ids.length) {
-          vm.ok_button_variant = "success";
-          vm.ok_button_disabled = 0;
-        } else {
-          vm.ok_button_variant = "danger";
-          vm.ok_button_disabled = 1;
-        }
       },
     },
   },
