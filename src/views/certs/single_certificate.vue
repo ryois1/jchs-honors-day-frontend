@@ -6,12 +6,42 @@
           ><h1>
             {{ LANG_VIEWING_CERT }} <b-badge>{{ CERT_COUNT }}</b-badge>
           </h1>
-          <h3>Your certificate slots <b-badge>{{ SELF_CERT_COUNT }}</b-badge></h3></b-col
+          <h3>
+            Your certificate slots <b-badge>{{ SELF_CERT_COUNT }}</b-badge>
+          </h3></b-col
         >
-        <b-col class="text-right"
+        <b-col class="text-right">
+          <b-button
+            v-if="
+              this.allowed_delegate &&
+              (this.$parent.USER_INFO.role == 'ADMIN' ||
+                this.$parent.USER_INFO.role == 'DEPT_ADMIN')
+            "
+            :to="{
+              path: `/certificates/${this.$route.params.cert_id}/delegate`,
+            }"
+            class="mr-1"
+            variant="primary"
+            >Delegate Award</b-button
           >
-            <b-button v-if="this.allowed_delegate && (this.$parent.USER_INFO.role=='ADMIN' || this.$parent.USER_INFO.role=='DEPT_ADMIN')" :to="{ path: `/certificates/${this.$route.params.cert_id}/delegate` }" class="mr-1" variant="primary">Delegate Award</b-button>
-          <b-button v-if="this.allowed_delegate && this.$parent.USER_INFO.role=='TEACHER'" @click="releaseCert" class="mr-1" variant="primary"
+          <b-button
+            v-if="
+              this.allowed_delegate &&
+              (this.$parent.USER_INFO.role == 'ADMIN' ||
+                this.$parent.USER_INFO.role == 'DEPT_ADMIN')
+            "
+            :to="{
+              path: `/certificates/${this.$route.params.cert_id}/delegates`,
+            }"
+            class="mr-1"
+            variant="primary"
+            >View Award Delegates</b-button
+          >
+          <b-button
+            v-if="this.$parent.USER_INFO.role == 'TEACHER'"
+            @click="releaseCert"
+            class="mr-1"
+            variant="primary"
             >Release Slots</b-button
           >
           <b-button
@@ -37,7 +67,9 @@
       :per-page="0"
     >
       <template #cell(delete)="data">
-        <b-button variant="danger" @click="deleteCert(data.item.cert_id)"
+        <b-button
+          variant="danger"
+          @click="deleteCert(data.item.cert_id, data.item.cert_owner_id)"
           >Delete <b-icon icon="trash-fill" aria-hidden="true"></b-icon
         ></b-button>
       </template>
@@ -103,6 +135,10 @@ export default {
           key: "student_email",
           lable: "Student Email",
         },
+        {
+          key: "creator_name",
+          lable: "Creator Name",
+        },
         "delete",
       ],
       items: [],
@@ -113,8 +149,78 @@ export default {
     };
   },
   methods: {
-    deleteCert: async function (child_cert) {
+    releaseCert: async function () {
       const vm = this;
+      const self_current_count = vm.SELF_CURRENT_CERT;
+      this.$parent.$swal
+        .fire({
+          title: `Release these slots?`,
+          html:
+            '<b>This action can only be reversed by the department admins or system administrators.</b><br><i>Type "RELEASE" below</i>',
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#dc3545",
+          confirmButtonText: "Release",
+          reverseButtons: true,
+          input: "text",
+          inputAttributes: {
+            id: "confirmDelete",
+          },
+          inputValidator: (value) => {
+            if (value != "RELEASE") {
+              return '<span>You must type in <b class="text-danger">RELEASE</b> to release.</span>';
+            }
+          },
+        })
+        .then(async function (result) {
+          if (result.isConfirmed) {
+            axios
+              .delete(
+                `${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}/release/${self_current_count}`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+                  },
+                }
+              )
+              .then(function (response) {
+                if (response.data.error) {
+                  console.error(response);
+                  vm.$parent.$toast.error(
+                    "There was an error releasing the certificate.",
+                    { position: "top-right" }
+                  );
+                } else {
+                  vm.$parent.$toast.success(
+                    "Successfully releasing the certificate.",
+                    { position: "top-right" }
+                  );
+                }
+              })
+              .catch(function (response) {
+                vm.$parent.$toast.error(
+                  "There was an error releasing the certificate.",
+                  { position: "top-right" }
+                );
+                console.error(response);
+              });
+          }
+        });
+    },
+    deleteCert: async function (child_cert, cert_owner_id) {
+      const vm = this;
+      if (
+        !(
+          vm.$parent.USER_INFO.role == "ADMIN" ||
+          vm.$parent.USER_INFO.role == "DEPT_ADMIN"
+        )
+      ) {
+        if (cert_owner_id != vm.$parent.USER_INFO.user_id) {
+          vm.$parent.$toast.error("No permissions.", { position: "top-right" });
+          return;
+        }
+      }
+
       this.$parent.$swal
         .fire({
           title: `Delete this certificate?`,
@@ -302,50 +408,34 @@ export default {
     },
     API_cert_info: async function () {
       const vm = this;
-      let authToken = vm.$parent.JWT_TOKEN;
-      if ((await authToken) == null) {
-        await this.getAuthToken();
-        const { data } = await axios.get(
-          `${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-            },
-          }
-        );
-        vm.CERT_NAME = data.data.certs[0].cert_name;
-        vm.CERT_OWNER_ID = data.data.certs[0].cert_owner_id;
-        vm.CERT_EMAIL = data.data.certs[0].user_email;
-        vm.CERT_OWNER_NAME = data.data.certs[0].user_name;
-        vm.CERT_MAX_CHILD = data.data.certs[0].cert_max_child;
-      } else {
-        const { data } = await axios.get(
-          `${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-            },
-          }
-        );
-        vm.CERT_NAME = data.data.certs[0].cert_name;
-        vm.CERT_OWNER_ID = data.data.certs[0].cert_owner_id;
-        vm.CERT_EMAIL = data.data.certs[0].user_email;
-        vm.CERT_OWNER_NAME = data.data.certs[0].user_name;
-        vm.CERT_MAX_CHILD = data.data.certs[0].cert_max_child;
-        vm.SELF_MAX_CERT = data.data.certs[0].user_cert_max;
-        vm.SELF_CURRENT_CERT = data.data.certs[0].user_cert_current;
-        if(vm.$parent.USER_INFO.role=='ADMIN' || vm.$parent.USER_INFO.role=='DEPT_ADMIN'){
-          vm.SELF_CERT_COUNT = 'Same as award';
+      const { data } = await axios.get(
+        `${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+          },
         }
-        else{
-          if(data.data.certs[0].user_cert_current){
-            vm.SELF_CERT_COUNT = `${data.data.certs[0].user_cert_current}/${data.data.certs[0].user_cert_max}`;
-          }else{
-            vm.SELF_CERT_COUNT = `0/${data.data.certs[0].user_cert_max}`;
-          }
+      );
+      vm.CERT_NAME = data.data.certs[0].cert_name;
+      vm.CERT_OWNER_ID = data.data.certs[0].cert_owner_id;
+      vm.CERT_EMAIL = data.data.certs[0].user_email;
+      vm.CERT_OWNER_NAME = data.data.certs[0].user_name;
+      vm.CERT_MAX_CHILD = data.data.certs[0].cert_max_child;
+      vm.SELF_MAX_CERT = data.data.certs[0].user_cert_max;
+      vm.SELF_CURRENT_CERT = data.data.certs[0].user_cert_current;
+      if (
+        vm.$parent.USER_INFO.role == "ADMIN" ||
+        vm.$parent.USER_INFO.role == "DEPT_ADMIN"
+      ) {
+        vm.SELF_CERT_COUNT = "Same as award";
+      } else {
+        if (data.data.certs[0].user_cert_current) {
+          vm.SELF_CERT_COUNT = `${data.data.certs[0].user_cert_current}/${data.data.certs[0].user_cert_max}`;
+        } else {
+          vm.SELF_CERT_COUNT = `0/${data.data.certs[0].user_cert_max}`;
         }
       }
-      vm.LANG_VIEWING_CERT = `Viewing Award '${vm.CERT_NAME}'`;
+      vm.LANG_VIEWING_CERT = `Viewing Award "${vm.CERT_NAME}"`;
     },
     API_certs: async function () {
       const vm = this;
@@ -364,9 +454,9 @@ export default {
         vm.EMTPY_TABLE = "<h3>There are no certificates to show</h3>";
       }
       vm.totalItems = data.data.certs.length;
-      if(data.data.certs.length > 0){
+      if (data.data.certs.length > 0) {
         vm.CERT_COUNT = `${data.data.certs.length}/${vm.CERT_MAX_CHILD}`;
-      } else{
+      } else {
         vm.CERT_COUNT = `0/${vm.CERT_MAX_CHILD}`;
       }
       if (data.data.certs.length > vm.CERT_MAX_CHILD) {

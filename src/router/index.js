@@ -9,6 +9,7 @@ const new_certificate_child = () => import(/* webpackChunkName: "certificates" *
 const check_child_certs = () => import(/* webpackChunkName: "certificates" */ '../views/certs/check_child_certs.vue');
 const certificate_delegate = () => import(/* webpackChunkName: "certificates" */ '../views/certs/delegate.vue');
 const certificate_delegate_verify = () => import(/* webpackChunkName: "certificates" */ '../views/certs/check_delegating.vue');
+const certificate_delegates = () => import(/* webpackChunkName: "certificates" */ '../views/certs/delegates.vue');
 const students = () => import(/* webpackChunkName: "students" */ '../views/students.vue');
 const authNewUser = () => import(/* webpackChunkName: "auth" */ '../views/auth/new_user.vue');
 const unknownUser = () => import(/* webpackChunkName: "auth" */ '../views/unknown_user.vue');
@@ -93,6 +94,17 @@ const routes = [
     beforeEnter: authGuard,
     meta: {
       title: 'Viewing Certificate',
+      visible: true
+    },
+  },
+  {
+    path: '/certificates/:cert_id/delegates',
+    name: 'CertificatePageDelegates',
+    component: certificate_delegates,
+    beforeEnter: authGuard,
+    props: true,
+    meta: {
+      title: 'Delegates for Certificate',
       visible: true
     },
   },

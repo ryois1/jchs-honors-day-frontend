@@ -24,6 +24,11 @@
       :current-page="currentPage"
       :per-page="0"
     >
+      <template #cell(change_role)="data">
+        <b-button variant="warning" @click="changeRole(data.item.id)"
+          >Change User Role</b-button
+        >
+      </template>
       <template #cell(delete)="data">
         <b-button variant="danger" @click="deleteUser(data.item.id)"
           >Delete <b-icon icon="trash-fill" aria-hidden="true"></b-icon
@@ -70,6 +75,7 @@ export default {
           key: "role",
           label: "Role",
         },
+        "change_role",
         "delete",
       ],
       items: [],
@@ -79,6 +85,67 @@ export default {
     };
   },
   methods: {
+    changeRole: async function (user_id) {
+      const vm = this;
+      await this.$parent.$swal
+        .fire({
+          title: `Select New Role for User`,
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Change",
+          reverseButtons: true,
+          input: "select",
+          inputPlaceholder: "Select a role",
+          inputOptions: {
+            TEACHER: "Teacher",
+            DEPT_ADMIN: "Department Administrator",
+            ADMIN: "System Administrator",
+          },
+        })
+        .then(async function (result) {
+          if (result.isConfirmed) {
+            const data = {
+              users: [{ user_role: result.value, user_id: user_id }],
+            };
+            console.log(data);
+            axios({
+              method: "put",
+              url: `${vm.$parent.API_BASE_URL}/users`,
+              data: data,
+              headers: {
+                Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+              },
+            })
+              .then(function (response) {
+                if (response.data.error) {
+                  console.error(response);
+                  vm.$parent.$toast.error(
+                    "There was an error modifying the user.",
+                    { position: "top-right" }
+                  );
+                } else {
+                  vm.$parent.$toast.success("Successfully modified the user.", {
+                    position: "top-right",
+                  });
+                  vm.API_users().catch((error) => {
+                    vm.$parent.$toast.error(
+                      "There was an error getting users.",
+                      { position: "top-right" }
+                    );
+                    console.error(error);
+                  });
+                }
+              })
+              .catch(function (response) {
+                vm.$parent.$toast.error(
+                  "There was an error modifying the user.",
+                  { position: "top-right" }
+                );
+                console.error(response);
+              });
+          }
+        });
+    },
     deleteUser: async function (cert_id) {
       const vm = this;
       this.$parent.$swal

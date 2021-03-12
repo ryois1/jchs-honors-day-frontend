@@ -2,7 +2,7 @@
   <div id="newcert">
     <b-container fluid>
       <b-row>
-        <b-col><h1>Creating Child Certificate</h1></b-col>
+        <b-col><h1>{{LANG_CREATING}}</h1></b-col>
         <b-col
           ><h3>
             You have <b-badge>{{ this.certs_remaining }}</b-badge> out of
@@ -94,6 +94,7 @@ export default {
   data: function () {
     return {
       STATUS_TEXT: "Please input certificate data",
+      LANG_CREATING: "Creating Certificate for Award",
       RESULT: null,
       input_index: 0,
       max_certs: null,
@@ -241,6 +242,7 @@ export default {
           }
         );
         vm.cert_name = data.data.certs[0].cert_name;
+        vm.LANG_CREATING = `Creating Certificates for Award "${data.data.certs[0].cert_name}"`;
         if(vm.$parent.USER_INFO.role=='ADMIN' || vm.$parent.USER_INFO.role=='DEPT_ADMIN'){
           vm.max_certs = data.data.certs[0].cert_max_child;
         }

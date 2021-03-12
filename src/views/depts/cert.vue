@@ -33,6 +33,23 @@
           >View Certificates</b-button
         >
       </template>
+      <template #cell(cert_max_child)="data">
+        <div class="container">
+          <div class="col">
+            <p>{{data.item.cert_max_child}}
+              <span class="pull-right">
+              <b-button variant="warning" @click="changeMaxCerts(data.item.cert_id, data.item.cert_owner_id)">Change Max Certs</b-button>
+              </span>
+            </p>
+          </div>
+        </div>
+      </template>
+
+      <template #cell(delete)="data">
+        <div>
+          <b-button variant="danger" @click="deleteAward(data.item.cert_id, data.item.cert_owner_id)">Delete <b-icon icon="trash-fill" aria-hidden="true"></b-icon></b-button>
+        </div>
+      </template>
     </b-table>
     <b-pagination
       size="md"
@@ -79,6 +96,7 @@ export default {
           key: "cert_max_child",
           label: "Max Certificates",
         },
+        "delete",
       ],
       items: [],
       currentPage: 1,
@@ -87,6 +105,134 @@ export default {
     };
   },
   methods: {
+    changeMaxCerts: async function (cert_id, cert_owner_id) {
+      const vm = this;
+      if (
+        !(
+          vm.$parent.USER_INFO.role == "ADMIN" ||
+          vm.$parent.USER_INFO.role == "DEPT_ADMIN"
+        )
+      ) {
+        if (cert_owner_id != vm.$parent.USER_INFO.user_id) {
+          vm.$parent.$toast.error("No permissions.", { position: "top-right" });
+          return;
+        }
+      }
+      await this.$parent.$swal
+        .fire({
+          title: `Enter New Amount`,
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Change",
+          reverseButtons: true,
+          input: "text",
+          inputPlaceholder: "Number",
+        })
+        .then(async function (result) {
+          if (result.isConfirmed) {
+            const data = {
+              certs: [{ new_max: result.value, cert_id: cert_id }],
+            };
+            console.log(data);
+            axios({
+              method: "put",
+              url: `${vm.$parent.API_BASE_URL}/certs/${cert_id}/max`,
+              data: data,
+              headers: {
+                Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+              },
+            })
+              .then(function (response) {
+                if (response.data.error) {
+                  console.error(response);
+                  vm.$parent.$toast.error(
+                    "There was an error modifying the award.",
+                    { position: "top-right" }
+                  );
+                } else {
+                  vm.$parent.$toast.success("Successfully modified the award.", {
+                    position: "top-right",
+                  });
+                  vm.API_certs().catch((error) => {
+                    vm.$parent.$toast.error(
+                      "There was an error getting awards.",
+                      { position: "top-right" }
+                    );
+                    console.error(error);
+                  });
+                }
+              })
+              .catch(function (response) {
+                vm.$parent.$toast.error(
+                  "There was an error modifying the award.",
+                  { position: "top-right" }
+                );
+                console.error(response);
+              });
+          }
+        });
+    },
+    deleteAward: async function (child_cert, cert_owner_id) {
+      const vm = this;
+      if (
+        !(
+          vm.$parent.USER_INFO.role == "ADMIN" ||
+          vm.$parent.USER_INFO.role == "DEPT_ADMIN"
+        )
+      ) {
+        if (cert_owner_id != vm.$parent.USER_INFO.user_id) {
+          vm.$parent.$toast.error("No permissions.", { position: "top-right" });
+          return;
+        }
+      }
+
+      this.$parent.$swal
+        .fire({
+          title: `Delete this award?`,
+          html:
+            '<p>Are you sure you want to delete this award?</p><br><b>This action cannot be undone.</b><br><i>Type "DELETE" below</i>',
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#dc3545",
+          confirmButtonText: "Delete",
+          reverseButtons: true,
+          input: "text",
+          inputAttributes: {
+            id: "confirmDelete",
+          },
+        })
+        .then(async function (result) {
+          if (result.isConfirmed) {
+            const parent_cert = vm.$route.params.cert_id;
+            axios
+              .delete(`${vm.$parent.API_BASE_URL}/certs/${parent_cert}`, {
+                headers: {
+                  Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+                },
+              })
+              .then(function (response) {
+                if (response.data.error) {
+                  console.error(response);
+                  vm.$parent.$toast.error(
+                    "There was an error deleting the award.",
+                    { position: "top-right" }
+                  );
+                } else {
+                  vm.$parent.$toast.success("Successfully deleted the award.", {
+                    position: "top-right",
+                  });
+                }
+              })
+              .catch(function (response) {
+                vm.$parent.$toast.error(
+                  "There was an error deleting the award.",
+                  { position: "top-right" }
+                );
+                console.error(response);
+              });
+          }
+        });
+    },
     API_certs: async function () {
       const vm = this;
       vm.EMTPY_TABLE = "<h3>There are no awards to show</h3>";

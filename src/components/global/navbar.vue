@@ -15,7 +15,7 @@
           >
           <b-nav-item
             :to="{ path: '/departments' }"
-            :active="$route.name.startsWith('Departments')"
+            :active="$route.name == 'Departments'"
             >Departments</b-nav-item
           >
           <b-nav-item
@@ -26,7 +26,7 @@
           <b-nav-item
             :to="{ path: '/admin' }"
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
-            :active="$route.name.startsWith('Admin')"
+            :active="$route.name == 'Admin'"
             >Admin</b-nav-item
           >
         </b-navbar-nav>
