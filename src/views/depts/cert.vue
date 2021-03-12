@@ -172,7 +172,7 @@ export default {
           }
         });
     },
-    deleteAward: async function (child_cert, cert_owner_id) {
+    deleteAward: async function (cert_id, cert_owner_id) {
       const vm = this;
       if (
         !(
@@ -203,9 +203,8 @@ export default {
         })
         .then(async function (result) {
           if (result.isConfirmed) {
-            const parent_cert = vm.$route.params.cert_id;
             axios
-              .delete(`${vm.$parent.API_BASE_URL}/certs/${parent_cert}`, {
+              .delete(`${vm.$parent.API_BASE_URL}/certs/${cert_id}`, {
                 headers: {
                   Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
                 },
