@@ -15,14 +15,6 @@
     </b-table>
     <h3>Verified teachers ({{ count_ok_teachers }})</h3>
     <b-table bordered show-empty :items="teachers" :fields="success_fields">
-      <template #cell(checkbox)>
-        <b-form-checkbox
-          v-model="ok_teacher_checkboxes"
-          value="verified"
-          unchecked-value="not_verified"
-          >I verify that this record is accurate</b-form-checkbox
-        >
-      </template>
     </b-table>
     <b-container fluid>
       <b-row>
@@ -67,8 +59,8 @@ export default {
       certs: this.$attrs.prop.certs,
       teachers_verified: [],
       duplicate_teachers: [],
-      ok_button_disabled: 1,
-      ok_button_variant: "danger",
+      ok_button_disabled: 0,
+      ok_button_variant: "success",
       invalid_teachers: [],
       invalid_fields: [
         {
@@ -81,7 +73,6 @@ export default {
         },
       ],
       success_fields: [
-        "checkbox",
         {
           key: "email",
           label: "Teacher Email",
@@ -313,29 +304,6 @@ export default {
   mounted: async function () {
     await this.verifyteachers();
     await this.checkforExisting();
-  },
-  watch: {
-    ok_teacher_checkboxes: {
-      handler: function () {
-        function getOccurrence(array, value) {
-          var count = 0;
-          array.forEach((v) => v === value && count++);
-          return count;
-        }
-        const vm = this;
-        const ok_checkbox_count = getOccurrence(
-          vm.ok_teacher_checkboxes,
-          "verified"
-        );
-        if (ok_checkbox_count == vm.teachers.length) {
-          vm.ok_button_variant = "success";
-          vm.ok_button_disabled = 0;
-        } else {
-          vm.ok_button_variant = "danger";
-          vm.ok_button_disabled = 1;
-        }
-      },
-    },
   },
 };
 </script>
