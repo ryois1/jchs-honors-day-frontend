@@ -25,19 +25,6 @@
             >Delegate Award</b-button
           >
           <b-button
-            v-if="
-              this.allowed_delegate &&
-              (this.$parent.USER_INFO.role == 'ADMIN' ||
-                this.$parent.USER_INFO.role == 'DEPT_ADMIN')
-            "
-            :to="{
-              path: `/certificates/${this.$route.params.cert_id}/delegates`,
-            }"
-            class="mr-1"
-            variant="primary"
-            >View Award Delegates</b-button
-          >
-          <b-button
             v-if="this.$parent.USER_INFO.role == 'TEACHER'"
             @click="releaseCert"
             class="mr-1"
@@ -57,6 +44,19 @@
         >
       </b-row>
     </b-container>
+    <b-table
+      :empty-html="DELEGATES_EMTPY_TABLE"
+      bordered
+      show-empty
+      :items="delegates_items"
+      :fields="delegates_fields"
+    >
+      <template #cell(delete)="data">
+        <b-button variant="danger" @click="deleteDelegate(data.item.user_id)"
+          >Delete <b-icon icon="trash-fill" aria-hidden="true"></b-icon
+        ></b-button>
+      </template>
+    </b-table>
     <b-table
       :empty-html="EMTPY_TABLE"
       bordered
@@ -89,6 +89,31 @@ export default {
   name: "certs",
   data: function () {
     return {
+      delegates_fields: [
+        {
+          key: "user_id",
+          label: "User ID",
+          thClass: "d-none",
+          tdClass: "d-none",
+        },
+        {
+          key: "user_name",
+          label: "Delegate Name",
+        },
+        {
+          key: "user_email",
+          label: "Delegate Email",
+        },
+        {
+          key: "max",
+          label: "Max Allowed for Delegate",
+        },
+        {
+          key: "current",
+          label: "Currently Used by Delegate",
+        },
+        "delete",
+      ],
       LANG_VIEWING_CERT: "Viewing Award",
       CERT_COUNT: "None",
       SELF_CERT_COUNT: "None",
@@ -102,6 +127,7 @@ export default {
       allowed_edit: false,
       allowed_delegate: false,
       EMTPY_TABLE: "<p>Loading data...</p>",
+      DELEGATES_EMTPY_TABLE: "<p>Loading data...</p>",
       fields: [
         {
           key: "cert_id",
@@ -141,14 +167,91 @@ export default {
         },
         "delete",
       ],
+      delegates_items: [],
       items: [],
       currentPage: 1,
       perPage: 10,
       totalItems: 0,
+      delegates_totalItems: 0,
       DISABLED_ADD: false,
     };
   },
   methods: {
+    deleteDelegate: async function (delegate_id) {
+      const vm = this;
+      this.$parent.$swal
+        .fire({
+          title: `Delete this delegation?`,
+          html:
+            '<p>Are you sure you want to delete this delegation?</p><br><b>This action cannot be undone.</b><br><i>Type "DELETE" below</i>',
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#dc3545",
+          confirmButtonText: "Delete",
+          reverseButtons: true,
+          input: "text",
+          inputAttributes: {
+            id: "confirmDelete",
+          },
+          inputValidator: (value) => {
+            if (value != "DELETE") {
+              return '<span>You must type in <b class="text-danger">DELETE</b> to delete.</span>';
+            }
+          },
+        })
+        .then(async function (result) {
+          if (result.isConfirmed) {
+              axios
+                .delete(`${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}/delegate/${delegate_id}`, {
+                  headers: {
+                    Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+                  },
+                })
+                .then(function (response) {
+                  if (response.data.error) {
+                    console.error(response);
+                    vm.$parent.$toast.error(
+                      "There was an error deleting the delegate.",
+                      { position: "top-right" }
+                    );
+                  } else {
+                    vm.$parent.$toast.success(
+                      "Successfully deleted the delegate.",
+                      { position: "top-right" }
+                    );
+                    vm.API_delegates().catch((error) => {
+                        vm.delegates_items = [];
+                        vm.$parent.$toast.error("There was an error getting certificates.", {
+                            position: "top-right",
+                        });
+                        console.error(error);
+                    });
+                  }
+                })
+                .catch(function (response) {
+                  vm.$parent.$toast.error(
+                    "There was an error deleting the delegate.",
+                    { position: "top-right" }
+                  );
+                  console.error(response);
+                });
+          }
+        });
+    },
+    API_delegates: async function () {
+      const vm = this;
+      vm.DELEGATES_EMTPY_TABLE = "<h3>There are no delegates to show</h3>";
+        const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}/delegate`, {
+          headers: {
+            Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+          },
+        });
+        if (data.count == 0) {
+          vm.DELEGATES_EMTPY_TABLE = "<h3>There are no delegates to show</h3>";
+        }
+        vm.delegates_totalItems = data.count;
+        vm.delegates_items = data.data.delegates;
+    },
     releaseCert: async function () {
       const vm = this;
       const self_current_count = vm.SELF_CURRENT_CERT;
@@ -225,23 +328,16 @@ export default {
         .fire({
           title: `Delete this certificate?`,
           html:
-            '<p>Are you sure you want to delete this certificate?</p><br><b>This action cannot be undone.</b><br><i>Type "DELETE" below</i>',
+            '<p>Are you sure you want to delete this certificate?</p><br><b>This action cannot be undone.</b>',
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
           confirmButtonText: "Delete",
           reverseButtons: true,
-          input: "text",
-          inputAttributes: {
-            id: "confirmDelete",
-          },
         })
         .then(async function (result) {
           if (result.isConfirmed) {
             const parent_cert = vm.$route.params.cert_id;
-            let authToken = vm.$parent.JWT_TOKEN;
-            if ((await authToken) == null) {
-              await this.getAuthToken();
               axios
                 .delete(
                   `${vm.$parent.API_BASE_URL}/certs/${parent_cert}/certs`,
@@ -252,7 +348,7 @@ export default {
                     },
                   }
                 )
-                .then(function (response) {
+                .then(async function (response) {
                   if (response.data.error) {
                     console.error(response);
                     vm.$parent.$toast.error(
@@ -267,52 +363,13 @@ export default {
                   }
                 })
                 .catch(function (response) {
+                  vm.items = [];
                   vm.$parent.$toast.error(
                     "There was an error deleting the certificate.",
                     { position: "top-right" }
                   );
                   console.error(response);
                 });
-            } else {
-              axios
-                .delete(
-                  `${vm.$parent.API_BASE_URL}/certs/${parent_cert}/certs`,
-                  {
-                    data: { certs: [{ cert_id: child_cert }] },
-                    headers: {
-                      Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-                    },
-                  }
-                )
-                .then(function (response) {
-                  if (response.data.error) {
-                    console.error(response);
-                    vm.$parent.$toast.error(
-                      "There was an error deleting the certificate.",
-                      { position: "top-right" }
-                    );
-                  } else {
-                    vm.$parent.$toast.success(
-                      "Successfully deleted the certificate.",
-                      { position: "top-right" }
-                    );
-                  }
-                  vm.API_certs().catch((error) => {
-                    vm.$parent.$toast.error(
-                      `There was an error getting certificates. ${error}`,
-                      { position: "top-right" }
-                    );
-                    console.error(error);
-                  });
-                })
-                .catch(function (response) {
-                  vm.$parent.$toast.error(
-                    "There was an error deleting the certificate.",
-                    { position: "top-right" }
-                  );
-                  console.error(response);
-                });
-            }
           }
         });
     },
@@ -476,6 +533,15 @@ export default {
       vm.allowed_edit = true;
       vm.allowed_delegate = true;
       await this.API_cert_info();
+      await this.API_delegates().catch((error) => {
+        this.DELEGATES_EMTPY_TABLE = "<h3>There are no delegates to show</h3>";
+        this.delegates_items = [];
+        this.$parent.$toast.error(
+          `There was an error getting delegates. ${error}`,
+          { position: "top-right" }
+        );
+        console.error(error);
+      });
       await this.API_certs().catch((error) => {
         this.EMTPY_TABLE = "<h3>There are no certificates to show</h3>";
         this.CERT_COUNT = `0/${vm.CERT_MAX_CHILD}`;
@@ -488,7 +554,16 @@ export default {
       });
     } else {
       await this.API_cert_info();
-      await this.API_certs().catch((error) => {
+      await this.API_delegates().catch((error) => {
+        this.DELEGATES_EMTPY_TABLE = "<h3>There are no delegates to show</h3>";
+        this.delegates_items = [];
+        this.$parent.$toast.error(
+          `There was an error getting delegates. ${error}`,
+          { position: "top-right" }
+        );
+        console.error(error);
+      });
+        await this.API_certs().catch((error) => {
         this.EMTPY_TABLE = "<h3>There are no certificates to show</h3>";
         this.CERT_COUNT = `0/${vm.CERT_MAX_CHILD}`;
         this.items = [];

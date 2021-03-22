@@ -30,9 +30,26 @@
                     </b-col>
                     <b-col>
                       <h4>Actions</h4>
-                      <b-button variant="danger" @click="deleteRow(index - 1)"
+                      <b-button variant="danger" class="mr-1" @click="deleteRow(index - 1)"
                         >Remove</b-button
                       >
+                      <b-button
+                        variant="primary"
+                        @click="lookupTeacher(index - 1)"
+                        >Lookup</b-button
+                      >
+                      <b-form-group
+                        v-for="user in lookedup_teacher"
+                        :key="user"
+                      >
+                        <b-form-radio
+                          v-model="users[index - 1]"
+                          :value="user.email"
+                          >{{
+                            `${user.first_name} ${user.last_name} (${user.email})`
+                          }}</b-form-radio
+                        >
+                      </b-form-group>
                     </b-col>
                   </b-row>
                 </b-container>
@@ -40,7 +57,7 @@
               <b-button @click="addTeacher" class="mr-1" variant="success"
                 >Add Teacher</b-button
               >
-              <b-button @click="verify" variant="primary">Check Input</b-button>
+              <b-button @click="verify" variant="primary">Verify</b-button>
             </b-form>
           </b-card>
         </b-col>
@@ -58,9 +75,40 @@ export default {
       LANG_HEADER: "Adding users to ???",
       input_index: 0,
       users: [],
+      lookedup_teacher: [],
     };
   },
   methods: {
+    lookupTeacher: async function (index) {
+      const vm = this;
+      const search = this.users[index];
+      vm.lookedup_teacher = [];
+      const loookup_data = { search_query: search };
+        const { data } = await axios.post(
+          `${vm.$parent.API_BASE_URL}/users/search`,
+          loookup_data,
+          {
+            headers: {
+              Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+            },
+          }
+        );
+        const output = [];
+        if (data.error) {
+          vm.$parent.$toast.error(`${data.message}`, { position: "top-right" });
+        }
+        Object.keys(data.data.users).forEach(function (key) {
+          const row = data.data.users[key];
+          const cert = {
+            id: row.id,
+            first_name: row.first_name,
+            last_name: row.last_name,
+            email: row.email,
+          };
+          output.push(cert);
+        });
+        vm.lookedup_teacher = output;
+    },
     addTeacher() {
       this.input_index++;
     },

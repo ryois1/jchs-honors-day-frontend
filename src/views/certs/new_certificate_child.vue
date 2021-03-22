@@ -79,7 +79,7 @@
               <b-button @click="addStudent" class="mr-1" variant="success"
                 >Add Student</b-button
               >
-              <b-button @click="verify" variant="primary">Check Input</b-button>
+              <b-button @click="verify" variant="primary">Verify</b-button>
             </b-form>
           </b-card>
         </b-col>
