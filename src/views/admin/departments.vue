@@ -79,7 +79,7 @@ export default {
         .fire({
           title: `Delete this department?`,
           html:
-            '<p>Are you sure you want to delete this department?</p><br><b>This action cannot be undone.<br>This deletes certificates, and thechild certificates, and user associations with the department.</b><br><i>Type "DELETE" below</i>',
+            '<p>Are you sure you want to delete this department?</p><br><b>This action cannot be undone.<br>This deletes certificates, awards, and user associations with the department.</b><br><i>Type "DELETE" below</i>',
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",

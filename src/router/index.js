@@ -29,8 +29,7 @@ const admin_depts_new = () => import(/* webpackChunkName: "dept" */ '../views/ad
 const admin_depts_add = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments_add_user.vue');
 const admin_depts_verify = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments_verify_user.vue');
 const admin_students = () => import(/* webpackChunkName: "admin" */ '../views/admin/students.vue');
-
-
+const admin_purge = () => import(/* webpackChunkName: "admin" */ '../views/admin/purge.vue');
 
 Vue.use(VueRouter);
 
@@ -209,6 +208,16 @@ const routes = [
     beforeEnter: authGuard,
     meta: {
       title: 'Students Admin',
+      visible: true
+    },
+  },
+  {
+    path: '/admin/purge',
+    name: 'AdminPurge',
+    component: admin_purge,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Purge',
       visible: true
     },
   },

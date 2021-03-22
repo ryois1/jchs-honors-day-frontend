@@ -34,8 +34,13 @@
           >
           <b-nav-item
             :to="{ path: '/admin/students' }"
-            :active="$route.name == 'Students'"
+            :active="$route.name == 'AdminStudents'"
             >Students</b-nav-item
+          >
+          <b-nav-item
+            :to="{ path: '/admin/purge' }"
+            :active="$route.name == 'AdminPurge'"
+            >Purge</b-nav-item
           >
         </b-navbar-nav>
       </b-collapse>
