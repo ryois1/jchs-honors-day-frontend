@@ -223,10 +223,6 @@ export default {
                     );
                   }
                   vm.API_certs().catch((error) => {
-                    vm.$parent.$toast.error(
-                      `There was an error getting certificates. ${error}`,
-                      { position: "top-right" }
-                    );
                     console.error(error);
                   });
                 })
@@ -279,21 +275,13 @@ export default {
       this.LANG_HEADER = "Viewing Your Certificates";
     }
     this.API_certs().catch((error) => {
-      this.$parent.$toast.error(
-        `There was an error getting certificates. ${error}`,
-        { position: "top-right" }
-      );
       console.error(error);
     });
   },
   watch: {
     currentPage: {
       handler: function () {
-        const vm = this;
         this.API_certs().catch((error) => {
-          vm.$parent.$toast.error("There was an error getting certificates.", {
-            position: "top-right",
-          });
           console.error(error);
         });
       },

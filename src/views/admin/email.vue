@@ -194,10 +194,6 @@ export default {
             position: "top-right",
           });
           vm.API_config().catch((error) => {
-            vm.$parent.$toast.error(
-              `There was an error getting config. ${error}`,
-              { position: "top-right" }
-            );
             console.error(error);
           });
         }
@@ -238,9 +234,6 @@ export default {
   },
   mounted: function () {
     this.API_config().catch((error) => {
-      this.$parent.$toast.error(`There was an error getting config. ${error}`, {
-        position: "top-right",
-      });
       console.error(error);
     });
   },

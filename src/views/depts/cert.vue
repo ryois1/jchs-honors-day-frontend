@@ -110,7 +110,8 @@ export default {
       if (
         !(
           vm.$parent.USER_INFO.role == "ADMIN" ||
-          vm.$parent.USER_INFO.role == "DEPT_ADMIN"
+          vm.$parent.USER_INFO.role == "DEPT_ADMIN" ||
+          vm.$parent.USER_INFO.role == "COMMITTEE"
         )
       ) {
         if (cert_owner_id != vm.$parent.USER_INFO.user_id) {
@@ -154,10 +155,6 @@ export default {
                     position: "top-right",
                   });
                   vm.API_certs().catch((error) => {
-                    vm.$parent.$toast.error(
-                      "There was an error getting awards.",
-                      { position: "top-right" }
-                    );
                     console.error(error);
                   });
                 }
@@ -177,7 +174,8 @@ export default {
       if (
         !(
           vm.$parent.USER_INFO.role == "ADMIN" ||
-          vm.$parent.USER_INFO.role == "DEPT_ADMIN"
+          vm.$parent.USER_INFO.role == "DEPT_ADMIN" ||
+          vm.$parent.USER_INFO.role == "COMMITTEE"
         )
       ) {
         if (cert_owner_id != vm.$parent.USER_INFO.user_id) {
@@ -264,7 +262,8 @@ export default {
       vm.DEPT_NAME = data.data.depts[0].department_name;
       if (
         vm.$parent.USER_INFO.role == "ADMIN" ||
-        vm.$parent.USER_INFO.role == "DEPT_ADMIN"
+        vm.$parent.USER_INFO.role == "DEPT_ADMIN" ||
+        vm.$parent.USER_INFO.role == "COMMITTEE"
       ) {
         vm.LANG_HEADER = `Viewing Awards in "${vm.DEPT_NAME}"`;
       } else {
@@ -275,21 +274,13 @@ export default {
   mounted: function () {
     this.API_dept();
     this.API_certs().catch((error) => {
-      this.$parent.$toast.error(
-        `There was an error getting certificates. ${error}`,
-        { position: "top-right" }
-      );
       console.error(error);
     });
   },
   watch: {
     currentPage: {
       handler: function () {
-        const vm = this;
         this.API_certs().catch((error) => {
-          vm.$parent.$toast.error("There was an error getting certificates.", {
-            position: "top-right",
-          });
           console.error(error);
         });
       },

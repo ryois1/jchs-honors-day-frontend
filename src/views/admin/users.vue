@@ -128,10 +128,6 @@ export default {
                     position: "top-right",
                   });
                   vm.API_users().catch((error) => {
-                    vm.$parent.$toast.error(
-                      "There was an error getting users.",
-                      { position: "top-right" }
-                    );
                     console.error(error);
                   });
                 }
@@ -188,10 +184,6 @@ export default {
                     position: "top-right",
                   });
                   vm.API_users().catch((error) => {
-                    vm.$parent.$toast.error(
-                      "There was an error getting users.",
-                      { position: "top-right" }
-                    );
                     console.error(error);
                   });
                 }
@@ -225,20 +217,13 @@ export default {
   },
   mounted: function () {
     this.API_users().catch((error) => {
-      this.$parent.$toast.error(`There was an error getting users. ${error}`, {
-        position: "top-right",
-      });
       console.error(error);
     });
   },
   watch: {
     currentPage: {
       handler: function () {
-        const vm = this;
         this.API_users().catch((error) => {
-          vm.$parent.$toast.error("There was an error getting users.", {
-            position: "top-right",
-          });
           console.error(error);
         });
       },

@@ -81,8 +81,9 @@ export default {
       user_role_options: [
         { text: "Select Role", disabled: true },
         { value: "ADMIN", text: "System Admin" },
+        { value: "COMMITTEE", text: "Honors Day Committee" },
         { value: "TEACHER", text: "Teacher" },
-        { value: "DEPT_ADMIN", text: "Department Admin" },
+        { value: "DEPT_ADMIN", text: "Department Chair" },
       ],
     };
   },

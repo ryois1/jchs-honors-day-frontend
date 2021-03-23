@@ -22,21 +22,21 @@
             }"
             class="mr-1"
             variant="primary"
-            >Delegate Award</b-button
+            >Delegate Certificates to Teachers</b-button
           >
           <b-button
             v-if="this.$parent.USER_INFO.role == 'TEACHER'"
             @click="releaseCert"
             class="mr-1"
             variant="primary"
-            >Release Slots</b-button
+            >Return Certificates to Department Chair</b-button
           >
           <b-button
             v-if="this.CERT_MAX_CHILD >= this.totalItems && this.allowed_edit"
             variant="primary"
             :disabled="DISABLED_ADD"
             :to="{ path: `/certificates/${this.$route.params.cert_id}/new` }"
-            >New Certificate</b-button
+            >Award Certificates to Students</b-button
           ></b-col
         >
         <b-col class="text-right" v-if="!this.allowed_edit"
@@ -221,9 +221,6 @@ export default {
                     );
                     vm.API_delegates().catch((error) => {
                         vm.delegates_items = [];
-                        vm.$parent.$toast.error("There was an error getting certificates.", {
-                            position: "top-right",
-                        });
                         console.error(error);
                     });
                   }
@@ -536,20 +533,12 @@ export default {
       await this.API_delegates().catch((error) => {
         this.DELEGATES_EMTPY_TABLE = "<h3>There are no delegates to show</h3>";
         this.delegates_items = [];
-        this.$parent.$toast.error(
-          `There was an error getting delegates. ${error}`,
-          { position: "top-right" }
-        );
         console.error(error);
       });
       await this.API_certs().catch((error) => {
         this.EMTPY_TABLE = "<h3>There are no certificates to show</h3>";
         this.CERT_COUNT = `0/${vm.CERT_MAX_CHILD}`;
         this.items = [];
-        this.$parent.$toast.error(
-          `There was an error getting certificates. ${error}`,
-          { position: "top-right" }
-        );
         console.error(error);
       });
     } else {
@@ -557,20 +546,12 @@ export default {
       await this.API_delegates().catch((error) => {
         this.DELEGATES_EMTPY_TABLE = "<h3>There are no delegates to show</h3>";
         this.delegates_items = [];
-        this.$parent.$toast.error(
-          `There was an error getting delegates. ${error}`,
-          { position: "top-right" }
-        );
         console.error(error);
       });
         await this.API_certs().catch((error) => {
         this.EMTPY_TABLE = "<h3>There are no certificates to show</h3>";
         this.CERT_COUNT = `0/${vm.CERT_MAX_CHILD}`;
         this.items = [];
-        this.$parent.$toast.error(
-          `There was an error getting certificates. ${error}`,
-          { position: "top-right" }
-        );
         console.error(error);
       });
       if (vm.SELF_MAX_CERT > 0) {
@@ -588,11 +569,7 @@ export default {
   watch: {
     currentPage: {
       handler: function () {
-        const vm = this;
         this.API_certs().catch((error) => {
-          vm.$parent.$toast.error("There was an error getting certificates.", {
-            position: "top-right",
-          });
           console.error(error);
         });
       },

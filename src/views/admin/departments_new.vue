@@ -80,10 +80,6 @@ export default {
   },
   mounted: function () {
     this.API_depts().catch((error) => {
-      this.$parent.$toast.error(
-        `There was an error getting department. ${error}`,
-        { position: "top-right" }
-      );
       console.error(error);
     });
   },

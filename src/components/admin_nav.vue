@@ -14,11 +14,13 @@
           >
           <b-nav-item
             :to="{ path: '/admin/departments' }"
+            v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             :active="$route.name=='AdminDepts'"
             >Departments</b-nav-item
           >
           <b-nav-item
             :to="{ path: '/admin/users' }"
+            v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             :active="$route.name=='AdminUsers'"
             >Users</b-nav-item
           >
@@ -29,6 +31,7 @@
           >
           <b-nav-item
             :to="{ path: '/admin/settings' }"
+            v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             :active="$route.name=='AdminSettings'"
             >System Settings</b-nav-item
           >
@@ -39,6 +42,7 @@
           >
           <b-nav-item
             :to="{ path: '/admin/purge' }"
+            v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             :active="$route.name == 'AdminPurge'"
             >Purge</b-nav-item
           >
@@ -58,7 +62,7 @@ export default {
   methods: {
     checkAdmin: async function () {
       const vm = this;
-      if(this.$parent.USER_INFO.role!='ADMIN'){
+      if(this.$parent.USER_INFO.role!='ADMIN' || this.$parent.USER_INFO.role!='COMMITTEE'){
         vm.$router.push({ name: "NotAdmin" });
       }
     },

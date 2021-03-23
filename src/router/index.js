@@ -16,6 +16,7 @@ const unknownUser = () => import(/* webpackChunkName: "auth" */ '../views/unknow
 const admin_new_user = () => import(/* webpackChunkName: "admin" */ '../views/admin/new_user.vue');
 const import_pdfs_1 = () => import(/* webpackChunkName: "import" */ '../views/import_pdfs_step_1.vue');
 const import_pdfs_2 = () => import(/* webpackChunkName: "import" */ '../views/import_pdfs_step_2.vue');
+const import_pdfs_done = () => import(/* webpackChunkName: "import" */ '../views/import_pdfs_done.vue');
 const dept_all = () => import(/* webpackChunkName: "dept" */ '../views/depts/all.vue');
 const dept_certs = () => import(/* webpackChunkName: "dept" */ '../views/depts/cert.vue');
 const dept_users = () => import(/* webpackChunkName: "dept" */ '../views/depts/users.vue');
@@ -79,6 +80,17 @@ const routes = [
     path: '/certificates/import/step/2',
     name: 'ImportCertsPDFs2',
     component: import_pdfs_2,
+    props: true,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Importing Certificate',
+      visible: true
+    },
+  },
+  {
+    path: '/certificates/import/complete',
+    name: 'ImportCertsPDFsDone',
+    component: import_pdfs_done,
     props: true,
     beforeEnter: authGuard,
     meta: {

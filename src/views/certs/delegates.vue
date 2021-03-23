@@ -104,9 +104,6 @@ export default {
                     );
                     vm.API_delegates().catch((error) => {
                         vm.items = [];
-                        vm.$parent.$toast.error("There was an error getting certificates.", {
-                            position: "top-right",
-                        });
                         console.error(error);
                     });
                   }
@@ -151,10 +148,6 @@ export default {
   mounted: function () {
     this.API_cert_info();
     this.API_delegates().catch((error) => {
-      this.$parent.$toast.error(
-        `There was an error getting delegates. ${error}`,
-        { position: "top-right" }
-      );
       console.error(error);
     });
   },

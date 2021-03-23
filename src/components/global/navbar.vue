@@ -25,7 +25,7 @@
           >
           <b-nav-item
             :to="{ path: '/admin' }"
-            v-if="this.$parent.USER_INFO.role == 'ADMIN'"
+            v-if="this.$parent.USER_INFO.role == 'ADMIN' || this.$parent.USER_INFO.role == 'COMMITTEE'"
             :active="$route.name == 'Admin'"
             >Admin</b-nav-item
           >
@@ -39,9 +39,6 @@
               >Sign Out</b-dropdown-item
             >
           </b-nav-item-dropdown>
-          <b-nav-text
-            >Your role: {{ROLE}}</b-nav-text
-          >
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
