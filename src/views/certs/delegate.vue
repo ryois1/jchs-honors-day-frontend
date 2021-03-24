@@ -6,7 +6,10 @@
           ><h1>{{ LANG_HEADER }}</h1></b-col
         >
         <b-col>
-          <h3>You have <b-badge>{{ SELF_CERT_COUNT }}</b-badge> spots to delegate.</h3><p>This does not include spots already delegated.</p>
+          <h3>
+            You have <b-badge>{{ DELEGATES_USING_LOAD }}</b-badge> out of
+            <b-badge>{{ SELF_CERT_COUNT }}</b-badge> spots to delegate.
+          </h3>
         </b-col>
       </b-row>
       <b-row>
@@ -46,7 +49,10 @@
                     </b-col>
                     <b-col>
                       <h4>Actions</h4>
-                      <b-button variant="danger" class="mr-1" @click="deleteRow(index - 1)"
+                      <b-button
+                        variant="danger"
+                        class="mr-1"
+                        @click="deleteRow(index - 1)"
                         >Remove</b-button
                       >
                       <b-button
@@ -88,44 +94,65 @@ export default {
   data: function () {
     return {
       RESULT: null,
-      LANG_HEADER: 'Delegating Certificates for Award "???"', 
+      LANG_HEADER: 'Delegating Certificates for Award "???"',
       input_index: 0,
       users_email: [],
       users_cert: [],
       SELF_CERT_COUNT: 0,
       lookedup_teacher: [],
+      DELEGATES_USING_LOAD: 0,
     };
   },
   methods: {
+    API_delegates: async function () {
+      const vm = this;
+      const { data } = await axios.get(
+        `${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}/delegate`,
+        {
+          headers: {
+            Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+          },
+        }
+      );
+      if (data.data.delegates == 0) {
+        vm.DELEGATES_USING_LOAD = 0;
+      } else {
+        Object.keys(data.data.delegates).forEach(function (key) {
+          const row = data.data.delegates[key];
+          const curr_user = row.max;
+          vm.DELEGATES_USING_LOAD = vm.DELEGATES_USING_LOAD - curr_user;
+        });
+      }
+    },
     lookupTeacher: async function (index) {
       const vm = this;
       const search = this.users_email[index];
       vm.lookedup_teacher = [];
       const loookup_data = { search_query: search };
-        const { data } = await axios.post(
-          `${vm.$parent.API_BASE_URL}/users/search`,
-          loookup_data,
-          {
-            headers: {
-              Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-            },
-          }
-        );
-        const output = [];
-        if (data.error) {
-          vm.$parent.$toast.error(`${data.message}`, { position: "top-right" });
+      const { data } = await axios.post(
+        `${vm.$parent.API_BASE_URL}/users/search`,
+        loookup_data,
+        {
+          headers: {
+            Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+          },
         }
-        Object.keys(data.data.users).forEach(function (key) {
-          const row = data.data.users[key];
-          const cert = {
-            id: row.id,
-            first_name: row.first_name,
-            last_name: row.last_name,
-            email: row.email,
-          };
-          output.push(cert);
-        });
-        vm.lookedup_teacher = output;
+      );
+      const output = [];
+      if (data.error) {
+        vm.$parent.$toast.error(`${data.message}`, { position: "top-right" });
+      }
+      Object.keys(data.data.users).forEach(function (key) {
+        const row = data.data.users[key];
+        const cert = {
+          id: row.id,
+          first_name: row.first_name,
+          last_name: row.last_name,
+          email: row.email,
+        };
+        output.push(cert);
+      });
+      vm.lookedup_teacher = output;
     },
     addTeacher() {
       this.input_index++;
@@ -146,19 +173,22 @@ export default {
       this.input_index--;
     },
     verify() {
-        const output = [];
-        const vm = this;
-        Object.keys(vm.users_email).forEach(function (key) {
-          const row = vm.users_email[key];
-          const row2 = vm.users_cert[key];
-          const user = {
-            user_email: row,
-            user_cert: row2,
-          };
-          output.push(user);
-        });
-        const prop = { users: this.users_email, certs: this.users_cert };
-        this.$router.replace({ name: "CertificateDelegateVerify", params: { prop } });
+      const output = [];
+      const vm = this;
+      Object.keys(vm.users_email).forEach(function (key) {
+        const row = vm.users_email[key];
+        const row2 = vm.users_cert[key];
+        const user = {
+          user_email: row,
+          user_cert: row2,
+        };
+        output.push(user);
+      });
+      const prop = { users: this.users_email, certs: this.users_cert, delegates_remain: this.DELEGATES_USING_LOAD };
+      this.$router.replace({
+        name: "CertificateDelegateVerify",
+        params: { prop },
+      });
     },
     API_cert: async function () {
       const vm = this;
@@ -171,11 +201,13 @@ export default {
         }
       );
       vm.SELF_CERT_COUNT = data.data.certs[0].cert_max_child;
+      vm.DELEGATES_USING_LOAD = data.data.certs[0].cert_max_child;
       vm.LANG_HEADER = `Delegating Certificates for Award "${data.data.certs[0].cert_name}"`;
     },
   },
   mounted: async function () {
     await this.API_cert();
+    await this.API_delegates();
     if (this.$attrs.prop) {
       if (typeof this.$attrs.prop.users !== "undefined") {
         this.users_email = this.$attrs.prop.users;

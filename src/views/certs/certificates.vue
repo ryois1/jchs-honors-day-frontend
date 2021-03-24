@@ -154,55 +154,15 @@ export default {
         .fire({
           title: `Delete this certificate?`,
           html:
-            '<p>Are you sure you want to delete this certificate?</p><br><b>This action cannot be undone.<br>This deletes child certificates.</b><br><i>Type "DELETE" below</i>',
+            '<p>Are you sure you want to delete this certificate?</p><br><b>This action cannot be undone.<br>This deletes child certificates.</b><br>',
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
           confirmButtonText: "Delete",
           reverseButtons: true,
-          input: "text",
-          inputAttributes: {
-            id: "confirmDelete",
-          },
-          inputValidator: (value) => {
-            if (value != "DELETE") {
-              return '<span>You must type in <b class="text-danger">DELETE</b> to delete.</span>';
-            }
-          },
         })
         .then(async function (result) {
           if (result.isConfirmed) {
-            let authToken = vm.$parent.JWT_TOKEN;
-            if ((await authToken) == null) {
-              await this.getAuthToken();
-              axios
-                .delete(`${vm.$parent.API_BASE_URL}/certs/${cert_id}`, {
-                  headers: {
-                    Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-                  },
-                })
-                .then(function (response) {
-                  if (response.data.error) {
-                    console.error(response);
-                    vm.$parent.$toast.error(
-                      "There was an error deleting the certificate.",
-                      { position: "top-right" }
-                    );
-                  } else {
-                    vm.$parent.$toast.success(
-                      "Successfully deleted the certificate.",
-                      { position: "top-right" }
-                    );
-                  }
-                })
-                .catch(function (response) {
-                  vm.$parent.$toast.error(
-                    "There was an error deleting the certificate.",
-                    { position: "top-right" }
-                  );
-                  console.error(response);
-                });
-            } else {
               axios
                 .delete(`${vm.$parent.API_BASE_URL}/certs/${cert_id}`, {
                   headers: {
@@ -233,7 +193,6 @@ export default {
                   );
                   console.error(response);
                 });
-            }
           }
         });
     },
@@ -241,33 +200,20 @@ export default {
       const vm = this;
       vm.EMTPY_TABLE = "<h3>There are no certs to show</h3>";
       const offset = vm.currentPage * vm.perPage - 10;
-      let authToken = vm.$parent.JWT_TOKEN;
-      if ((await authToken) == null) {
-        await this.getAuthToken();
         const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/certs`, {
           params: { offset: offset, limit: vm.perPage },
           headers: {
             Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
           },
         });
-        if (data.count == 0) {
+        if (data.data.certs == 0) {
           vm.EMTPY_TABLE = "<h3>There are no certs to show</h3>";
+          vm.items = [];
+          vm.totalItems = 0;
+        }else{
+          vm.totalItems = data.count;
+          vm.items = data.data.certs;
         }
-        vm.totalItems = data.count;
-        vm.items = data.data.certs;
-      } else {
-        const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/certs`, {
-          params: { offset: offset, limit: vm.perPage },
-          headers: {
-            Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-          },
-        });
-        if (data.count == 0) {
-          vm.EMTPY_TABLE = "<h3>There are no certs to show</h3>";
-        }
-        vm.totalItems = data.count;
-        vm.items = data.data.certs;
-      }
     },
   },
   mounted: function () {

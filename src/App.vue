@@ -7,7 +7,7 @@
     ></loading>
     <globalNav></globalNav>
     <adminNav v-if="this.$route.name.startsWith('Admin')"></adminNav>
-    <router-view></router-view>
+    <router-view v-if="this.USER_AUTHORIZED"></router-view>
   </div>
 </template>
 
@@ -73,9 +73,6 @@ export default {
           } else {
             vm.USER_AUTHORIZED = true;
             vm.USER_INFO = response.data.data;
-            vm.$toast.success("Successfully logged in", {
-              position: "top-right",
-            });
             vm.$forceUpdate();
             vm.isLoading = false;
           }
@@ -106,10 +103,16 @@ export default {
       fullPage: true,
       onCancel: false,
       isLoading: true,
+      ADMINS: ["ADMIN", "COMMITTEE", "DEPT_ADMIN"],
     };
   },
-  created: function () {
+  mounted: function () {
     this.API_me();
+    this.$nextTick(function () {
+      window.setInterval(() => {
+        this.API_me();
+      }, 5000);
+    });
   },
 };
 </script>

@@ -22,14 +22,17 @@ const dept_certs = () => import(/* webpackChunkName: "dept" */ '../views/depts/c
 const dept_users = () => import(/* webpackChunkName: "dept" */ '../views/depts/users.vue');
 const admin_index = () => import(/* webpackChunkName: "admin" */ '../views/admin/index.vue');
 const admin_users = () => import(/* webpackChunkName: "admin" */ '../views/admin/users.vue');
+const admin_users_import = () => import(/* webpackChunkName: "admin" */ '../views/admin/users_import.vue');
 const admin_settings = () => import(/* webpackChunkName: "admin" */ '../views/admin/settings.vue')
 const admin_email = () => import(/* webpackChunkName: "admin" */ '../views/admin/email.vue');
 const admin_depts = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments.vue');
+const admin_depts_import = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments_import.vue');
 const admin_depts_edit = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments_edit.vue');
 const admin_depts_new = () => import(/* webpackChunkName: "dept" */ '../views/admin/departments_new.vue');
 const admin_depts_add = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments_add_user.vue');
 const admin_depts_verify = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments_verify_user.vue');
 const admin_students = () => import(/* webpackChunkName: "admin" */ '../views/admin/students.vue');
+const admin_students_import = () => import(/* webpackChunkName: "admin" */ '../views/admin/students_import.vue');
 const admin_purge = () => import(/* webpackChunkName: "admin" */ '../views/admin/purge.vue');
 
 Vue.use(VueRouter);
@@ -224,12 +227,22 @@ const routes = [
     },
   },
   {
+    path: '/admin/students/import',
+    name: 'AdminStudentsImport',
+    component: admin_students_import,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Import Students | Admin',
+      visible: true
+    },
+  },
+  {
     path: '/admin/purge',
     name: 'AdminPurge',
     component: admin_purge,
     beforeEnter: authGuard,
     meta: {
-      title: 'Purge',
+      title: 'Purge | Admin',
       visible: true
     },
   },
@@ -239,7 +252,7 @@ const routes = [
     component: admin_email,
     beforeEnter: authGuard,
     meta: {
-      title: 'Admin Email',
+      title: 'Email Settings | Admin',
       visible: true
     },
   },
@@ -249,7 +262,17 @@ const routes = [
     component: admin_depts,
     beforeEnter: authGuard,
     meta: {
-      title: 'Admin Departments',
+      title: 'Departments | Admin',
+      visible: true
+    },
+  },
+  {
+    path: '/admin/departments/import',
+    name: 'AdminDeptsImport',
+    component: admin_depts_import,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Import Departments | Admin',
       visible: true
     },
   },
@@ -259,7 +282,7 @@ const routes = [
     component: admin_depts_new,
     beforeEnter: authGuard,
     meta: {
-      title: 'New Department',
+      title: 'New Department | Admin',
       visible: true
     },
   },
@@ -269,7 +292,7 @@ const routes = [
     component: admin_depts_edit,
     beforeEnter: authGuard,
     meta: {
-      title: 'Edit Department Admin',
+      title: 'Edit Department | Admin',
       visible: true
     },
   },
@@ -280,7 +303,7 @@ const routes = [
     beforeEnter: authGuard,
     props: true,
     meta: {
-      title: 'Add User to Department Admin',
+      title: 'Add User to Department | Admin',
       visible: true
     },
   },
@@ -291,7 +314,7 @@ const routes = [
     props: true,
     beforeEnter: authGuard,
     meta: {
-      title: 'Verify Adding User to Department Admin',
+      title: 'Verify Adding User to Department | Admin',
       visible: true
     },
   },
@@ -301,7 +324,17 @@ const routes = [
     component: admin_users,
     beforeEnter: authGuard,
     meta: {
-      title: 'Admin Users',
+      title: 'Users | Admin',
+      visible: true
+    },
+  },
+  {
+    path: '/admin/users/import',
+    name: 'AdminUsersImport',
+    component: admin_users_import,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Importing Users | Admin',
       visible: true
     },
   },
@@ -311,7 +344,7 @@ const routes = [
     component: admin_new_user,
     beforeEnter: authGuard,
     meta: {
-      title: 'Add New User Admin',
+      title: 'Add New User | Admin',
       visible: true
     },
   },
@@ -321,7 +354,7 @@ const routes = [
     component: admin_settings,
     beforeEnter: authGuard,
     meta: {
-      title: 'Admin Settings',
+      title: 'Settings | Admin',
       visible: true
     },
   },

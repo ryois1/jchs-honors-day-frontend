@@ -66,21 +66,12 @@ export default {
         .fire({
           title: `Delete this delegation?`,
           html:
-            '<p>Are you sure you want to delete this delegation?</p><br><b>This action cannot be undone.</b><br><i>Type "DELETE" below</i>',
+            '<p>Are you sure you want to delete this delegation?</p><br><b>This action cannot be undone.</b><br>',
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
           confirmButtonText: "Delete",
           reverseButtons: true,
-          input: "text",
-          inputAttributes: {
-            id: "confirmDelete",
-          },
-          inputValidator: (value) => {
-            if (value != "DELETE") {
-              return '<span>You must type in <b class="text-danger">DELETE</b> to delete.</span>';
-            }
-          },
         })
         .then(async function (result) {
           if (result.isConfirmed) {
@@ -126,11 +117,14 @@ export default {
             Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
           },
         });
-        if (data.count == 0) {
+        if (data.data.delegates == 0) {
           vm.EMTPY_TABLE = "<h3>There are no delegates to show</h3>";
-        }
+        vm.totalItems = 0;
+        vm.items = [];
+        }else{
         vm.totalItems = data.count;
         vm.items = data.data.delegates;
+        }
     },
     API_cert_info: async function () {
       const vm = this;

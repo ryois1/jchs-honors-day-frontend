@@ -77,10 +77,11 @@ export default {
     },
   },
   mounted: function () {
-    if (this.$parent.USER_INFO.role != "ADMIN" || this.$parent.USER_INFO.role != 'COMMITTEE' ) {
-      this.LANG_HEADER = "Viewing Departments You are In";
+    const vm = this;
+    if (vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role)) {
+      vm.LANG_HEADER = "Viewing Departments You are In";
     }
-    this.API_depts().catch((error) => {
+    vm.API_depts().catch((error) => {
       console.error(error);
     });
   },

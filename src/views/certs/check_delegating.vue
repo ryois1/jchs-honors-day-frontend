@@ -27,7 +27,6 @@
           ><b-button
             @click="processForm"
             id="confirm_button"
-            :disabled="ok_button_disabled == 1"
             :variant="ok_button_variant"
             >Confirm</b-button
           ></b-col
@@ -45,6 +44,8 @@ export default {
       teacher_emails: this.$attrs.prop.users,
       STATUS_TEXT: "Please input certificate data",
       RESULT: null,
+      cert_remain: this.$attrs.prop.delegates_remain,
+      current_input_count: 0,
       input_index: 0,
       api_data: [],
       count_invalid_teachers: 0,
@@ -198,6 +199,7 @@ export default {
             email: row.email,
             delegating: ok_certs[index],
           };
+          vm.current_input_count = Number(vm.current_input_count) + Number(ok_certs[index]);
           ok_teacher_ids.push(row.id);
           output.push(teacher);
           api_data.push(send_data);
@@ -299,6 +301,25 @@ export default {
                   console.error(response);
                 });
       }
+    },
+  },
+  watch: {
+    current_input_count: {
+      handler: function () {
+        const vm = this;
+        console.log(this.current_input_count);
+        if(vm.current_input_count > vm.cert_remain){
+          vm.$parent.$swal.fire({
+            title: `You are trying to delegate more slots than you have.`,
+            icon: "warning",
+            confirmButtonText: "Ok",
+          });
+          vm.$parent.$toast.error(
+            "You are trying to delegate more slots than you have.",
+            { position: "top-right" }
+          );
+        }
+      },
     },
   },
   mounted: async function () {

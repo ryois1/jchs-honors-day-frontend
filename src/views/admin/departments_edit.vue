@@ -88,21 +88,12 @@ export default {
         .fire({
           title: `Remove this user?`,
           html:
-            '<p>Are you sure you want to remove this user from the department?</p><br><b>THIS DOES NOT DELETE USERS, use Admin > Users<br>This DOES NOT delete certificates.</b><br><i>Type "DELETE" below</i>',
+            '<p>Are you sure you want to remove this user from the department?</p><br><b>THIS DOES NOT DELETE USERS, use Admin > Users<br>This DOES NOT delete certificates.</b><br>',
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
           confirmButtonText: "Delete",
           reverseButtons: true,
-          input: "text",
-          inputAttributes: {
-            id: "confirmDelete",
-          },
-          inputValidator: (value) => {
-            if (value != "DELETE") {
-              return '<span>You must type in <b class="text-danger">DELETE</b> to delete.</span>';
-            }
-          },
         })
         .then(async function (result) {
           if (result.isConfirmed) {
@@ -154,7 +145,7 @@ export default {
           },
         }
       );
-      if (data.count == 0) {
+      if (data.data.users == 0) {
         vm.EMTPY_TABLE = "<h3>There are no users to show</h3>";
       }
       vm.totalItems = data.count;

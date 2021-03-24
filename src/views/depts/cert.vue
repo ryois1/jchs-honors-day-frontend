@@ -188,7 +188,7 @@ export default {
         .fire({
           title: `Delete this award?`,
           html:
-            '<p>Are you sure you want to delete this award?</p><br><b>This action cannot be undone.</b><br><i>Type "DELETE" below</i>',
+            '<p>Are you sure you want to delete this award?</p><br><b>This action cannot be undone.</b><br>',
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
@@ -219,6 +219,9 @@ export default {
                     position: "top-right",
                   });
                 }
+                vm.API_certs().catch((error) => {
+                  console.error(error);
+                });
               })
               .catch(function (response) {
                 vm.$parent.$toast.error(
@@ -243,11 +246,14 @@ export default {
           },
         }
       );
-      if (data.count == 0) {
+      if (data.data.certs == 0) {
         vm.EMTPY_TABLE = "<h3>There are no awards to show</h3>";
+        vm.totalItems = 0;
+        vm.items = [];
+      }else{
+        vm.totalItems = data.count;
+        vm.items = data.data.certs;
       }
-      vm.totalItems = data.count;
-      vm.items = data.data.certs;
     },
     API_dept: async function () {
       const vm = this;

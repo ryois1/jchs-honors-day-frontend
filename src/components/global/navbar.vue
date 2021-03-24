@@ -19,11 +19,6 @@
             >Departments</b-nav-item
           >
           <b-nav-item
-            :to="{ path: '/students' }"
-            :active="$route.name == 'Students'"
-            >Students</b-nav-item
-          >
-          <b-nav-item
             :to="{ path: '/admin' }"
             v-if="this.$parent.USER_INFO.role == 'ADMIN' || this.$parent.USER_INFO.role == 'COMMITTEE'"
             :active="$route.name == 'Admin'"

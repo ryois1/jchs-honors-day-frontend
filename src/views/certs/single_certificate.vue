@@ -14,8 +14,7 @@
           <b-button
             v-if="
               this.allowed_delegate &&
-              (this.$parent.USER_INFO.role == 'ADMIN' ||
-                this.$parent.USER_INFO.role == 'DEPT_ADMIN')
+              (this.$parent.ADMINS.includes(this.$parent.USER_INFO.role))
             "
             :to="{
               path: `/certificates/${this.$route.params.cert_id}/delegate`,
@@ -132,6 +131,8 @@ export default {
         {
           key: "cert_id",
           label: "Certificate ID",
+          thClass: "d-none",
+          tdClass: "d-none",
         },
         {
           key: "cert_name",
@@ -179,25 +180,20 @@ export default {
   methods: {
     deleteDelegate: async function (delegate_id) {
       const vm = this;
+      if (!(vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role))) {
+          vm.$parent.$toast.error("No permissions.", { position: "top-right" });
+          return;
+      }
       this.$parent.$swal
         .fire({
           title: `Delete this delegation?`,
           html:
-            '<p>Are you sure you want to delete this delegation?</p><br><b>This action cannot be undone.</b><br><i>Type "DELETE" below</i>',
+            '<p>Are you sure you want to delete this delegation?</p><br><b>This action cannot be undone.</b><br>',
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
           confirmButtonText: "Delete",
           reverseButtons: true,
-          input: "text",
-          inputAttributes: {
-            id: "confirmDelete",
-          },
-          inputValidator: (value) => {
-            if (value != "DELETE") {
-              return '<span>You must type in <b class="text-danger">DELETE</b> to delete.</span>';
-            }
-          },
         })
         .then(async function (result) {
           if (result.isConfirmed) {
@@ -243,11 +239,14 @@ export default {
             Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
           },
         });
-        if (data.count == 0) {
+        if (data.data.delegates == 0) {
           vm.DELEGATES_EMTPY_TABLE = "<h3>There are no delegates to show</h3>";
+          vm.delegates_totalItems = 0;
+          vm.delegates_items = [];
+        }else{
+          vm.delegates_totalItems = data.count;
+          vm.delegates_items = data.data.delegates;
         }
-        vm.delegates_totalItems = data.count;
-        vm.delegates_items = data.data.delegates;
     },
     releaseCert: async function () {
       const vm = this;
@@ -262,15 +261,6 @@ export default {
           confirmButtonColor: "#dc3545",
           confirmButtonText: "Release",
           reverseButtons: true,
-          input: "text",
-          inputAttributes: {
-            id: "confirmDelete",
-          },
-          inputValidator: (value) => {
-            if (value != "RELEASE") {
-              return '<span>You must type in <b class="text-danger">RELEASE</b> to release.</span>';
-            }
-          },
         })
         .then(async function (result) {
           if (result.isConfirmed) {
@@ -311,8 +301,7 @@ export default {
       const vm = this;
       if (
         !(
-          vm.$parent.USER_INFO.role == "ADMIN" ||
-          vm.$parent.USER_INFO.role == "DEPT_ADMIN"
+          vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role)
         )
       ) {
         if (cert_owner_id != vm.$parent.USER_INFO.user_id) {
@@ -320,7 +309,6 @@ export default {
           return;
         }
       }
-
       this.$parent.$swal
         .fire({
           title: `Delete this certificate?`,
@@ -358,9 +346,14 @@ export default {
                       { position: "top-right" }
                     );
                   }
+                  await vm.API_certs().catch((error) => {
+                        vm.EMTPY_TABLE = "<h3>There are no certificates to show</h3>";
+                        vm.CERT_COUNT = `0/${vm.CERT_MAX_CHILD}`;
+                        vm.items = [];
+                        console.error(error);
+                  });
                 })
                 .catch(function (response) {
-                  vm.items = [];
                   vm.$parent.$toast.error(
                     "There was an error deleting the certificate.",
                     { position: "top-right" }
@@ -478,8 +471,7 @@ export default {
       vm.SELF_MAX_CERT = data.data.certs[0].user_cert_max;
       vm.SELF_CURRENT_CERT = data.data.certs[0].user_cert_current;
       if (
-        vm.$parent.USER_INFO.role == "ADMIN" ||
-        vm.$parent.USER_INFO.role == "DEPT_ADMIN"
+          vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role)
       ) {
         vm.SELF_CERT_COUNT = "Same as award";
       } else {
@@ -524,8 +516,7 @@ export default {
   mounted: async function () {
     const vm = this;
     if (
-      vm.$parent.USER_INFO.role == "ADMIN" ||
-      vm.$parent.USER_INFO.role == "DEPT_ADMIN"
+      vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role)
     ) {
       vm.allowed_edit = true;
       vm.allowed_delegate = true;

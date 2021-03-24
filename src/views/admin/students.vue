@@ -3,6 +3,15 @@
     <b-container fluid>
       <b-row>
         <b-col><h1>Viewing All Students</h1></b-col>
+        <b-col class="text-right">
+          <b-button
+            v-if="this.$parent.USER_INFO.role == 'ADMIN'"
+            variant="primary"
+            class="mr-1"
+            :to="{ path: `/admin/students/import` }"
+            >Bulk Import</b-button
+          >
+        </b-col>
       </b-row>
     </b-container>
     <b-table
@@ -82,7 +91,7 @@ export default {
             },
           }
         );
-        if (data.count == 0) {
+        if (data.data.students == 0) {
           vm.EMTPY_TABLE = "<h3>There are no students to show</h3>";
         }
         vm.totalItems = data.count;
@@ -97,7 +106,7 @@ export default {
             },
           }
         );
-        if (data.count == 0) {
+        if (data.data.students == 0) {
           vm.EMTPY_TABLE = "<h3>There are no students to show</h3>";
         }
         vm.totalItems = data.count;

@@ -27,21 +27,12 @@ export default {
         .fire({
           title: `Purge Awards?`,
           html:
-            '<p>Are you sure you want to purge awards?</p><br><b>This action cannot be undone.<br>This deletes awards, certificates, and user associations with the award.</b><br><i>Type "DELETE" below</i>',
+            '<p>Are you sure you want to purge awards?</p><br><b>This action cannot be undone.<br>This deletes awards, certificates, and user associations with the award.</b><br>',
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
           confirmButtonText: "Delete",
           reverseButtons: true,
-          input: "text",
-          inputAttributes: {
-            id: "confirmDelete",
-          },
-          inputValidator: (value) => {
-            if (value != "DELETE") {
-              return '<span>You must type in <b class="text-danger">DELETE</b> to delete.</span>';
-            }
-          },
         })
         .then(async function (result) {
           if (result.isConfirmed) {
@@ -82,21 +73,12 @@ export default {
         .fire({
           title: `Purge Everything?`,
           html:
-            '<p>Are you sure you want to purge everything?</p><br><b>This action cannot be undone.<br>This deletes awards, certificates, user associations with the awards, users, and departments.</b><br><i>Type "DELETE" below</i>',
+            '<p>Are you sure you want to purge everything?</p><br><b>This action cannot be undone.<br>This deletes awards, certificates, user associations with the awards, users, and departments.</b><br>',
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
           confirmButtonText: "Delete",
           reverseButtons: true,
-          input: "text",
-          inputAttributes: {
-            id: "confirmDelete",
-          },
-          inputValidator: (value) => {
-            if (value != "DELETE") {
-              return '<span>You must type in <b class="text-danger">DELETE</b> to delete.</span>';
-            }
-          },
         })
         .then(async function (result) {
           if (result.isConfirmed) {

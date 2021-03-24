@@ -9,8 +9,16 @@
           ><b-button
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             variant="primary"
+            class="mr-1"
             :to="{ path: `/admin/users/new` }"
             >New User</b-button
+          >
+          <b-button
+            v-if="this.$parent.USER_INFO.role == 'ADMIN'"
+            variant="primary"
+            class="mr-1"
+            :to="{ path: `/admin/users/import` }"
+            >Bulk Import</b-button
           >
         </b-col>
       </b-row>
@@ -148,21 +156,12 @@ export default {
         .fire({
           title: `Delete this user?`,
           html:
-            '<p>Are you sure you want to delete this user?</p><br><b>This action cannot be undone.<br>This DELETES certificates owned by the user.</b><br><i>Type "DELETE" below</i>',
+            '<p>Are you sure you want to delete this user?</p><br><b>This action cannot be undone.<br>This DELETES certificates owned by the user.</b><br>',
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
           confirmButtonText: "Delete",
           reverseButtons: true,
-          input: "text",
-          inputAttributes: {
-            id: "confirmDelete",
-          },
-          inputValidator: (value) => {
-            if (value != "DELETE") {
-              return '<span>You must type in <b class="text-danger">DELETE</b> to delete.</span>';
-            }
-          },
         })
         .then(async function (result) {
           if (result.isConfirmed) {
@@ -183,10 +182,10 @@ export default {
                   vm.$parent.$toast.success("Successfully deleted the user.", {
                     position: "top-right",
                   });
-                  vm.API_users().catch((error) => {
-                    console.error(error);
-                  });
                 }
+                vm.API_users().catch((error) => {
+                  console.error(error);
+                });
               })
               .catch(function (response) {
                 vm.$parent.$toast.error(
@@ -208,11 +207,14 @@ export default {
           Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
         },
       });
-      if (data.count == 0) {
+      if (data.data.users == 0) {
         vm.EMTPY_TABLE = "<h3>There are no certs to show</h3>";
+        vm.totalItems = 0;
+        vm.items = [];
+      }else{
+        vm.totalItems = data.count;
+        vm.items = data.data.users;
       }
-      vm.totalItems = data.count;
-      vm.items = data.data.users;
     },
   },
   mounted: function () {

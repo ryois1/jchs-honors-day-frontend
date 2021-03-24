@@ -78,7 +78,7 @@ export default {
           },
         }
       );
-      if (data.count == 0) {
+      if (data.data.users == 0) {
         vm.EMTPY_TABLE = "<h3>There are no users to show</h3>";
       }
       vm.totalItems = data.count;

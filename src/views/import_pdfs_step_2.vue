@@ -80,10 +80,6 @@ export default {
           label: "Certificate ID",
         },
         {
-          key: "cert_file_name",
-          label: "Certificate File Name",
-        },
-        {
           key: "cert_name",
           label: "Certificate Name",
         },
@@ -105,6 +101,24 @@ export default {
   methods: {
     dropzoneUploaded: async function () {
       this.UPLOADED_COUNT++;
+    },
+  },
+  watch: {
+    UPLOADED_COUNT: {
+      handler: function () {
+        const vm = this;
+        if(vm.UPLOADED_COUNT == vm.CERTS_NEEDED){
+          vm.$parent.isLoading = true;
+      setTimeout(function () {
+        const prop = {
+          certs_needed_count: vm.CERTS_NEEDED,
+          certs_need: vm.CERTS_NEEDED_ARRAY,
+          uploaded_count: vm.UPLOADED_COUNT,
+        };
+        vm.$router.push({ name: "ImportCertsPDFsDone", params: { prop } });
+      }, 5000);
+        }
+      },
     },
   },
   created: function () {
