@@ -119,7 +119,6 @@ export default {
       if (
         !(
           vm.$parent.USER_INFO.role == "ADMIN" ||
-          vm.$parent.USER_INFO.role == "DEPT_ADMIN" ||
           vm.$parent.USER_INFO.role == "COMMITTEE"
         )
       ) {
@@ -186,7 +185,6 @@ export default {
       if (
         !(
           vm.$parent.USER_INFO.role == "ADMIN" ||
-          vm.$parent.USER_INFO.role == "DEPT_ADMIN" ||
           vm.$parent.USER_INFO.role == "COMMITTEE"
         )
       ) {

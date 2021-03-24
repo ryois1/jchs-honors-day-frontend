@@ -28,6 +28,7 @@
             @click="processForm"
             id="confirm_button"
             :variant="ok_button_variant"
+            :disabled="ok_button_disabled"
             >Confirm</b-button
           ></b-col
         >
@@ -106,6 +107,7 @@ export default {
       const invalid_teacher_emails = this.invalid_teacher_emails;
       const duplicates = findDuplicates(teacher_emails);
       if (duplicates.length > 0) {
+        vm.ok_button_disabled = 1;
         vm.$parent.$swal.fire({
           title: `You have duplicate teachers`,
           icon: "warning",
@@ -312,6 +314,7 @@ export default {
         const vm = this;
         console.log(this.current_input_count);
         if (vm.current_input_count > vm.cert_remain) {
+          vm.ok_button_disabled = 1;
           vm.$parent.$swal.fire({
             title: `You are trying to delegate more slots than you have.`,
             icon: "warning",
