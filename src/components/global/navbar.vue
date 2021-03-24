@@ -20,7 +20,10 @@
           >
           <b-nav-item
             :to="{ path: '/admin' }"
-            v-if="this.$parent.USER_INFO.role == 'ADMIN' || this.$parent.USER_INFO.role == 'COMMITTEE'"
+            v-if="
+              this.$parent.USER_INFO.role == 'ADMIN' ||
+              this.$parent.USER_INFO.role == 'COMMITTEE'
+            "
             :active="$route.name == 'Admin'"
             >Admin</b-nav-item
           >
@@ -43,12 +46,12 @@
 export default {
   name: "navbar",
   computed: {
-    ROLE(){
-      if(this.$parent.USER_INFO.role=='ADMIN'){
+    ROLE() {
+      if (this.$parent.USER_INFO.role == "ADMIN") {
         return "System Administrator";
-      }else if (this.$parent.USER_INFO.role=='DEPT_ADMIN'){
+      } else if (this.$parent.USER_INFO.role == "DEPT_ADMIN") {
         return "Department Administrator";
-      }else{
+      } else {
         return "Teacher";
       }
     },

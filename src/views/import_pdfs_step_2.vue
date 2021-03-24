@@ -107,16 +107,16 @@ export default {
     UPLOADED_COUNT: {
       handler: function () {
         const vm = this;
-        if(vm.UPLOADED_COUNT == vm.CERTS_NEEDED){
+        if (vm.UPLOADED_COUNT == vm.CERTS_NEEDED) {
           vm.$parent.isLoading = true;
-      setTimeout(function () {
-        const prop = {
-          certs_needed_count: vm.CERTS_NEEDED,
-          certs_need: vm.CERTS_NEEDED_ARRAY,
-          uploaded_count: vm.UPLOADED_COUNT,
-        };
-        vm.$router.push({ name: "ImportCertsPDFsDone", params: { prop } });
-      }, 5000);
+          setTimeout(function () {
+            const prop = {
+              certs_needed_count: vm.CERTS_NEEDED,
+              certs_need: vm.CERTS_NEEDED_ARRAY,
+              uploaded_count: vm.UPLOADED_COUNT,
+            };
+            vm.$router.push({ name: "ImportCertsPDFsDone", params: { prop } });
+          }, 5000);
         }
       },
     },

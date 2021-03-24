@@ -2,14 +2,17 @@
   <div id="departments">
     <b-container fluid>
       <b-row>
-        <b-col><h1>{{ LANG_HEADER }}</h1></b-col>
+        <b-col
+          ><h1>{{ LANG_HEADER }}</h1></b-col
+        >
         <b-col class="text-right">
-        <b-button
-        class="mr-1"
-        v-if="this.$parent.USER_INFO.role == 'ADMIN'"
-        variant="primary"
-        @click="downloadTemplate"
-        >Download CSV Template</b-button>
+          <b-button
+            class="mr-1"
+            v-if="this.$parent.USER_INFO.role == 'ADMIN'"
+            variant="primary"
+            @click="downloadTemplate"
+            >Download CSV Template</b-button
+          >
         </b-col>
       </b-row>
     </b-container>

@@ -156,7 +156,7 @@ export default {
         .fire({
           title: `Delete this user?`,
           html:
-            '<p>Are you sure you want to delete this user?</p><br><b>This action cannot be undone.<br>This DELETES certificates owned by the user.</b><br>',
+            "<p>Are you sure you want to delete this user?</p><br><b>This action cannot be undone.<br>This DELETES certificates owned by the user.</b><br>",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
@@ -211,7 +211,7 @@ export default {
         vm.EMTPY_TABLE = "<h3>There are no certs to show</h3>";
         vm.totalItems = 0;
         vm.items = [];
-      }else{
+      } else {
         vm.totalItems = data.count;
         vm.items = data.data.users;
       }

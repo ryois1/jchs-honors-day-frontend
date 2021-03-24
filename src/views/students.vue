@@ -70,20 +70,17 @@ export default {
     API_students: async function () {
       const vm = this;
       const offset = vm.currentPage * vm.perPage - 10;
-        const { data } = await axios.get(
-          `${vm.$parent.API_BASE_URL}/students`,
-          {
-            params: { offset: offset, limit: vm.perPage },
-            headers: {
-              Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-            },
-          }
-        );
-        if (data.data.students == 0) {
-          vm.EMTPY_TABLE = "<h3>There are no students to show</h3>";
-        }
-        vm.totalItems = data.count;
-        vm.items = data.data.students;
+      const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/students`, {
+        params: { offset: offset, limit: vm.perPage },
+        headers: {
+          Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+        },
+      });
+      if (data.data.students == 0) {
+        vm.EMTPY_TABLE = "<h3>There are no students to show</h3>";
+      }
+      vm.totalItems = data.count;
+      vm.items = data.data.students;
     },
   },
   mounted: function () {

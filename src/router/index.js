@@ -393,7 +393,7 @@ router.beforeEach((to, from, next) => {
     .reverse()
     .find((r) => r.meta && r.meta.metaTags);
 
-  if (nearestWithTitle) document.title = `${nearestWithTitle.meta.title} | JCS Honors Day`;
+  if (nearestWithTitle) document.title = `${nearestWithTitle.meta.title} | JCHS Honors Day`;
 
   Array.from(
     document.querySelectorAll('[data-vue-router-controlled]'),

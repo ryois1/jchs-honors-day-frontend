@@ -14,7 +14,7 @@
           <b-button
             v-if="
               this.allowed_delegate &&
-              (this.$parent.ADMINS.includes(this.$parent.USER_INFO.role))
+              this.$parent.ADMINS.includes(this.$parent.USER_INFO.role)
             "
             :to="{
               path: `/certificates/${this.$route.params.cert_id}/delegate`,
@@ -180,15 +180,15 @@ export default {
   methods: {
     deleteDelegate: async function (delegate_id) {
       const vm = this;
-      if (!(vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role))) {
-          vm.$parent.$toast.error("No permissions.", { position: "top-right" });
-          return;
+      if (!vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role)) {
+        vm.$parent.$toast.error("No permissions.", { position: "top-right" });
+        return;
       }
       this.$parent.$swal
         .fire({
           title: `Delete this delegation?`,
           html:
-            '<p>Are you sure you want to delete this delegation?</p><br><b>This action cannot be undone.</b><br>',
+            "<p>Are you sure you want to delete this delegation?</p><br><b>This action cannot be undone.</b><br>",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
@@ -197,56 +197,62 @@ export default {
         })
         .then(async function (result) {
           if (result.isConfirmed) {
-              axios
-                .delete(`${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}/delegate/${delegate_id}`, {
+            axios
+              .delete(
+                `${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}/delegate/${delegate_id}`,
+                {
                   headers: {
                     Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
                   },
-                })
-                .then(function (response) {
-                  if (response.data.error) {
-                    console.error(response);
-                    vm.$parent.$toast.error(
-                      "There was an error deleting the delegate.",
-                      { position: "top-right" }
-                    );
-                  } else {
-                    vm.$parent.$toast.success(
-                      "Successfully deleted the delegate.",
-                      { position: "top-right" }
-                    );
-                    vm.API_delegates().catch((error) => {
-                        vm.delegates_items = [];
-                        console.error(error);
-                    });
-                  }
-                })
-                .catch(function (response) {
+                }
+              )
+              .then(function (response) {
+                if (response.data.error) {
+                  console.error(response);
                   vm.$parent.$toast.error(
                     "There was an error deleting the delegate.",
                     { position: "top-right" }
                   );
-                  console.error(response);
-                });
+                } else {
+                  vm.$parent.$toast.success(
+                    "Successfully deleted the delegate.",
+                    { position: "top-right" }
+                  );
+                  vm.API_delegates().catch((error) => {
+                    vm.delegates_items = [];
+                    console.error(error);
+                  });
+                }
+              })
+              .catch(function (response) {
+                vm.$parent.$toast.error(
+                  "There was an error deleting the delegate.",
+                  { position: "top-right" }
+                );
+                console.error(response);
+              });
           }
         });
     },
     API_delegates: async function () {
       const vm = this;
       vm.DELEGATES_EMTPY_TABLE = "<h3>There are no delegates to show</h3>";
-        const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}/delegate`, {
+      const { data } = await axios.get(
+        `${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}/delegate`,
+        {
           headers: {
             Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
           },
-        });
-        if (data.data.delegates == 0) {
-          vm.DELEGATES_EMTPY_TABLE = "<h3>There are no delegates to show</h3>";
-          vm.delegates_totalItems = 0;
-          vm.delegates_items = [];
-        }else{
-          vm.delegates_totalItems = data.count;
-          vm.delegates_items = data.data.delegates;
         }
+      );
+      if (data.data.delegates == 0) {
+        vm.DELEGATES_EMTPY_TABLE = "<h3>There are no delegates to show</h3>";
+        vm.delegates_totalItems = 0;
+        vm.delegates_items = [];
+      } else {
+        vm.delegates_totalItems = data.count;
+        vm.delegates_items = data.data.delegates;
+      }
     },
     releaseCert: async function () {
       const vm = this;
@@ -299,11 +305,7 @@ export default {
     },
     deleteCert: async function (child_cert, cert_owner_id) {
       const vm = this;
-      if (
-        !(
-          vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role)
-        )
-      ) {
+      if (!vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role)) {
         if (cert_owner_id != vm.$parent.USER_INFO.user_id) {
           vm.$parent.$toast.error("No permissions.", { position: "top-right" });
           return;
@@ -313,7 +315,7 @@ export default {
         .fire({
           title: `Delete this certificate?`,
           html:
-            '<p>Are you sure you want to delete this certificate?</p><br><b>This action cannot be undone.</b>',
+            "<p>Are you sure you want to delete this certificate?</p><br><b>This action cannot be undone.</b>",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
@@ -323,43 +325,40 @@ export default {
         .then(async function (result) {
           if (result.isConfirmed) {
             const parent_cert = vm.$route.params.cert_id;
-              axios
-                .delete(
-                  `${vm.$parent.API_BASE_URL}/certs/${parent_cert}/certs`,
-                  {
-                    data: { certs: [{ cert_id: child_cert }] },
-                    headers: {
-                      Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-                    },
-                  }
-                )
-                .then(async function (response) {
-                  if (response.data.error) {
-                    console.error(response);
-                    vm.$parent.$toast.error(
-                      "There was an error deleting the certificate.",
-                      { position: "top-right" }
-                    );
-                  } else {
-                    vm.$parent.$toast.success(
-                      "Successfully deleted the certificate.",
-                      { position: "top-right" }
-                    );
-                  }
-                  await vm.API_certs().catch((error) => {
-                        vm.EMTPY_TABLE = "<h3>There are no certificates to show</h3>";
-                        vm.CERT_COUNT = `0/${vm.CERT_MAX_CHILD}`;
-                        vm.items = [];
-                        console.error(error);
-                  });
-                })
-                .catch(function (response) {
+            axios
+              .delete(`${vm.$parent.API_BASE_URL}/certs/${parent_cert}/certs`, {
+                data: { certs: [{ cert_id: child_cert }] },
+                headers: {
+                  Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+                },
+              })
+              .then(async function (response) {
+                if (response.data.error) {
+                  console.error(response);
                   vm.$parent.$toast.error(
                     "There was an error deleting the certificate.",
                     { position: "top-right" }
                   );
-                  console.error(response);
+                } else {
+                  vm.$parent.$toast.success(
+                    "Successfully deleted the certificate.",
+                    { position: "top-right" }
+                  );
+                }
+                await vm.API_certs().catch((error) => {
+                  vm.EMTPY_TABLE = "<h3>There are no certificates to show</h3>";
+                  vm.CERT_COUNT = `0/${vm.CERT_MAX_CHILD}`;
+                  vm.items = [];
+                  console.error(error);
                 });
+              })
+              .catch(function (response) {
+                vm.$parent.$toast.error(
+                  "There was an error deleting the certificate.",
+                  { position: "top-right" }
+                );
+                console.error(response);
+              });
           }
         });
     },
@@ -470,9 +469,7 @@ export default {
       vm.CERT_MAX_CHILD = data.data.certs[0].cert_max_child;
       vm.SELF_MAX_CERT = data.data.certs[0].user_cert_max;
       vm.SELF_CURRENT_CERT = data.data.certs[0].user_cert_current;
-      if (
-          vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role)
-      ) {
+      if (vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role)) {
         vm.SELF_CERT_COUNT = "Same as award";
       } else {
         if (data.data.certs[0].user_cert_current) {
@@ -515,9 +512,7 @@ export default {
   },
   mounted: async function () {
     const vm = this;
-    if (
-      vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role)
-    ) {
+    if (vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role)) {
       vm.allowed_edit = true;
       vm.allowed_delegate = true;
       await this.API_cert_info();
@@ -539,7 +534,7 @@ export default {
         this.delegates_items = [];
         console.error(error);
       });
-        await this.API_certs().catch((error) => {
+      await this.API_certs().catch((error) => {
         this.EMTPY_TABLE = "<h3>There are no certificates to show</h3>";
         this.CERT_COUNT = `0/${vm.CERT_MAX_CHILD}`;
         this.items = [];

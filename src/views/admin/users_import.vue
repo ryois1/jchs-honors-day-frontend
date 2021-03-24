@@ -2,14 +2,17 @@
   <div id="users">
     <b-container fluid>
       <b-row>
-        <b-col><h1>{{ LANG_HEADER }}</h1></b-col>
+        <b-col
+          ><h1>{{ LANG_HEADER }}</h1></b-col
+        >
         <b-col class="text-right">
-        <b-button
-        class="mr-1"
-        v-if="this.$parent.USER_INFO.role == 'ADMIN'"
-        variant="primary"
-        @click="downloadTemplate"
-        >Download CSV Template</b-button>
+          <b-button
+            class="mr-1"
+            v-if="this.$parent.USER_INFO.role == 'ADMIN'"
+            variant="primary"
+            @click="downloadTemplate"
+            >Download CSV Template</b-button
+          >
         </b-col>
       </b-row>
     </b-container>
@@ -22,9 +25,15 @@
     ></vue-dropzone>
     <h3>User Role Column</h3>
     <b-list-group>
-      <b-list-group-item><code>ADMIN</code> == System Administrator</b-list-group-item>
-      <b-list-group-item><code>COMMITTEE</code> == Honors Day Committee</b-list-group-item>
-      <b-list-group-item><code>DEPT_ADMIN</code> == Department Chair</b-list-group-item>
+      <b-list-group-item
+        ><code>ADMIN</code> == System Administrator</b-list-group-item
+      >
+      <b-list-group-item
+        ><code>COMMITTEE</code> == Honors Day Committee</b-list-group-item
+      >
+      <b-list-group-item
+        ><code>DEPT_ADMIN</code> == Department Chair</b-list-group-item
+      >
       <b-list-group-item><code>TEACHER</code> == Teacher</b-list-group-item>
     </b-list-group>
   </div>

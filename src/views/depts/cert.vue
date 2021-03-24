@@ -7,9 +7,7 @@
         >
         <b-col class="text-right"
           ><b-button
-            v-if="
-              this.$parent.USER_INFO.role == 'ADMIN'
-            "
+            v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             variant="primary"
             :to="{ path: `/certificates/new` }"
             >New Award</b-button
@@ -36,9 +34,16 @@
       <template #cell(cert_max_child)="data">
         <div class="container">
           <div class="col">
-            <p>{{data.item.cert_max_child}}
+            <p>
+              {{ data.item.cert_max_child }}
               <span class="pull-right">
-              <b-button variant="warning" @click="changeMaxCerts(data.item.cert_id, data.item.cert_owner_id)">Change Max Certs</b-button>
+                <b-button
+                  variant="warning"
+                  @click="
+                    changeMaxCerts(data.item.cert_id, data.item.cert_owner_id)
+                  "
+                  >Change Max Certs</b-button
+                >
               </span>
             </p>
           </div>
@@ -47,7 +52,11 @@
 
       <template #cell(delete)="data">
         <div>
-          <b-button variant="danger" @click="deleteAward(data.item.cert_id, data.item.cert_owner_id)">Delete <b-icon icon="trash-fill" aria-hidden="true"></b-icon></b-button>
+          <b-button
+            variant="danger"
+            @click="deleteAward(data.item.cert_id, data.item.cert_owner_id)"
+            >Delete <b-icon icon="trash-fill" aria-hidden="true"></b-icon
+          ></b-button>
         </div>
       </template>
     </b-table>
@@ -151,9 +160,12 @@ export default {
                     { position: "top-right" }
                   );
                 } else {
-                  vm.$parent.$toast.success("Successfully modified the award.", {
-                    position: "top-right",
-                  });
+                  vm.$parent.$toast.success(
+                    "Successfully modified the award.",
+                    {
+                      position: "top-right",
+                    }
+                  );
                   vm.API_certs().catch((error) => {
                     console.error(error);
                   });
@@ -188,7 +200,7 @@ export default {
         .fire({
           title: `Delete this award?`,
           html:
-            '<p>Are you sure you want to delete this award?</p><br><b>This action cannot be undone.</b><br>',
+            "<p>Are you sure you want to delete this award?</p><br><b>This action cannot be undone.</b><br>",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
@@ -250,7 +262,7 @@ export default {
         vm.EMTPY_TABLE = "<h3>There are no awards to show</h3>";
         vm.totalItems = 0;
         vm.items = [];
-      }else{
+      } else {
         vm.totalItems = data.count;
         vm.items = data.data.certs;
       }

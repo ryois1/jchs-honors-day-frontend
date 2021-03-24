@@ -142,7 +142,7 @@ export default {
             errors.push(errorinput);
           } else {
             ok_teacher_emails.push(teacher_emails[index]);
-            ok_certs.push(vm.certs[index])
+            ok_certs.push(vm.certs[index]);
             const row = data.data.users[0];
             const teacher = {
               id: row.id,
@@ -199,7 +199,8 @@ export default {
             email: row.email,
             delegating: ok_certs[index],
           };
-          vm.current_input_count = Number(vm.current_input_count) + Number(ok_certs[index]);
+          vm.current_input_count =
+            Number(vm.current_input_count) + Number(ok_certs[index]);
           ok_teacher_ids.push(row.id);
           output.push(teacher);
           api_data.push(send_data);
@@ -208,7 +209,10 @@ export default {
     },
     goBack() {
       const prop = { users: this.teacher_emails, certs: this.certs };
-      this.$router.replace({ name: "CertificatePageDelegate", params: { prop } });
+      this.$router.replace({
+        name: "CertificatePageDelegate",
+        params: { prop },
+      });
     },
     processForm: function () {
       const vm = this;
@@ -264,42 +268,41 @@ export default {
             }
           });
       } else {
-              const api_data = this.api_data;
-              const data = { entry: api_data };
-              axios({
-                method: "post",
-                url: `${this.$parent.API_BASE_URL}/certs/${this.$route.params.cert_id}/delegate`,
-                data: data,
-                headers: {
-                  Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-                },
-              })
-                .then(function (response) {
-                  if (response.data.error) {
-                    console.error(response);
-                    vm.$parent.$toast.error(
-                      "There was an error delegating the certificate(s) the users(s).",
-                      { position: "top-right" }
-                    );
-                  } else {
-                    const cert_id = vm.$route.params.cert_id;
-                    vm.$parent.$toast.success(
-                      "Successfully delegated to sers(s).",
-                      { position: "top-right" }
-                    );
-                    vm.$router.push({
-                      name: "CertificatePage",
-                      params: { cert_id },
-                    });
-                  }
-                })
-                .catch(function (response) {
-                  vm.$parent.$toast.error(
-                    "There was an error delegating the certificate(s) the users(s).",
-                    { position: "top-right" }
-                  );
-                  console.error(response);
-                });
+        const api_data = this.api_data;
+        const data = { entry: api_data };
+        axios({
+          method: "post",
+          url: `${this.$parent.API_BASE_URL}/certs/${this.$route.params.cert_id}/delegate`,
+          data: data,
+          headers: {
+            Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+          },
+        })
+          .then(function (response) {
+            if (response.data.error) {
+              console.error(response);
+              vm.$parent.$toast.error(
+                "There was an error delegating the certificate(s) the users(s).",
+                { position: "top-right" }
+              );
+            } else {
+              const cert_id = vm.$route.params.cert_id;
+              vm.$parent.$toast.success("Successfully delegated to sers(s).", {
+                position: "top-right",
+              });
+              vm.$router.push({
+                name: "CertificatePage",
+                params: { cert_id },
+              });
+            }
+          })
+          .catch(function (response) {
+            vm.$parent.$toast.error(
+              "There was an error delegating the certificate(s) the users(s).",
+              { position: "top-right" }
+            );
+            console.error(response);
+          });
       }
     },
   },
@@ -308,7 +311,7 @@ export default {
       handler: function () {
         const vm = this;
         console.log(this.current_input_count);
-        if(vm.current_input_count > vm.cert_remain){
+        if (vm.current_input_count > vm.cert_remain) {
           vm.$parent.$swal.fire({
             title: `You are trying to delegate more slots than you have.`,
             icon: "warning",

@@ -6,7 +6,8 @@
           ><h1>{{ LANG_HEADER }}</h1></b-col
         >
         <b-col class="text-right"
-          ><b-button class="mr-1"
+          ><b-button
+            class="mr-1"
             v-if="
               this.$parent.USER_INFO.role == 'ADMIN' ||
               this.$parent.USER_INFO.role == 'DEPT_ADMIN'
@@ -15,7 +16,8 @@
             :to="{ path: `/certificates/new` }"
             >New Parent Certificate</b-button
           >
-          <b-button class="mr-1"
+          <b-button
+            class="mr-1"
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             variant="primary"
             @click="downloadCertsCSV"
@@ -154,7 +156,7 @@ export default {
         .fire({
           title: `Delete this certificate?`,
           html:
-            '<p>Are you sure you want to delete this certificate?</p><br><b>This action cannot be undone.<br>This deletes child certificates.</b><br>',
+            "<p>Are you sure you want to delete this certificate?</p><br><b>This action cannot be undone.<br>This deletes child certificates.</b><br>",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
@@ -163,36 +165,36 @@ export default {
         })
         .then(async function (result) {
           if (result.isConfirmed) {
-              axios
-                .delete(`${vm.$parent.API_BASE_URL}/certs/${cert_id}`, {
-                  headers: {
-                    Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-                  },
-                })
-                .then(function (response) {
-                  if (response.data.error) {
-                    console.error(response);
-                    vm.$parent.$toast.error(
-                      "There was an error deleting the certificate.",
-                      { position: "top-right" }
-                    );
-                  } else {
-                    vm.$parent.$toast.success(
-                      "Successfully deleted the certificate.",
-                      { position: "top-right" }
-                    );
-                  }
-                  vm.API_certs().catch((error) => {
-                    console.error(error);
-                  });
-                })
-                .catch(function (response) {
+            axios
+              .delete(`${vm.$parent.API_BASE_URL}/certs/${cert_id}`, {
+                headers: {
+                  Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+                },
+              })
+              .then(function (response) {
+                if (response.data.error) {
+                  console.error(response);
                   vm.$parent.$toast.error(
                     "There was an error deleting the certificate.",
                     { position: "top-right" }
                   );
-                  console.error(response);
+                } else {
+                  vm.$parent.$toast.success(
+                    "Successfully deleted the certificate.",
+                    { position: "top-right" }
+                  );
+                }
+                vm.API_certs().catch((error) => {
+                  console.error(error);
                 });
+              })
+              .catch(function (response) {
+                vm.$parent.$toast.error(
+                  "There was an error deleting the certificate.",
+                  { position: "top-right" }
+                );
+                console.error(response);
+              });
           }
         });
     },
@@ -200,20 +202,20 @@ export default {
       const vm = this;
       vm.EMTPY_TABLE = "<h3>There are no certs to show</h3>";
       const offset = vm.currentPage * vm.perPage - 10;
-        const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/certs`, {
-          params: { offset: offset, limit: vm.perPage },
-          headers: {
-            Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-          },
-        });
-        if (data.data.certs == 0) {
-          vm.EMTPY_TABLE = "<h3>There are no certs to show</h3>";
-          vm.items = [];
-          vm.totalItems = 0;
-        }else{
-          vm.totalItems = data.count;
-          vm.items = data.data.certs;
-        }
+      const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/certs`, {
+        params: { offset: offset, limit: vm.perPage },
+        headers: {
+          Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+        },
+      });
+      if (data.data.certs == 0) {
+        vm.EMTPY_TABLE = "<h3>There are no certs to show</h3>";
+        vm.items = [];
+        vm.totalItems = 0;
+      } else {
+        vm.totalItems = data.count;
+        vm.items = data.data.certs;
+      }
     },
   },
   mounted: function () {

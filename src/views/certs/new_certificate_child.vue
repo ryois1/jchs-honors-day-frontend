@@ -2,7 +2,9 @@
   <div id="newcert">
     <b-container fluid>
       <b-row>
-        <b-col><h1>{{LANG_CREATING}}</h1></b-col>
+        <b-col
+          ><h1>{{ LANG_CREATING }}</h1></b-col
+        >
         <b-col
           ><h3>
             You have <b-badge>{{ this.certs_remaining }}</b-badge> out of
@@ -48,7 +50,10 @@
                     </b-col>
                     <b-col>
                       <h4>Actions</h4>
-                      <b-button variant="danger" class="mr-1" @click="deleteRow(index - 1)"
+                      <b-button
+                        variant="danger"
+                        class="mr-1"
+                        @click="deleteRow(index - 1)"
                         >Remove</b-button
                       >
                       <b-button
@@ -215,12 +220,15 @@ export default {
           }
         )
         .then(function (response) {
-          if(vm.$parent.USER_INFO.role=='ADMIN' || vm.$parent.USER_INFO.role=='DEPT_ADMIN'){
+          if (
+            vm.$parent.USER_INFO.role == "ADMIN" ||
+            vm.$parent.USER_INFO.role == "DEPT_ADMIN"
+          ) {
             vm.certs_remaining = vm.max_certs;
             vm.all_certs_count = response.data.data.certs.length;
             vm.current_certs_count = response.data.data.certs.length;
             vm.certs_remaining = vm.max_certs - vm.current_certs_count;
-          }else{
+          } else {
             //vm.certs_remaining = vm.max_certs;
             vm.all_certs_count = response.data.data.certs.length;
             //vm.certs_remaining = vm.max_certs - vm.current_certs_count;
@@ -233,24 +241,28 @@ export default {
     },
     API_cert_info: async function () {
       const vm = this;
-        const { data } = await axios.get(
-          `${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-            },
-          }
-        );
-        vm.cert_name = data.data.certs[0].cert_name;
-        vm.LANG_CREATING = `Creating Certificates for Award "${data.data.certs[0].cert_name}"`;
-        if(vm.$parent.USER_INFO.role=='ADMIN' || vm.$parent.USER_INFO.role=='DEPT_ADMIN'){
-          vm.max_certs = data.data.certs[0].cert_max_child;
+      const { data } = await axios.get(
+        `${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+          },
         }
-        else{
-          vm.current_certs_count = data.data.certs[0].user_cert_current;
-          vm.certs_remaining = data.data.certs[0].user_cert_max - data.data.certs[0].user_cert_current;
-          vm.max_certs = data.data.certs[0].user_cert_max;
-        }
+      );
+      vm.cert_name = data.data.certs[0].cert_name;
+      vm.LANG_CREATING = `Creating Certificates for Award "${data.data.certs[0].cert_name}"`;
+      if (
+        vm.$parent.USER_INFO.role == "ADMIN" ||
+        vm.$parent.USER_INFO.role == "DEPT_ADMIN"
+      ) {
+        vm.max_certs = data.data.certs[0].cert_max_child;
+      } else {
+        vm.current_certs_count = data.data.certs[0].user_cert_current;
+        vm.certs_remaining =
+          data.data.certs[0].user_cert_max -
+          data.data.certs[0].user_cert_current;
+        vm.max_certs = data.data.certs[0].user_cert_max;
+      }
     },
   },
   mounted: async function () {

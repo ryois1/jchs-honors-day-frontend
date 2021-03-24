@@ -66,7 +66,7 @@ export default {
         .fire({
           title: `Delete this delegation?`,
           html:
-            '<p>Are you sure you want to delete this delegation?</p><br><b>This action cannot be undone.</b><br>',
+            "<p>Are you sure you want to delete this delegation?</p><br><b>This action cannot be undone.</b><br>",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
@@ -75,68 +75,74 @@ export default {
         })
         .then(async function (result) {
           if (result.isConfirmed) {
-              axios
-                .delete(`${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}/delegate/${delegate_id}`, {
+            axios
+              .delete(
+                `${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}/delegate/${delegate_id}`,
+                {
                   headers: {
                     Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
                   },
-                })
-                .then(function (response) {
-                  if (response.data.error) {
-                    console.error(response);
-                    vm.$parent.$toast.error(
-                      "There was an error deleting the delegate.",
-                      { position: "top-right" }
-                    );
-                  } else {
-                    vm.$parent.$toast.success(
-                      "Successfully deleted the delegate.",
-                      { position: "top-right" }
-                    );
-                    vm.API_delegates().catch((error) => {
-                        vm.items = [];
-                        console.error(error);
-                    });
-                  }
-                })
-                .catch(function (response) {
+                }
+              )
+              .then(function (response) {
+                if (response.data.error) {
+                  console.error(response);
                   vm.$parent.$toast.error(
                     "There was an error deleting the delegate.",
                     { position: "top-right" }
                   );
-                  console.error(response);
-                });
+                } else {
+                  vm.$parent.$toast.success(
+                    "Successfully deleted the delegate.",
+                    { position: "top-right" }
+                  );
+                  vm.API_delegates().catch((error) => {
+                    vm.items = [];
+                    console.error(error);
+                  });
+                }
+              })
+              .catch(function (response) {
+                vm.$parent.$toast.error(
+                  "There was an error deleting the delegate.",
+                  { position: "top-right" }
+                );
+                console.error(response);
+              });
           }
         });
     },
     API_delegates: async function () {
       const vm = this;
       vm.EMTPY_TABLE = "<h3>There are no delegates to show</h3>";
-        const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/certs/${this.$route.params.cert_id}/delegate`, {
+      const { data } = await axios.get(
+        `${vm.$parent.API_BASE_URL}/certs/${this.$route.params.cert_id}/delegate`,
+        {
           headers: {
             Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
           },
-        });
-        if (data.data.delegates == 0) {
-          vm.EMTPY_TABLE = "<h3>There are no delegates to show</h3>";
+        }
+      );
+      if (data.data.delegates == 0) {
+        vm.EMTPY_TABLE = "<h3>There are no delegates to show</h3>";
         vm.totalItems = 0;
         vm.items = [];
-        }else{
+      } else {
         vm.totalItems = data.count;
         vm.items = data.data.delegates;
-        }
+      }
     },
     API_cert_info: async function () {
       const vm = this;
-        const { data } = await axios.get(
-          `${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-            },
-          }
-        );
-        vm.LANG_HEADER = `Viewing Delegated Certificates for "${data.data.certs[0].cert_name}"`;
+      const { data } = await axios.get(
+        `${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+          },
+        }
+      );
+      vm.LANG_HEADER = `Viewing Delegated Certificates for "${data.data.certs[0].cert_name}"`;
     },
   },
   mounted: function () {

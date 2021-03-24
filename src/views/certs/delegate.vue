@@ -184,7 +184,11 @@ export default {
         };
         output.push(user);
       });
-      const prop = { users: this.users_email, certs: this.users_cert, delegates_remain: this.DELEGATES_USING_LOAD };
+      const prop = {
+        users: this.users_email,
+        certs: this.users_cert,
+        delegates_remain: this.DELEGATES_USING_LOAD,
+      };
       this.$router.replace({
         name: "CertificateDelegateVerify",
         params: { prop },

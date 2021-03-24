@@ -89,7 +89,7 @@ export default {
         .fire({
           title: `Delete this department?`,
           html:
-            '<p>Are you sure you want to delete this department?</p><br><b>This action cannot be undone.<br>This deletes certificates, awards, and user associations with the department.</b><br>',
+            "<p>Are you sure you want to delete this department?</p><br><b>This action cannot be undone.<br>This deletes certificates, awards, and user associations with the department.</b><br>",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
@@ -98,32 +98,32 @@ export default {
         })
         .then(async function (result) {
           if (result.isConfirmed) {
-              axios
-                .delete(`${vm.$parent.API_BASE_URL}/dept/${dept_id}`, {
-                  headers: {
-                    Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-                  },
-                })
-                .then(function (response) {
-                  if (response.data.error) {
-                    console.error(response);
-                    vm.$parent.$toast.error(
-                      "There was an error deleting the department.",
-                      { position: "top-right" }
-                    );
-                  } else {
-                    vm.$parent.$toast.success(
-                      "Successfully deleted the department.",
-                      { position: "top-right" }
-                    );
-                  }
-                  vm.API_depts().catch((error) => {
-                    console.error(error);
-                  });
-                })
-                .catch(function (response) {
+            axios
+              .delete(`${vm.$parent.API_BASE_URL}/dept/${dept_id}`, {
+                headers: {
+                  Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+                },
+              })
+              .then(function (response) {
+                if (response.data.error) {
                   console.error(response);
+                  vm.$parent.$toast.error(
+                    "There was an error deleting the department.",
+                    { position: "top-right" }
+                  );
+                } else {
+                  vm.$parent.$toast.success(
+                    "Successfully deleted the department.",
+                    { position: "top-right" }
+                  );
+                }
+                vm.API_depts().catch((error) => {
+                  console.error(error);
                 });
+              })
+              .catch(function (response) {
+                console.error(response);
+              });
           }
         });
     },
@@ -139,7 +139,7 @@ export default {
         vm.EMTPY_TABLE = "<h3>There are no departments to show</h3>";
         vm.totalItems = 0;
         vm.items = [];
-      }else{
+      } else {
         vm.totalItems = data.count;
         vm.items = data.data.depts;
       }
