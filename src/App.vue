@@ -133,15 +133,22 @@ export default {
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100%;
 }
-html,
-body {
+html {
   height: 100%;
   width: 100%;
 }
-footer {
-  position: absolute;
-  bottom: 0;
-  height: 50px;
+body{
+  height: 100%;
+  width: 100%;
+  margin-bottom: 60px; 
 }
+footer {
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  line-height: 30px;
+}
+
 </style>
