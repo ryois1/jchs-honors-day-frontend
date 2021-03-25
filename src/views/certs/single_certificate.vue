@@ -267,7 +267,7 @@ export default {
         .fire({
           title: `Release these slots?`,
           html:
-            '<b>This action can only be reversed by the department admins or system administrators.</b><br><i>Type "RELEASE" below</i>',
+            '<b>This action can only be reversed by the department admins or system administrators.</b>',
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",

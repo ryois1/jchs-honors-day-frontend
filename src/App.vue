@@ -1,13 +1,14 @@
 <template>
-  <div :key="$route.fullPath" @contextmenu="handler($event)" id="app">
+  <div :key="$route.fullPath" id="app">
     <loading
       :active.sync="isLoading"
       :can-cancel="onCancel"
       :is-full-page="fullPage"
     ></loading>
     <globalNav></globalNav>
-    <adminNav v-if="this.$route.name.startsWith('Admin')"></adminNav>
+    <adminNav v-if="(currentRouteName.startsWith('Admin')) && (isLoaded)"></adminNav>
     <router-view v-if="this.USER_AUTHORIZED"></router-view>
+    <globalFooter></globalFooter>
   </div>
 </template>
 
@@ -16,6 +17,8 @@ const globalNav = () =>
   import(/* webpackChunkName: "components" */ "./components/global/navbar.vue");
 const adminNav = () =>
   import(/* webpackChunkName: "components" */ "./components/admin_nav.vue");
+const globalFooter = () =>
+  import(/* webpackChunkName: "components" */ "./components/global/footer.vue");
 import axios from "axios";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
@@ -26,6 +29,7 @@ export default {
     Loading,
     globalNav,
     adminNav,
+    globalFooter,
   },
   methods: {
     logout() {
@@ -106,6 +110,14 @@ export default {
       ADMINS: ["ADMIN", "COMMITTEE", "DEPT_ADMIN"],
     };
   },
+  computed: {
+    currentRouteName() {
+        return this.$route.name;
+    },
+    isLoaded(){
+        return !this.isLoading;
+    }
+  },
   mounted: function () {
     this.API_me();
     this.$nextTick(function () {
@@ -126,5 +138,10 @@ html,
 body {
   height: 100%;
   width: 100%;
+}
+footer {
+  position: absolute;
+  bottom: 0;
+  height: 50px;
 }
 </style>

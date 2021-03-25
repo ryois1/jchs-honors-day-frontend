@@ -2,7 +2,6 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { authGuard } from "../auth/authGuard";
 const homepage = () => import(/* webpackChunkName: "homepage" */ '../views/homepage.vue');
-const certificates = () => import(/* webpackChunkName: "certificates" */ '../views/certs/certificates.vue');
 const single_certificate = () => import(/* webpackChunkName: "certificates" */ '../views/certs/single_certificate.vue');
 const new_certificate_parent = () => import(/* webpackChunkName: "certificates" */ '../views/certs/new_certificate_parent.vue');
 const new_certificate_child = () => import(/* webpackChunkName: "certificates" */ '../views/certs/new_certificate_child.vue');
@@ -43,16 +42,6 @@ const routes = [
     beforeEnter: authGuard,
     meta: {
       title: 'Home',
-      visible: true
-    },
-  },
-  {
-    path: '/certificates',
-    name: 'Certificates',
-    component: certificates,
-    beforeEnter: authGuard,
-    meta: {
-      title: 'Certificates',
       visible: true
     },
   },

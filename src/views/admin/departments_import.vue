@@ -23,6 +23,7 @@
       v-on:vdropzone-success="complete"
       :options="dropzoneOptions"
     ></vue-dropzone>
+    <h3>To specify multiple department chairs, please comma seperate emails in the <code>department_chair</code> column. <b>No spaces between emails or commas</b></h3>
   </div>
 </template>
 <script>

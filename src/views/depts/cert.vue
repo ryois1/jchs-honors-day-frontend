@@ -92,7 +92,7 @@ export default {
   name: "certs",
   data: function () {
     return {
-      LANG_HEADER: "Viewing All Parent Certificates in ???",
+      LANG_HEADER: "Viewing All Awards in ???",
       EMTPY_TABLE: "<p>Loading data...</p>",
       DEPT_NAME: "???",
       USER_ROLE: this.$parent.USER_INFO.role,

@@ -6,20 +6,22 @@
       type="dark"
       variant="dark"
     >
-      <b-navbar-brand :to="{ path: '/' }"><b-img-lazy src="/static/jchs_patriots_logo.png" width="30" height="30" class="d-inline-block align-top"></b-img-lazy>JCHS Honors Day</b-navbar-brand>
+      <b-navbar-brand :to="{ name: 'Home' }"><b-img-lazy src="/static/jchs_patriots_logo.png" width="30" height="30" class="d-inline-block align-top"></b-img-lazy>JCHS Honors Day</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item :to="{ path: '/' }" :active="$route.name == 'Home'"
+          <b-nav-item 
+            :to="{ name: 'Home' }" 
+            :active="$route.name == 'Home'"
             >Home</b-nav-item
           >
           <b-nav-item
-            :to="{ path: '/departments' }"
+            :to="{ name: 'Departments'}"
             :active="$route.name == 'Departments'"
             >Departments</b-nav-item
           >
           <b-nav-item
-            :to="{ path: '/admin' }"
+            :to="{ name: 'Admin' }"
             v-if="
               this.$parent.USER_INFO.role == 'ADMIN' ||
               this.$parent.USER_INFO.role == 'COMMITTEE'
@@ -45,24 +47,10 @@
 <script>
 export default {
   name: "navbar",
-  computed: {
-    ROLE() {
-      if (this.$parent.USER_INFO.role == "ADMIN") {
-        return "System Administrator";
-      } else if (this.$parent.USER_INFO.role == "DEPT_ADMIN") {
-        return "Department Administrator";
-      } else {
-        return "Teacher";
-      }
-    },
-    routes() {
-      return this.$router.options.routes;
-    },
-  },
 };
 </script>
 <style scoped>
 .navbar.navbar-dark.bg-dark {
-  background-color: #000000 !important;
+  background-color: #2E3191 !important;
 }
 </style>

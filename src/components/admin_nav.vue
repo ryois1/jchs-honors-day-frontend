@@ -13,35 +13,35 @@
             >Admin Home</b-nav-item
           >
           <b-nav-item
-            :to="{ path: '/admin/departments' }"
+            :to="{ name: 'AdminDepts' }"
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             :active="$route.name == 'AdminDepts'"
             >Departments</b-nav-item
           >
           <b-nav-item
-            :to="{ path: '/admin/users' }"
+            :to="{ name: 'AdminUsers' }"
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             :active="$route.name == 'AdminUsers'"
             >Users</b-nav-item
           >
           <b-nav-item
-            :to="{ path: '/admin/settings/email' }"
+            :to="{ name: 'AdminStudents' }"
+            :active="$route.name == 'AdminStudents'"
+            >Students</b-nav-item
+          >
+          <b-nav-item
+            :to="{ name: 'AdminEmail' }"
             :active="$route.name == 'AdminEmail'"
             >Email Settings</b-nav-item
           >
           <b-nav-item
-            :to="{ path: '/admin/settings' }"
+            :to="{ name: 'AdminSettings' }"
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             :active="$route.name == 'AdminSettings'"
             >System Settings</b-nav-item
           >
           <b-nav-item
-            :to="{ path: '/admin/students' }"
-            :active="$route.name == 'AdminStudents'"
-            >Students</b-nav-item
-          >
-          <b-nav-item
-            :to="{ path: '/admin/purge' }"
+            :to="{ name: 'AdminPurge' }"
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             :active="$route.name == 'AdminPurge'"
             >Purge</b-nav-item
@@ -54,11 +54,6 @@
 <script>
 export default {
   name: "navbar",
-  computed: {
-    routes() {
-      return this.$router.options.routes;
-    },
-  },
   methods: {
     checkAdmin: async function () {
       const vm = this;
