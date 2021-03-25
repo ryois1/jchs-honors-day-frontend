@@ -8,7 +8,7 @@
     <globalNav></globalNav>
     <adminNav v-if="(currentRouteName.startsWith('Admin')) && (isLoaded)"></adminNav>
     <router-view></router-view>
-    <globalFooter></globalFooter>
+    <globalFooter v-if="isLoaded"></globalFooter>
   </div>
 </template>
 
@@ -82,15 +82,10 @@ export default {
           }
         })
         .catch(function (response) {
-          const address = vm.$auth.user.email.split("@").pop();
-          if (address == "jcboe.net") {
-            vm.$router.push({ name: "AuthNewUser" });
-            vm.$toast.error("There was an error logging in (Unknown User)", {
-              position: "top-right",
-            });
-            console.error(response);
+          if(response.code == 'ECONNABORTED'){
+            vm.$router.push({ name: "APIConnLost" });
             vm.isLoading = false;
-          } else {
+          }else{
             vm.$router.push({ name: "UnknownUser" });
             vm.isLoading = false;
           }

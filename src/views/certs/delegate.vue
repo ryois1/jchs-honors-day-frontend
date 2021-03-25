@@ -189,7 +189,7 @@ export default {
         certs: this.users_cert,
         delegates_remain: this.DELEGATES_USING_LOAD,
       };
-      this.$router.replace({
+      this.$router.push({
         name: "CertificateDelegateVerify",
         params: { prop },
       });

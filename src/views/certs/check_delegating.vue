@@ -210,7 +210,7 @@ export default {
     },
     goBack() {
       const prop = { users: this.teacher_emails, certs: this.certs };
-      this.$router.replace({
+      this.$router.push({
         name: "CertificatePageDelegate",
         params: { prop },
       });

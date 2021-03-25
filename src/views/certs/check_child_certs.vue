@@ -210,7 +210,7 @@ export default {
     },
     goBack() {
       const prop = { cert_name: this.cert_name, student_id: this.student_ids };
-      this.$router.replace({ name: "CertificatePageChild", params: { prop } });
+      this.$router.push({ name: "CertificatePageChild", params: { prop } });
     },
     processForm: function () {
       const vm = this;
