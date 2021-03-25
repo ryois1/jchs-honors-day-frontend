@@ -7,7 +7,7 @@
     ></loading>
     <globalNav></globalNav>
     <adminNav v-if="(currentRouteName.startsWith('Admin')) && (isLoaded)"></adminNav>
-    <router-view v-if="this.USER_AUTHORIZED"></router-view>
+    <router-view></router-view>
     <globalFooter></globalFooter>
   </div>
 </template>
