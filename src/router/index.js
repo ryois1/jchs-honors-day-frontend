@@ -10,18 +10,16 @@ const check_child_certs = () => import(/* webpackChunkName: "certificates" */ '.
 const certificate_delegate = () => import(/* webpackChunkName: "certificates" */ '../views/certs/delegate.vue');
 const certificate_delegate_verify = () => import(/* webpackChunkName: "certificates" */ '../views/certs/check_delegating.vue');
 const certificate_delegates = () => import(/* webpackChunkName: "certificates" */ '../views/certs/delegates.vue');
-const students = () => import(/* webpackChunkName: "students" */ '../views/students.vue');
-const authNewUser = () => import(/* webpackChunkName: "auth" */ '../views/auth/new_user.vue');
-const unknownUser = () => import(/* webpackChunkName: "auth" */ '../views/unknown_user.vue');
-const admin_new_user = () => import(/* webpackChunkName: "admin" */ '../views/admin/new_user.vue');
-const import_pdfs_1 = () => import(/* webpackChunkName: "import" */ '../views/import_pdfs_step_1.vue');
-const import_pdfs_2 = () => import(/* webpackChunkName: "import" */ '../views/import_pdfs_step_2.vue');
-const import_pdfs_done = () => import(/* webpackChunkName: "import" */ '../views/import_pdfs_done.vue');
+const unknown_user = () => import(/* webpackChunkName: "auth" */ '../views/auth/unknown_user.vue');
+const import_pdfs_1 = () => import(/* webpackChunkName: "pdfs" */ '../views/pdfs/import_pdfs_step_1.vue');
+const import_pdfs_2 = () => import(/* webpackChunkName: "pdfs" */ '../views/pdfs/import_pdfs_step_2.vue');
+const import_pdfs_done = () => import(/* webpackChunkName: "pdfs" */ '../views/pdfs/import_pdfs_done.vue');
 const dept_all = () => import(/* webpackChunkName: "dept" */ '../views/depts/all.vue');
 const dept_certs = () => import(/* webpackChunkName: "dept" */ '../views/depts/cert.vue');
 const dept_users = () => import(/* webpackChunkName: "dept" */ '../views/depts/users.vue');
 const admin_index = () => import(/* webpackChunkName: "admin" */ '../views/admin/index.vue');
 const admin_users = () => import(/* webpackChunkName: "admin" */ '../views/admin/users.vue');
+const admin_new_user = () => import(/* webpackChunkName: "admin" */ '../views/admin/new_user.vue');
 const admin_users_import = () => import(/* webpackChunkName: "admin" */ '../views/admin/users_import.vue');
 const admin_settings = () => import(/* webpackChunkName: "admin" */ '../views/admin/settings.vue')
 const admin_email = () => import(/* webpackChunkName: "admin" */ '../views/admin/email.vue');
@@ -167,16 +165,6 @@ const routes = [
     },
   },
   {
-    path: '/students',
-    name: 'Students',
-    component: students,
-    beforeEnter: authGuard,
-    meta: {
-      title: 'Students',
-      visible: true
-    },
-  },
-  {
     path: '/departments',
     name: 'Departments',
     component: dept_all,
@@ -222,7 +210,7 @@ const routes = [
     component: admin_students,
     beforeEnter: authGuard,
     meta: {
-      title: 'Students Admin',
+      title: 'Students | Admin',
       visible: true
     },
   },
@@ -359,18 +347,9 @@ const routes = [
     },
   },
   {
-    path: '/auth/new_user',
-    name: 'AuthNewUser',
-    component: authNewUser,
-    meta: {
-      title: 'Sign Up',
-      visible: true
-    },
-  },
-  {
     path: '/unknown_user',
     name: 'UnknownUser',
-    component: unknownUser,
+    component: unknown_user,
     meta: {
       title: 'Unknown User',
       visible: true

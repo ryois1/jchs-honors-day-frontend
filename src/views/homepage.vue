@@ -6,9 +6,6 @@
       <b-button variant="primary" class="mr-1" :to="{ path: `/departments` }"
         >Certificates</b-button
       >
-      <b-button variant="success" :to="{ path: `/students` }"
-        >Students</b-button
-      >
     </b-jumbotron>
   </div>
 </template>
