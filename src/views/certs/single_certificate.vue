@@ -297,6 +297,10 @@ export default {
                     "Successfully releasing the certificate.",
                     { position: "top-right" }
                   );
+                  vm.API_delegates().catch((error) => {
+                    vm.delegates_items = [];
+                    console.error(error);
+                  });
                 }
               })
               .catch(function (response) {
