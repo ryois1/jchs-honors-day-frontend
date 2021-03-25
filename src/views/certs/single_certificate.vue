@@ -10,7 +10,7 @@
             Your certificate slots <b-badge>{{ SELF_CERT_COUNT }}</b-badge>
           </h3></b-col
         >
-        <b-col class="text-right">
+        <b-col class="text-right" v-if="this.NOT_LOCKED">
           <b-button
             v-if="
               this.allowed_delegate &&
@@ -125,6 +125,8 @@ export default {
       SELF_CURRENT_CERT: 0,
       allowed_edit: false,
       allowed_delegate: false,
+      NOT_LOCKED: true,
+      LOCKED: false,
       EMTPY_TABLE: "<p>Loading data...</p>",
       DELEGATES_EMTPY_TABLE: "<p>Loading data...</p>",
       fields: [
@@ -183,6 +185,10 @@ export default {
       if (!vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role)) {
         vm.$parent.$toast.error("No permissions.", { position: "top-right" });
         return;
+      }
+      if(vm.LOCKED){
+          vm.$parent.$toast.error("Certificate is locked.", { position: "top-right" });
+          return;
       }
       this.$parent.$swal
         .fire({
@@ -310,6 +316,10 @@ export default {
           vm.$parent.$toast.error("No permissions.", { position: "top-right" });
           return;
         }
+      }
+      if(vm.LOCKED){
+          vm.$parent.$toast.error("Certificate is locked.", { position: "top-right" });
+          return;
       }
       this.$parent.$swal
         .fire({
@@ -469,6 +479,15 @@ export default {
       vm.CERT_MAX_CHILD = data.data.certs[0].cert_max_child;
       vm.SELF_MAX_CERT = data.data.certs[0].user_cert_max;
       vm.SELF_CURRENT_CERT = data.data.certs[0].user_cert_current;
+      if(data.data.certs[0].cert_lock){
+        vm.NOT_LOCKED = false;
+        vm.LOCKED = true;
+        vm.$parent.$swal.fire({
+          title: `This award is locked for editing.`,
+          icon: "error",
+          confirmButtonText: "Ok",
+        });
+      }
       if (vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role)) {
         vm.SELF_CERT_COUNT = "Same as award";
       } else {

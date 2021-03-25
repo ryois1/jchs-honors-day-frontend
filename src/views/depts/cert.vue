@@ -49,7 +49,24 @@
           </div>
         </div>
       </template>
-
+      <template #cell(cert_lock)="data">
+        <div>
+            <div v-if="data.item.cert_lock == false">
+              <b-icon icon="unlock-fill" variant="success" aria-hidden="true"></b-icon> Unlocked
+              <b-button
+                variant="danger"
+                @click="lockAward(data.item.cert_id)"
+                >Lock</b-button>
+            </div>
+            <div v-if="data.item.cert_lock == true">
+              <b-icon icon="lock-fill" variant="danger" aria-hidden="true"></b-icon> Locked
+              <b-button
+                variant="warning"
+                @click="unlockAward(data.item.cert_id)"
+                >Unlock</b-button>
+            </div>
+        </div>
+      </template>
       <template #cell(delete)="data">
         <div>
           <b-button
@@ -78,6 +95,7 @@ export default {
       LANG_HEADER: "Viewing All Parent Certificates in ???",
       EMTPY_TABLE: "<p>Loading data...</p>",
       DEPT_NAME: "???",
+      USER_ROLE: this.$parent.USER_INFO.role,
       fields: [
         {
           key: "cert_owner_id",
@@ -104,6 +122,10 @@ export default {
         {
           key: "cert_max_child",
           label: "Max Certificates",
+        },
+        {
+          key: "cert_lock",
+          label: "Award Status",
         },
         "delete",
       ],
@@ -236,6 +258,118 @@ export default {
               .catch(function (response) {
                 vm.$parent.$toast.error(
                   "There was an error deleting the award.",
+                  { position: "top-right" }
+                );
+                console.error(response);
+              });
+          }
+        });
+    },
+    lockAward: async function (cert_id) {
+      const vm = this;
+      if (
+        !(
+          vm.$parent.USER_INFO.role == "ADMIN"
+        )
+      ) {
+          vm.$parent.$toast.error("No permissions.", { position: "top-right" });
+          return;
+      }
+
+      this.$parent.$swal
+        .fire({
+          title: `Lock this award?`,
+          html:
+            "<p>Are you sure you want to lock this award?<br>Nobody will be able to edit the award after it has been locked",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#dc3545",
+          confirmButtonText: "Lock",
+          reverseButtons: true,
+        })
+        .then(async function (result) {
+          if (result.isConfirmed) {
+            axios
+              .get(`${vm.$parent.API_BASE_URL}/certs/${cert_id}/lock`, {
+                headers: {
+                  Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+                },
+              })
+              .then(function (response) {
+                if (response.data.error) {
+                  console.error(response);
+                  vm.$parent.$toast.error(
+                    "There was an error locking the award.",
+                    { position: "top-right" }
+                  );
+                } else {
+                  vm.$parent.$toast.success("Successfully locked the award.", {
+                    position: "top-right",
+                  });
+                }
+                vm.API_certs().catch((error) => {
+                  console.error(error);
+                });
+              })
+              .catch(function (response) {
+                vm.$parent.$toast.error(
+                  "There was an error locking the award.",
+                  { position: "top-right" }
+                );
+                console.error(response);
+              });
+          }
+        });
+    },
+    unlockAward: async function (cert_id) {
+      const vm = this;
+      if (
+        !(
+          vm.$parent.USER_INFO.role == "ADMIN"
+        )
+      ) {
+          vm.$parent.$toast.error("No permissions.", { position: "top-right" });
+          return;
+      }
+
+      this.$parent.$swal
+        .fire({
+          title: `Unlock this award?`,
+          html:
+            "<p>Are you sure you want to unlock this award?<br>Users with permission will be able edit the award",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#ffc107",
+          confirmButtonText: "Unlock",
+          reverseButtons: true,
+        })
+        .then(async function (result) {
+          if (result.isConfirmed) {
+            axios
+              .get(`${vm.$parent.API_BASE_URL}/certs/${cert_id}/unlock`, {
+                headers: {
+                  Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+                },
+              })
+              .then(function (response) {
+                if (response.data.error) {
+                  console.error(response);
+                  vm.$parent.$toast.error(
+                    "There was an error unlocking the award.",
+                    { position: "top-right" }
+                  );
+                } else {
+                  vm.$parent.$toast.success("Successfully unlocked the award.", {
+                    position: "top-right",
+                  });
+                }
+                vm.API_certs().catch((error) => {
+                  console.error(error);
+                });
+              })
+              .catch(function (response) {
+                vm.$parent.$toast.error(
+                  "There was an error unlocking the award.",
                   { position: "top-right" }
                 );
                 console.error(response);

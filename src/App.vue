@@ -111,7 +111,7 @@ export default {
     this.$nextTick(function () {
       window.setInterval(() => {
         this.API_me();
-      }, 5000);
+      }, 300000);
     });
   },
 };
