@@ -1,14 +1,16 @@
 <template>
   <div :key="$route.fullPath" id="app">
-    <loading
-      :active.sync="isLoading"
-      :can-cancel="onCancel"
-      :is-full-page="fullPage"
-    ></loading>
-    <globalNav></globalNav>
-    <adminNav v-if="(currentRouteName.startsWith('Admin')) && (isLoaded)"></adminNav>
-    <router-view></router-view>
-    <globalFooter v-if="isLoaded"></globalFooter>
+    <main>
+      <loading
+        :active.sync="isLoading"
+        :can-cancel="onCancel"
+        :is-full-page="fullPage"
+      ></loading>
+      <globalNav></globalNav>
+      <adminNav v-if="(currentRouteName.startsWith('Admin')) && (isLoaded)"></adminNav>
+      <router-view v-if="isLoaded"></router-view>
+    </main>
+    <globalFooter id="footer" v-if="isLoaded"></globalFooter>
   </div>
 </template>
 
@@ -56,6 +58,7 @@ export default {
       const vm = this;
       await axios
         .get(`${vm.API_BASE_URL}/me`, {
+          timeout: 30000,
           headers: {
             Authorization: `Bearer ${vm.JWT_TOKEN}`,
           },
@@ -82,7 +85,7 @@ export default {
           }
         })
         .catch(err =>{
-          if(err.code == 'ECONNABORTED'){
+          if(!err.status){
             vm.$router.push({ name: "APIConnLost" });
             vm.isLoading = false;
           }else{
@@ -134,16 +137,17 @@ html {
   height: 100%;
   width: 100%;
 }
+main{
+  min-height: calc(100vh - 50px);
+}
 body{
   height: 100%;
   width: 100%;
   margin-bottom: 60px; 
 }
-footer {
-  bottom: 0;
+#footer {
   width: 100%;
   height: 50px;
-  line-height: 30px;
+  line-height: 20px;
 }
-
 </style>
