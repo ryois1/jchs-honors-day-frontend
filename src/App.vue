@@ -81,8 +81,8 @@ export default {
             vm.isLoading = false;
           }
         })
-        .catch(function (response) {
-          if(response.code == 'ECONNABORTED'){
+        .catch(err =>{
+          if(err.code == 'ECONNABORTED'){
             vm.$router.push({ name: "APIConnLost" });
             vm.isLoading = false;
           }else{
