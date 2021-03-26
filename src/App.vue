@@ -138,16 +138,15 @@ html {
   width: 100%;
 }
 main{
-  min-height: calc(100vh - 50px);
+  min-height: calc(100vh - 72px);
 }
 body{
   height: 100%;
   width: 100%;
-  margin-bottom: 60px; 
+  margin-bottom: 54px; 
 }
 #footer {
   width: 100%;
   height: 50px;
-  line-height: 20px;
 }
 </style>

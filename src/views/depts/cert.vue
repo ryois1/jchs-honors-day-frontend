@@ -226,10 +226,6 @@ export default {
           confirmButtonColor: "#dc3545",
           confirmButtonText: "Delete",
           reverseButtons: true,
-          input: "text",
-          inputAttributes: {
-            id: "confirmDelete",
-          },
         })
         .then(async function (result) {
           if (result.isConfirmed) {
