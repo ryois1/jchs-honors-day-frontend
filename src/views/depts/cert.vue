@@ -248,6 +248,9 @@ export default {
                   });
                 }
                 vm.API_certs().catch((error) => {
+                  vm.EMTPY_TABLE = "<h3>There are no awards to show</h3>";
+                  vm.totalItems = 0;
+                  vm.items = [];
                   console.error(error);
                 });
               })
@@ -385,7 +388,7 @@ export default {
           },
         }
       );
-      if (data.data.certs.length == 0) {
+      if (data.error) {
         vm.EMTPY_TABLE = "<h3>There are no awards to show</h3>";
         vm.totalItems = 0;
         vm.items = [];
