@@ -193,7 +193,7 @@ export default {
     },
     goBack() {
       const prop = { users: this.teacher_emails };
-      this.$router.replace({ name: "AdminDeptsAdd", params: { prop } });
+      this.$router.push({ name: "AdminDeptsAdd", params: { prop } });
     },
     processForm: function () {
       const vm = this;

@@ -9,7 +9,6 @@ const check_child_certs = () => import(/* webpackChunkName: "certificates" */ '.
 const certificate_delegate = () => import(/* webpackChunkName: "certificates" */ '../views/certs/delegate.vue');
 const certificate_delegate_verify = () => import(/* webpackChunkName: "certificates" */ '../views/certs/check_delegating.vue');
 const certificate_delegates = () => import(/* webpackChunkName: "certificates" */ '../views/certs/delegates.vue');
-const unknown_user = () => import(/* webpackChunkName: "auth" */ '../views/auth/unknown_user.vue');
 const import_pdfs_1 = () => import(/* webpackChunkName: "pdfs" */ '../views/pdfs/import_pdfs_step_1.vue');
 const import_pdfs_2 = () => import(/* webpackChunkName: "pdfs" */ '../views/pdfs/import_pdfs_step_2.vue');
 const import_pdfs_done = () => import(/* webpackChunkName: "pdfs" */ '../views/pdfs/import_pdfs_done.vue');
@@ -31,7 +30,9 @@ const admin_depts_verify = () => import(/* webpackChunkName: "admin" */ '../view
 const admin_students = () => import(/* webpackChunkName: "admin" */ '../views/admin/students.vue');
 const admin_students_import = () => import(/* webpackChunkName: "admin" */ '../views/admin/students_import.vue');
 const admin_purge = () => import(/* webpackChunkName: "admin" */ '../views/admin/purge.vue');
-
+const unknown_user = () => import(/* webpackChunkName: "errors" */ '../views/errors/unknown_user.vue');
+const api_conn_lost = () => import(/* webpackChunkName: "errors" */ '../views/errors/api_connection_lost.vue');
+const page_not_found = () => import(/* webpackChunkName: "errors" */ '../views/errors/page_not_found.vue');
 Vue.use(VueRouter);
 
 const routes = [
@@ -341,6 +342,24 @@ const routes = [
     component: unknown_user,
     meta: {
       title: 'Unknown User',
+      visible: true
+    },
+  },
+  {
+    path: '/api_connection_lost',
+    name: 'APIConnLost',
+    component: api_conn_lost,
+    meta: {
+      title: 'API Connection Lost',
+      visible: true
+    },
+  },
+  {
+    path: '*',
+    name: 'PageNotFound',
+    component: page_not_found,
+    meta: {
+      title: 'Error 404 Route Not Found',
       visible: true
     },
   },

@@ -1,14 +1,16 @@
 <template>
   <div :key="$route.fullPath" id="app">
-    <loading
-      :active.sync="isLoading"
-      :can-cancel="onCancel"
-      :is-full-page="fullPage"
-    ></loading>
-    <globalNav></globalNav>
-    <adminNav v-if="(currentRouteName.startsWith('Admin')) && (isLoaded)"></adminNav>
-    <router-view v-if="this.USER_AUTHORIZED"></router-view>
-    <globalFooter></globalFooter>
+    <main>
+      <loading
+        :active.sync="isLoading"
+        :can-cancel="onCancel"
+        :is-full-page="fullPage"
+      ></loading>
+      <globalNav></globalNav>
+      <adminNav v-if="(currentRouteName.startsWith('Admin')) && (isLoaded)"></adminNav>
+      <router-view v-if="isLoaded"></router-view>
+    </main>
+    <globalFooter id="footer" v-if="isLoaded"></globalFooter>
   </div>
 </template>
 
@@ -56,6 +58,7 @@ export default {
       const vm = this;
       await axios
         .get(`${vm.API_BASE_URL}/me`, {
+          timeout: 30000,
           headers: {
             Authorization: `Bearer ${vm.JWT_TOKEN}`,
           },
@@ -81,16 +84,11 @@ export default {
             vm.isLoading = false;
           }
         })
-        .catch(function (response) {
-          const address = vm.$auth.user.email.split("@").pop();
-          if (address == "jcboe.net") {
-            vm.$router.push({ name: "AuthNewUser" });
-            vm.$toast.error("There was an error logging in (Unknown User)", {
-              position: "top-right",
-            });
-            console.error(response);
+        .catch(err =>{
+          if(!err.status){
+            vm.$router.push({ name: "APIConnLost" });
             vm.isLoading = false;
-          } else {
+          }else{
             vm.$router.push({ name: "UnknownUser" });
             vm.isLoading = false;
           }
@@ -139,16 +137,16 @@ html {
   height: 100%;
   width: 100%;
 }
+main{
+  min-height: calc(100vh - 72px);
+}
 body{
   height: 100%;
   width: 100%;
-  margin-bottom: 60px; 
+  margin-bottom: 54px; 
 }
-footer {
-  bottom: 0;
+#footer {
   width: 100%;
   height: 50px;
-  line-height: 30px;
 }
-
 </style>

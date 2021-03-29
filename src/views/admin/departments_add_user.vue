@@ -130,7 +130,7 @@ export default {
     },
     verify() {
       const prop = { users: this.users };
-      this.$router.replace({ name: "AdminDeptAddVerify", params: { prop } });
+      this.$router.push({ name: "AdminDeptAddVerify", params: { prop } });
     },
     API_dept: async function () {
       const vm = this;

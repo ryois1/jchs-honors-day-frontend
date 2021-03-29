@@ -203,7 +203,7 @@ export default {
     },
     verify() {
       const prop = { cert_name: this.cert_name, student_id: this.student_id };
-      this.$router.replace({
+      this.$router.push({
         name: "CertificatePageChildVerify",
         params: { prop },
       });
