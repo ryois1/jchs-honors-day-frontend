@@ -32,6 +32,12 @@
       :current-page="currentPage"
       :per-page="0"
     >
+      <template #cell(role)="data">
+        <p v-if="data.item.role=='ADMIN'">System Administrator</p>
+        <p v-if="data.item.role=='COMMITTEE'">Honors Day Committee</p>
+        <p v-if="data.item.role=='DEPT_ADMIN'">Department Chair</p>
+        <p v-if="data.item.role=='TEACHER'">Teacher</p>
+      </template>
       <template #cell(change_role)="data">
         <b-button variant="warning" @click="changeRole(data.item.id)"
           >Change User Role</b-button
