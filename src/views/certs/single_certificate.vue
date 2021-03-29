@@ -515,7 +515,7 @@ export default {
           },
         }
       );
-      if (data.count == 0) {
+      if (data.data.certs.length == 0) {
         vm.EMTPY_TABLE = "<h3>There are no certificates to show</h3>";
       }
       vm.totalItems = data.data.certs.length;
