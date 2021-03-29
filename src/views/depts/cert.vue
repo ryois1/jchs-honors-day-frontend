@@ -385,7 +385,7 @@ export default {
           },
         }
       );
-      if (data.data.certs == 0) {
+      if (data.data.certs.length == 0) {
         vm.EMTPY_TABLE = "<h3>There are no awards to show</h3>";
         vm.totalItems = 0;
         vm.items = [];
