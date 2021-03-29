@@ -49,12 +49,6 @@
         ></b-button>
       </template>
     </b-table>
-    <b-pagination
-      size="md"
-      :total-rows="totalItems"
-      v-model="currentPage"
-      :per-page="perPage"
-    ></b-pagination>
   </div>
 </template>
 <script>
@@ -113,6 +107,7 @@ export default {
           inputOptions: {
             TEACHER: "Teacher",
             DEPT_ADMIN: "Department Administrator",
+            COMMITTEE: "Honors Day Committee",
             ADMIN: "System Administrator",
           },
         })
@@ -205,6 +200,7 @@ export default {
     },
     API_users: async function () {
       const vm = this;
+      vm.isLoading = true;
       vm.EMTPY_TABLE = "<h3>There are no users to show</h3>";
       const offset = vm.currentPage * vm.perPage - 10;
       const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/users`, {
@@ -217,9 +213,11 @@ export default {
         vm.EMTPY_TABLE = "<h3>There are no users to show</h3>";
         vm.totalItems = 0;
         vm.items = [];
+        vm.isLoading = false;
       } else {
         vm.totalItems = data.count;
         vm.items = data.data.users;
+        vm.isLoading = false;
       }
     },
   },

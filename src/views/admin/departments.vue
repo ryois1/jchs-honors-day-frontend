@@ -129,6 +129,7 @@ export default {
     },
     API_depts: async function () {
       const vm = this;
+      vm.isLoading = true;
       vm.EMTPY_TABLE = "<h3>There are no departments to show</h3>";
       const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/dept`, {
         headers: {
@@ -139,9 +140,11 @@ export default {
         vm.EMTPY_TABLE = "<h3>There are no departments to show</h3>";
         vm.totalItems = 0;
         vm.items = [];
+        vm.isLoading = false;
       } else {
         vm.totalItems = data.count;
         vm.items = data.data.depts;
+        vm.isLoading = false;
       }
     },
   },
