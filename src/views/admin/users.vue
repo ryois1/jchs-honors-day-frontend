@@ -199,7 +199,7 @@ export default {
     },
     API_users: async function () {
       const vm = this;
-      vm.EMTPY_TABLE = "<h3>There are no certs to show</h3>";
+      vm.EMTPY_TABLE = "<h3>There are no users to show</h3>";
       const offset = vm.currentPage * vm.perPage - 10;
       const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/users`, {
         params: { offset: offset, limit: vm.perPage },
@@ -208,7 +208,7 @@ export default {
         },
       });
       if (data.data.users == 0) {
-        vm.EMTPY_TABLE = "<h3>There are no certs to show</h3>";
+        vm.EMTPY_TABLE = "<h3>There are no users to show</h3>";
         vm.totalItems = 0;
         vm.items = [];
       } else {
