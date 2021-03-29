@@ -201,7 +201,6 @@ export default {
     API_users: async function () {
       const vm = this;
       vm.isLoading = true;
-      vm.EMTPY_TABLE = "<h3>There are no users to show</h3>";
       const offset = vm.currentPage * vm.perPage - 10;
       const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/users`, {
         params: { offset: offset, limit: vm.perPage },

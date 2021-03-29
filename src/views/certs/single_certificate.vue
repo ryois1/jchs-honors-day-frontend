@@ -505,7 +505,6 @@ export default {
     },
     API_certs: async function () {
       const vm = this;
-      vm.EMTPY_TABLE = "<h3>There are no certificates to show</h3>";
       const offset = vm.currentPage * vm.perPage - 10;
       const { data } = await axios.get(
         `${vm.$parent.API_BASE_URL}/certs/${vm.$route.params.cert_id}/certs`,
