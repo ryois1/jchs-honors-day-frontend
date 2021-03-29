@@ -89,7 +89,6 @@ export default {
     },
     complete(file, response) {
       const vm = this;
-      this.$parent.isLoading = true;
       setTimeout(function () {
         vm.LANG_HEADER = `Imported ${response.data.received.length} Departments(s)`;
         vm.DROPZONE_ACTIVE = false;
