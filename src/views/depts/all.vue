@@ -24,12 +24,6 @@
         >
       </template>
     </b-table>
-    <b-pagination
-      size="md"
-      :total-rows="totalItems"
-      v-model="currentPage"
-      :per-page="perPage"
-    ></b-pagination>
   </div>
 </template>
 <script>

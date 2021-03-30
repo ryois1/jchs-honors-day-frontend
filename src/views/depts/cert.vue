@@ -77,12 +77,6 @@
         </div>
       </template>
     </b-table>
-    <b-pagination
-      size="md"
-      :total-rows="totalItems"
-      v-model="currentPage"
-      :per-page="perPage"
-    ></b-pagination>
   </div>
 </template>
 <script>
@@ -382,7 +376,6 @@ export default {
       const { data } = await axios.get(
         `${vm.$parent.API_BASE_URL}/dept/${vm.$route.params.dept_id}/certs`,
         {
-          params: { offset: offset, limit: vm.perPage },
           headers: {
             Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
           },
