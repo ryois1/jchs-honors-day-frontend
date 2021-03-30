@@ -34,9 +34,13 @@
             v-if="this.CERT_MAX_CHILD >= this.totalItems && this.allowed_edit"
             variant="primary"
             :disabled="DISABLED_ADD"
+            class="btn-success btn-lg"
+            id="award-button"
             :to="{ path: `/certificates/${this.$route.params.cert_id}/new` }"
             >Award Certificates to Students</b-button
-          ></b-col
+          >
+          <b-tooltip v-if="this.$parent.USER_INFO.role == 'TEACHER'" show target="award-button">Click here to get started!</b-tooltip>
+          </b-col
         >
         <b-col class="text-right" v-if="!this.allowed_edit"
           ><h5>You are not allowed to edit this certificate</h5></b-col
