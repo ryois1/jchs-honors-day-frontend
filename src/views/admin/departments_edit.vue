@@ -26,6 +26,12 @@
       :current-page="currentPage"
       :per-page="0"
     >
+      <template #cell(role)="data">
+        <p v-if="data.item.role=='ADMIN'">System Administrator</p>
+        <p v-if="data.item.role=='COMMITTEE'">Honors Day Committee</p>
+        <p v-if="data.item.role=='DEPT_ADMIN'">Department Chair</p>
+        <p v-if="data.item.role=='TEACHER'">Teacher</p>
+      </template>
       <template #cell(delete)="data">
         <b-button variant="danger" @click="deleteUser(data.item.id)"
           >Delete <b-icon icon="trash-fill" aria-hidden="true"></b-icon
