@@ -107,6 +107,10 @@ export default {
     }
   },
   mounted: function () {
+    if(this.$parent.AUTH_NONCE == 'redirect'){
+      window.location.replace(this.$parent.AUTH_ORIGINAL_URL);
+      localStorage.setItem('AUTH_NONCE', 'noredirect');
+    }
     this.API_me();
     this.$nextTick(function () {
       window.setInterval(() => {

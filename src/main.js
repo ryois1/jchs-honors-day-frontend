@@ -35,8 +35,12 @@ const instance = getInstance();
 instance.$watch("loading", async loading => {
   if (!loading && instance.isAuthenticated) {
     const token = await instance.getTokenSilently();
+    const AUTH_ORIGINAL_URL = localStorage.getItem('AUTH_ORIGINAL_URL');
+    const AUTH_NONCE = localStorage.getItem('AUTH_NONCE');
     const data = {
       token: token,
+      AUTH_ORIGINAL_URL: AUTH_ORIGINAL_URL,
+      AUTH_NONCE: AUTH_NONCE,
     }
     new Vue({
       router,
@@ -44,6 +48,8 @@ instance.$watch("loading", async loading => {
       render: h => h(App),
     }).$mount('#app')
   } else {
+    localStorage.setItem('AUTH_ORIGINAL_URL', window.location.href);
+    localStorage.setItem('AUTH_NONCE', 'redirect');
     instance.loginWithRedirect();
   }
 });
