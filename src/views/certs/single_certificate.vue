@@ -48,6 +48,7 @@
       </b-row>
     </b-container>
     <b-table
+      v-if="this.$parent.ADMINS.includes(this.$parent.USER_INFO.role)"
       :empty-html="DELEGATES_EMTPY_TABLE"
       bordered
       show-empty
@@ -77,12 +78,6 @@
         ></b-button>
       </template>
     </b-table>
-    <b-pagination
-      size="md"
-      :total-rows="totalItems"
-      v-model="currentPage"
-      :per-page="perPage"
-    ></b-pagination>
   </div>
 </template>
 <script>
