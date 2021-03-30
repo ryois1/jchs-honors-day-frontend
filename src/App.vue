@@ -65,18 +65,8 @@ export default {
         })
         .then(async function (response) {
           if (response.data.error) {
-            const address = vm.$auth.user.email.split("@").pop();
-            if (address == "jcboe.net") {
-              vm.$router.push({ name: "AuthNewUser" });
-              vm.$toast.error("There was an error logging in (Unknown User)", {
-                position: "top-right",
-              });
-              console.error(response);
-              vm.isLoading = false;
-            } else {
               vm.$router.push({ name: "UnknownUser" });
               vm.isLoading = false;
-            }
           } else {
             vm.USER_AUTHORIZED = true;
             vm.USER_INFO = response.data.data;
@@ -117,6 +107,10 @@ export default {
     }
   },
   mounted: function () {
+    if(this.$parent.AUTH_NONCE == 'redirect'){
+      window.location.replace(this.$parent.AUTH_ORIGINAL_URL);
+      localStorage.setItem('AUTH_NONCE', 'noredirect');
+    }
     this.API_me();
     this.$nextTick(function () {
       window.setInterval(() => {
