@@ -19,6 +19,12 @@
             >Departments</b-nav-item
           >
           <b-nav-item
+            :to="{ name: 'AdminAwards' }"
+            v-if="this.$parent.USER_INFO.role == 'ADMIN'"
+            :active="$route.name == 'AdminAwards'"
+            >Import Awards</b-nav-item
+          >
+          <b-nav-item
             :to="{ name: 'AdminUsers' }"
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             :active="$route.name == 'AdminUsers'"

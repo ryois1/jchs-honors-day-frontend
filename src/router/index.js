@@ -21,6 +21,7 @@ const admin_new_user = () => import(/* webpackChunkName: "admin" */ '../views/ad
 const admin_users_import = () => import(/* webpackChunkName: "admin" */ '../views/admin/users_import.vue');
 const admin_settings = () => import(/* webpackChunkName: "admin" */ '../views/admin/settings.vue')
 const admin_email = () => import(/* webpackChunkName: "admin" */ '../views/admin/email.vue');
+const admin_awards = () => import(/* webpackChunkName: "admin" */ '../views/admin/awards.vue');
 const admin_depts = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments.vue');
 const admin_depts_import = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments_import.vue');
 const admin_depts_edit = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments_edit.vue');
@@ -201,6 +202,16 @@ const routes = [
     beforeEnter: authGuard,
     meta: {
       title: 'Students | Admin',
+      visible: true
+    },
+  },
+  {
+    path: '/admin/awards',
+    name: 'AdminAwards',
+    component: admin_awards,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Importing Awards | Admin',
       visible: true
     },
   },

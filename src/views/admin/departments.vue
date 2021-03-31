@@ -60,8 +60,6 @@ export default {
         {
           key: "dept_id",
           label: "Department ID",
-          thClass: "d-none",
-          tdClass: "d-none",
         },
         {
           key: "dept_name",
