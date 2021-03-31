@@ -25,6 +25,13 @@
         class="mr-1"
         v-if="this.$parent.USER_INFO.role == 'ADMIN'"
         variant="danger"
+        @click="purgeStudents"
+        >Purge Students</b-button
+      >
+      <b-button
+        class="mr-1"
+        v-if="this.$parent.USER_INFO.role == 'ADMIN'"
+        variant="danger"
         @click="purgeAll"
         >Purge Everything</b-button
       >
@@ -122,6 +129,50 @@ export default {
               .catch(function (response) {
                 vm.$parent.$toast.error(
                   "There was an error purging the certificates.",
+                  { position: "top-right" }
+                );
+                console.error(response);
+              });
+          }
+        });
+    },
+    purgeStudents: async function () {
+      const vm = this;
+      this.$parent.$swal
+        .fire({
+          title: `Purge Students?`,
+          html:
+            "<p>Are you sure you want to purge students?</p><br><b>This action cannot be undone.</b><br>",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#dc3545",
+          confirmButtonText: "Delete",
+          reverseButtons: true,
+        })
+        .then(async function (result) {
+          if (result.isConfirmed) {
+            axios
+              .delete(`${vm.$parent.API_BASE_URL}/purge/students`, {
+                headers: {
+                  Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+                },
+              })
+              .then(function (response) {
+                if (response.data.error) {
+                  console.error(response);
+                  vm.$parent.$toast.error(
+                    "There was an error purging the students.",
+                    { position: "top-right" }
+                  );
+                } else {
+                  vm.$parent.$toast.success("Successfully purged the students.", {
+                    position: "top-right",
+                  });
+                }
+              })
+              .catch(function (response) {
+                vm.$parent.$toast.error(
+                  "There was an error purging the students.",
                   { position: "top-right" }
                 );
                 console.error(response);
