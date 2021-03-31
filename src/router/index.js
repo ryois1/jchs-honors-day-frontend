@@ -56,7 +56,7 @@ const routes = [
     },
   },
   {
-    path: '/certificates/import/step/1',
+    path: '/admin/import/pdfs/step/1',
     name: 'ImportCertsPDFs1',
     component: import_pdfs_1,
     props: true,
@@ -67,7 +67,7 @@ const routes = [
     },
   },
   {
-    path: '/certificates/import/step/2',
+    path: '/admin/import/pdfs/step/2',
     name: 'ImportCertsPDFs2',
     component: import_pdfs_2,
     props: true,
@@ -78,7 +78,7 @@ const routes = [
     },
   },
   {
-    path: '/certificates/import/complete',
+    path: '/admin/import/pdfs/complete',
     name: 'ImportCertsPDFsDone',
     component: import_pdfs_done,
     props: true,
@@ -325,7 +325,7 @@ const routes = [
     },
   },
   {
-    path: '/unknown_user',
+    path: '/error/unknown_user',
     name: 'UnknownUser',
     component: unknown_user,
     meta: {
@@ -334,7 +334,7 @@ const routes = [
     },
   },
   {
-    path: '/api_connection_lost',
+    path: '/error/api_connection_lost',
     name: 'APIConnLost',
     component: api_conn_lost,
     meta: {

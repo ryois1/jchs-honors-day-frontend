@@ -3,6 +3,7 @@
     <b-container fluid>
       <b-row>
         <b-col
+          cols="8"
           ><h1>{{ LANG_HEADER }}</h1></b-col
         >
         <b-col class="text-right"
