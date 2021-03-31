@@ -17,7 +17,7 @@
               this.$parent.ADMINS.includes(this.$parent.USER_INFO.role)
             "
             :to="{
-              path: `/certificates/${this.$route.params.cert_id}/delegate`,
+              name: 'CertificatePageDelegate', params: { cert_id: this.$route.params.cert_id }
             }"
             class="mr-1"
             variant="primary"
@@ -36,7 +36,7 @@
             :disabled="DISABLED_ADD"
             class="btn-success btn-lg"
             id="award-button"
-            :to="{ path: `/certificates/${this.$route.params.cert_id}/new` }"
+            :to="{ name: 'CertificatePageChild', params: { cert_id: this.$route.params.cert_id } }"
             >Award Certificates to Students</b-button
           >
           <b-tooltip v-if="this.$parent.USER_INFO.role == 'TEACHER'" show target="award-button">Click here to get started!</b-tooltip>

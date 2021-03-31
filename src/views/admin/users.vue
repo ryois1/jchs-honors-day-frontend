@@ -10,14 +10,14 @@
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             variant="primary"
             class="mr-1"
-            :to="{ path: `/admin/users/new` }"
+            :to="{ name: 'AdminNewUser' }"
             >New User</b-button
           >
           <b-button
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             variant="primary"
             class="mr-1"
-            :to="{ path: `/admin/users/import` }"
+            :to="{ name: 'AdminUsersImport' }"
             >Bulk Import</b-button
           >
         </b-col>

@@ -9,7 +9,7 @@
           ><b-button
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             variant="primary"
-            :to="{ path: `/certificates/new` }"
+            :to="{name: 'CertificateNewParent'}"
             >New Award</b-button
           ></b-col
         >
@@ -27,7 +27,7 @@
       <template #cell(cert_id)="data">
         <b-button
           variant="primary"
-          :to="{ path: `/certificates/${data.item.cert_id}` }"
+          :to="{name: 'CertificatePage', params: { cert_id: data.item.cert_id }}"
           >View Certificates</b-button
         >
       </template>
@@ -39,11 +39,7 @@
               <span class="pull-right">
                 <b-button
                   variant="warning"
-                  @click="
-                    changeMaxCerts(data.item.cert_id, data.item.cert_owner_id)
-                  "
-                  >Change Max Certs</b-button
-                >
+                  @click="changeMaxCerts(data.item.cert_id, data.item.cert_owner_id)">Change Max Certs</b-button>
               </span>
             </p>
           </div>
@@ -69,11 +65,7 @@
       </template>
       <template #cell(delete)="data">
         <div>
-          <b-button
-            variant="danger"
-            @click="deleteAward(data.item.cert_id, data.item.cert_owner_id)"
-            >Delete <b-icon icon="trash-fill" aria-hidden="true"></b-icon
-          ></b-button>
+          <b-button variant="danger" @click="deleteAward(data.item.cert_id, data.item.cert_owner_id)">Delete <b-icon icon="trash-fill" aria-hidden="true"></b-icon></b-button>
         </div>
       </template>
     </b-table>
@@ -100,14 +92,6 @@ export default {
         {
           key: "cert_name",
           label: "Award Name",
-        },
-        {
-          key: "user_name",
-          label: "Award Owner",
-        },
-        {
-          key: "user_email",
-          lable: "Award Owner Email",
         },
         {
           key: "cert_id",

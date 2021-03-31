@@ -13,13 +13,11 @@
       show-empty
       :items="items"
       :fields="fields"
-      :current-page="currentPage"
-      :per-page="0"
     >
       <template #cell(view)="data">
         <b-button
           variant="primary"
-          :to="{ path: `/departments/${data.item.dept_id}/certificates` }"
+          :to="{name: 'DepartmentsCertificates', params: { dept_id: data.item.dept_id }}"
           >View Department Awards</b-button
         >
       </template>
@@ -33,7 +31,7 @@ export default {
   name: "certs",
   data: function () {
     return {
-      LANG_HEADER: "Viewing All Departments",
+      LANG_HEADER: "Viewing Departments",
       EMTPY_TABLE: "<p>Loading data...</p>",
       fields: [
         {
@@ -49,9 +47,6 @@ export default {
         "view",
       ],
       items: [],
-      currentPage: 1,
-      perPage: 10,
-      totalItems: 0,
     };
   },
   methods: {
@@ -72,7 +67,7 @@ export default {
   mounted: function () {
     const vm = this;
     if (vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role)) {
-      vm.LANG_HEADER = "Viewing Departments You are In";
+      vm.LANG_HEADER = "Viewing Departments";
     }
     vm.API_depts().catch((error) => {
       console.error(error);

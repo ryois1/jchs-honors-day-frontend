@@ -10,7 +10,7 @@
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             variant="primary"
             :to="{
-              path: `/admin/departments/${this.$route.params.dept_id}/add`,
+              name: 'AdminDeptsAdd', params: { dept_id: this.$route.params.dept_id }
             }"
             >Add Existing User to Department</b-button
           >
