@@ -9,7 +9,7 @@
           ><h3>
             You have <b-badge>{{ this.certs_remaining }}</b-badge> out of
             <b-badge>{{ this.max_certs }}</b-badge> certificates remaining
-          </h3></b-col
+          </h3><b-button @click="bulkImport" class="mr-1" variant="success">Bulk Import</b-button></b-col
         >
       </b-row>
       <b-row>
@@ -112,6 +112,13 @@ export default {
     };
   },
   methods: {
+    bulkImport(){
+      const prop = { cert_name: this.cert_name, cert_id: this.$route.params.cert_id };
+      this.$router.push({
+        name: "CertificatePageChildBulk",
+        params: { prop },
+      });
+    },
     addStudent() {
       if (this.max_certs == this.current_certs_count) {
         this.$parent.$toast.error("No more certificate slots.", {

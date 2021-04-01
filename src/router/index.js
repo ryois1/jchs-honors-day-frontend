@@ -5,6 +5,7 @@ const homepage = () => import(/* webpackChunkName: "homepage" */ '../views/homep
 const single_certificate = () => import(/* webpackChunkName: "certificates" */ '../views/certs/single_certificate.vue');
 const new_certificate_parent = () => import(/* webpackChunkName: "certificates" */ '../views/certs/new_certificate_parent.vue');
 const new_certificate_child = () => import(/* webpackChunkName: "certificates" */ '../views/certs/new_certificate_child.vue');
+const new_certificate_child_bulk = () => import(/* webpackChunkName: "certificates" */ '../views/certs/bulk_import.vue');
 const check_child_certs = () => import(/* webpackChunkName: "certificates" */ '../views/certs/check_child_certs.vue');
 const certificate_delegate = () => import(/* webpackChunkName: "certificates" */ '../views/certs/delegate.vue');
 const certificate_delegate_verify = () => import(/* webpackChunkName: "certificates" */ '../views/certs/check_delegating.vue');
@@ -128,6 +129,17 @@ const routes = [
     props: true,
     meta: {
       title: 'New Certificates',
+      visible: true
+    },
+  },
+  {
+    path: '/certificates/:cert_id/new/bulk',
+    name: 'CertificatePageChildBulk',
+    component: new_certificate_child_bulk,
+    beforeEnter: authGuard,
+    props: true,
+    meta: {
+      title: 'Bulk Import New Certificates',
       visible: true
     },
   },
