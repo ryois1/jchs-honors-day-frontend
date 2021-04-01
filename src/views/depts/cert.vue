@@ -39,6 +39,7 @@
               <span class="pull-right">
                 <b-button
                   variant="warning"
+                  v-if="hasEdit"
                   @click="
                     changeMaxCerts(data.item.cert_id, data.item.cert_owner_id)
                   "
@@ -55,6 +56,7 @@
               <b-icon icon="unlock-fill" variant="success" aria-hidden="true"></b-icon> Unlocked
               <b-button
                 variant="danger"
+                v-if="hasEdit"
                 @click="lockAward(data.item.cert_id)"
                 >Lock</b-button>
             </div>
@@ -62,6 +64,7 @@
               <b-icon icon="lock-fill" variant="danger" aria-hidden="true"></b-icon> Locked
               <b-button
                 variant="warning"
+                v-if="hasEdit"
                 @click="unlockAward(data.item.cert_id)"
                 >Unlock</b-button>
             </div>
@@ -69,8 +72,10 @@
       </template>
       <template #cell(delete)="data">
         <div>
+          <p v-if="!hasEdit">No Permissions</p>
           <b-button
             variant="danger"
+            v-if="hasEdit"
             @click="deleteAward(data.item.cert_id, data.item.cert_owner_id)"
             >Delete <b-icon icon="trash-fill" aria-hidden="true"></b-icon
           ></b-button>
@@ -121,7 +126,10 @@ export default {
           key: "cert_lock",
           label: "Award Status",
         },
-        "delete",
+        {
+          key: "delete",
+          label: "Delete",
+        }
       ],
       items: [],
       currentPage: 1,
@@ -407,7 +415,7 @@ export default {
       ) {
         vm.LANG_HEADER = `Viewing Awards in "${vm.DEPT_NAME}"`;
       } else {
-        vm.LANG_HEADER = `Viewing Awards You Have Access to in "${vm.DEPT_NAME}"`;
+        vm.LANG_HEADER = `Viewing Awards in "${vm.DEPT_NAME}"`;
       }
     },
   },
@@ -426,6 +434,15 @@ export default {
       },
     },
   },
+  computed: {
+    hasEdit () {
+      if(this.$parent.ADMINS.includes(this.$parent.USER_INFO.role)){
+        return true;
+      }else{
+        return false;
+      }
+    }
+  }
 };
 </script>
 <style scoped>
