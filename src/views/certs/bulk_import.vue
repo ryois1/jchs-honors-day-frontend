@@ -49,7 +49,6 @@ export default {
   mounted: async function () {
     this.LANG_HEADER = `Bulk Importing Certificates for "${this.$attrs.prop.cert_name}"`;
     this.AWARD_ID = this.$route.params.cert_id;
-    console.log(this.AWARD_ID);
     this.$refs.exceldrop.dropzone.options.url = `${this.$parent.API_BASE_URL}/import/awards/${this.AWARD_ID}/certificates`;
     this.$refs.exceldrop.dropzone.options.params.cert_name = this.AWARD_NAME;
   },

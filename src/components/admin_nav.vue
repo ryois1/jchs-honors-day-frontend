@@ -64,7 +64,6 @@ export default {
     checkAdmin: async function () {
       const vm = this;
       if (!vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role)) {
-        console.log('not admin')
         vm.$router.push({ name: "Home" });
       }
     },

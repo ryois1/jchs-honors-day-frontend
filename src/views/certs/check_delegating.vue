@@ -311,7 +311,6 @@ export default {
     current_input_count: {
       handler: function () {
         const vm = this;
-        console.log(this.current_input_count);
         if (vm.current_input_count > vm.cert_remain) {
           vm.$parent.$swal.fire({
             title: `You are trying to delegate more slots than you have.`,

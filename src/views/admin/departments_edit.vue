@@ -88,7 +88,6 @@ export default {
   },
   methods: {
     deleteUser: async function (user_id) {
-      console.log(user_id);
       const vm = this;
       this.$parent.$swal
         .fire({

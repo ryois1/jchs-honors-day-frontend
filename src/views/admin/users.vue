@@ -116,7 +116,6 @@ export default {
             const data = {
               users: [{ user_role: result.value, user_id: user_id }],
             };
-            console.log(data);
             axios({
               method: "put",
               url: `${vm.$parent.API_BASE_URL}/users`,

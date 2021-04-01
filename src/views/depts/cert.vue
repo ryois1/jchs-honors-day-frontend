@@ -102,7 +102,6 @@ export default {
             const data = {
               certs: [{ new_max: result.value, cert_id: cert_id }],
             };
-            console.log(data);
             axios({
               method: "put",
               url: `${vm.$parent.API_BASE_URL}/certs/${cert_id}/max`,
