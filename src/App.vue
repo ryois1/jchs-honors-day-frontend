@@ -7,7 +7,7 @@
         :is-full-page="fullPage"
       ></loading>
       <globalNav></globalNav>
-      <adminNav v-if="(currentRouteName.startsWith('Admin')) && (isLoaded)"></adminNav>
+      <adminNav v-if="(viewingAdmin) && (isLoaded)"></adminNav>
       <router-view v-if="isLoaded"></router-view>
     </main>
     <globalFooter id="footer" v-if="isLoaded"></globalFooter>
@@ -87,7 +87,6 @@ export default {
   },
   data: function () {
     return {
-      // API_BASE_URL: "http://localhost:5000/api/v1",
       API_BASE_URL: "https://api.jchs-honors-day.cf/api/v1",
       USER_INFO: null,
       JWT_TOKEN: this.$parent.token,
@@ -99,11 +98,15 @@ export default {
     };
   },
   computed: {
-    currentRouteName() {
-        return this.$route.name;
+    viewingAdmin(){
+      if(this.$route.name.startsWith('Admin')){
+        return true;
+      }else{
+        return false;
+      }
     },
     isLoaded(){
-        return !this.isLoading;
+      return !this.isLoading;
     }
   },
   mounted: function () {

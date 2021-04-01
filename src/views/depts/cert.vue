@@ -20,7 +20,6 @@
       <b-card 
         v-for="(item) in items" :key="item.cert_id"
         :title="item.cert_name"
-        tag="award"
         border-variant="secondary"
       >
         <template #header>

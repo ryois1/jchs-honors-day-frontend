@@ -8,7 +8,7 @@
         <b-col>
           <h3>
             You have <b-badge>{{ DELEGATES_USING_LOAD }}</b-badge> out of
-            <b-badge>{{ SELF_CERT_COUNT }}</b-badge> spots to delegate.
+            <b-badge>{{ SELF_CERT_COUNT }}</b-badge> slots to delegate.
           </h3>
         </b-col>
       </b-row>

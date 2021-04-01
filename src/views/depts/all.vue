@@ -11,7 +11,6 @@
       <b-card 
         v-for="(item) in items" :key="item.dept_id"
         :title="item.dept_name"
-        tag="department"
         border-variant="secondary"
       >
         <b-button :to="{name: 'DepartmentsCertificates', params: { dept_id: item.dept_id }}" variant="primary">Go to Department</b-button>

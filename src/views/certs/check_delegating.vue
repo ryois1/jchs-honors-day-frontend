@@ -180,7 +180,7 @@ export default {
           vm.count_invalid_teachers++;
           const errorinput = {
             email: teacher_emails[index],
-            reason: "Duplicate user [Already has delegated spots]!",
+            reason: "Duplicate user [Already has delegated slots]!",
           };
           errors.push(errorinput);
           continue;
