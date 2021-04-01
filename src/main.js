@@ -50,7 +50,7 @@ instance.$watch("loading", async loading => {
   } else {
     localStorage.setItem('AUTH_ORIGINAL_URL', window.location.href);
     localStorage.setItem('AUTH_NONCE', 'redirect');
-    instance.loginWithRedirect();
+    instance.loginWithRedirect({connection: 'azuread'});
   }
 });
 
