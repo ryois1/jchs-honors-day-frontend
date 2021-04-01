@@ -3,13 +3,14 @@
     <b-container fluid>
       <b-row>
         <b-col
+          cols="8"
           ><h1>{{ LANG_HEADER }}</h1></b-col
         >
         <b-col class="text-right"
           ><b-button
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             variant="primary"
-            :to="{ path: `/certificates/new` }"
+            :to="{name: 'CertificateNewParent'}"
             >New Award</b-button
           ></b-col
         >
@@ -27,7 +28,7 @@
       <template #cell(cert_id)="data">
         <b-button
           variant="primary"
-          :to="{ path: `/certificates/${data.item.cert_id}` }"
+          :to="{name: 'CertificatePage', params: { cert_id: data.item.cert_id }}"
           >View Certificates</b-button
         >
       </template>
@@ -105,14 +106,6 @@ export default {
         {
           key: "cert_name",
           label: "Award Name",
-        },
-        {
-          key: "user_name",
-          label: "Award Owner",
-        },
-        {
-          key: "user_email",
-          lable: "Award Owner Email",
         },
         {
           key: "cert_id",

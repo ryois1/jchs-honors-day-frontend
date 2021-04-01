@@ -2,10 +2,6 @@
   <div>
     <b-jumbotron v-if="$auth.isAuthenticated && this.$parent.USER_AUTHORIZED">
       <template #header>{{ LANG_WELCOME }}</template>
-      <hr class="my-4" />
-      <b-button variant="primary" class="mr-1" :to="{ path: `/departments` }"
-        >Certificates</b-button
-      >
     </b-jumbotron>
   </div>
 </template>

@@ -8,13 +8,11 @@ const new_certificate_child = () => import(/* webpackChunkName: "certificates" *
 const check_child_certs = () => import(/* webpackChunkName: "certificates" */ '../views/certs/check_child_certs.vue');
 const certificate_delegate = () => import(/* webpackChunkName: "certificates" */ '../views/certs/delegate.vue');
 const certificate_delegate_verify = () => import(/* webpackChunkName: "certificates" */ '../views/certs/check_delegating.vue');
-const certificate_delegates = () => import(/* webpackChunkName: "certificates" */ '../views/certs/delegates.vue');
 const import_pdfs_1 = () => import(/* webpackChunkName: "pdfs" */ '../views/pdfs/import_pdfs_step_1.vue');
 const import_pdfs_2 = () => import(/* webpackChunkName: "pdfs" */ '../views/pdfs/import_pdfs_step_2.vue');
 const import_pdfs_done = () => import(/* webpackChunkName: "pdfs" */ '../views/pdfs/import_pdfs_done.vue');
 const dept_all = () => import(/* webpackChunkName: "dept" */ '../views/depts/all.vue');
 const dept_certs = () => import(/* webpackChunkName: "dept" */ '../views/depts/cert.vue');
-const dept_users = () => import(/* webpackChunkName: "dept" */ '../views/depts/users.vue');
 const admin_index = () => import(/* webpackChunkName: "admin" */ '../views/admin/index.vue');
 const admin_users = () => import(/* webpackChunkName: "admin" */ '../views/admin/users.vue');
 const admin_new_user = () => import(/* webpackChunkName: "admin" */ '../views/admin/new_user.vue');
@@ -58,7 +56,7 @@ const routes = [
     },
   },
   {
-    path: '/certificates/import/step/1',
+    path: '/admin/import/pdfs/step/1',
     name: 'ImportCertsPDFs1',
     component: import_pdfs_1,
     props: true,
@@ -69,7 +67,7 @@ const routes = [
     },
   },
   {
-    path: '/certificates/import/step/2',
+    path: '/admin/import/pdfs/step/2',
     name: 'ImportCertsPDFs2',
     component: import_pdfs_2,
     props: true,
@@ -80,7 +78,7 @@ const routes = [
     },
   },
   {
-    path: '/certificates/import/complete',
+    path: '/admin/import/pdfs/complete',
     name: 'ImportCertsPDFsDone',
     component: import_pdfs_done,
     props: true,
@@ -97,17 +95,6 @@ const routes = [
     beforeEnter: authGuard,
     meta: {
       title: 'Viewing Certificate',
-      visible: true
-    },
-  },
-  {
-    path: '/certificates/:cert_id/delegates',
-    name: 'CertificatePageDelegates',
-    component: certificate_delegates,
-    beforeEnter: authGuard,
-    props: true,
-    meta: {
-      title: 'Delegates for Certificate',
       visible: true
     },
   },
@@ -172,16 +159,6 @@ const routes = [
     beforeEnter: authGuard,
     meta: {
       title: 'Department Certificates',
-      visible: true
-    },
-  },
-  {
-    path: '/departments/:dept_id/users',
-    name: 'DepartmentsUsers',
-    component: dept_users,
-    beforeEnter: authGuard,
-    meta: {
-      title: 'Department Users',
       visible: true
     },
   },
@@ -348,7 +325,7 @@ const routes = [
     },
   },
   {
-    path: '/unknown_user',
+    path: '/error/unknown_user',
     name: 'UnknownUser',
     component: unknown_user,
     meta: {
@@ -357,7 +334,7 @@ const routes = [
     },
   },
   {
-    path: '/api_connection_lost',
+    path: '/error/api_connection_lost',
     name: 'APIConnLost',
     component: api_conn_lost,
     meta: {

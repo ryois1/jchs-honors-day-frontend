@@ -8,7 +8,7 @@
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             variant="primary"
             class="mr-1"
-            :to="{ path: `/admin/students/import` }"
+            :to="{ name: 'AdminStudentsImport' }"
             >Bulk Import</b-button
           >
         </b-col>

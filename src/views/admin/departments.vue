@@ -10,14 +10,14 @@
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             variant="primary"
             class="mr-1"
-            :to="{ path: `/admin/departments/new` }"
+            :to="{ name: 'AdminDeptsNew' }"
             >Create Department</b-button
           >
           <b-button
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             variant="primary"
             class="mr-1"
-            :to="{ path: `/admin/departments/import` }"
+            :to="{ name: 'AdminDeptsImport' }"
             >Bulk Import</b-button
           >
         </b-col>
@@ -40,8 +40,8 @@
       <template #cell(edit)="data">
         <b-button
           variant="primary"
-          :to="{ path: `/admin/departments/${data.item.dept_id}` }"
-          >Edit Department</b-button
+          :to="{ name: 'AdminDeptsEdit', params: { dept_id: data.item.dept_id }}"
+          >View Department Users</b-button
         >
       </template>
     </b-table>

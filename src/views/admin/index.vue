@@ -13,7 +13,7 @@
       <b-button
         v-if="this.$parent.USER_INFO.role == 'ADMIN'"
         variant="primary"
-        :to="{ path: `/certificates/import/step/1` }"
+        :to="{ name: 'ImportCertsPDFs1' }"
         >Import PDFs</b-button
       >
     </b-jumbotron>

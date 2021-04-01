@@ -9,7 +9,7 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item :to="{ path: '/admin' }" :active="$route.name == 'Admin'"
+          <b-nav-item :to="{ name: 'Admin' }" :active="$route.name == 'Admin'"
             >Admin Home</b-nav-item
           >
           <b-nav-item
