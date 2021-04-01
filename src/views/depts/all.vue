@@ -7,26 +7,20 @@
         >
       </b-row>
     </b-container>
-    <b-table
-      :empty-html="EMTPY_TABLE"
-      bordered
-      show-empty
-      :items="items"
-      :fields="fields"
-    >
-      <template #cell(view)="data">
-        <b-button
-          variant="primary"
-          :to="{name: 'DepartmentsCertificates', params: { dept_id: data.item.dept_id }}"
-          >View Department Awards</b-button
-        >
-      </template>
-    </b-table>
+    <b-card-group columns>
+      <b-card 
+        v-for="(item) in items" :key="item.dept_id"
+        :title="item.dept_name"
+        tag="department"
+        border-variant="secondary"
+      >
+        <b-button :to="{name: 'DepartmentsCertificates', params: { dept_id: item.dept_id }}" variant="primary">Go to Department</b-button>
+      </b-card>
+    </b-card-group>
   </div>
 </template>
 <script>
 import axios from "axios";
-
 export default {
   name: "certs",
   data: function () {

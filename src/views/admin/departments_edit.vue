@@ -53,7 +53,7 @@ export default {
   name: "certs",
   data: function () {
     return {
-      LANG_HEADER: "Editing Department ???",
+      LANG_HEADER: "Viewing Users in Department ???",
       EMTPY_TABLE: "<p>Loading data...</p>",
       fields: [
         {
@@ -72,7 +72,7 @@ export default {
         },
         {
           key: "email",
-          lable: "Email",
+          label: "Email",
         },
         {
           key: "role",
@@ -166,7 +166,7 @@ export default {
           },
         }
       );
-      vm.LANG_HEADER = `Editing "${data.data.depts[0].department_name}"`;
+      vm.LANG_HEADER = `Viewing Users in "${data.data.depts[0].department_name}"`;
     },
   },
   mounted: function () {

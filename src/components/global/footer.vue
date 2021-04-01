@@ -10,6 +10,3 @@
         </b-navbar>
     </footer>
 </template>
-<style scoped>
-
-</style>

@@ -85,7 +85,7 @@ export default {
         },
         {
           key: "cert_student_id",
-          lable: "Certificate Student ID",
+          label: "Certificate Student ID",
         },
         {
           key: "cert_student_first_name",

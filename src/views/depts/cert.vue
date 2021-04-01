@@ -16,73 +16,43 @@
         >
       </b-row>
     </b-container>
-    <b-table
-      :empty-html="EMTPY_TABLE"
-      bordered
-      show-empty
-      :items="items"
-      :fields="fields"
-      :current-page="currentPage"
-      :per-page="0"
-    >
-      <template #cell(cert_id)="data">
-        <b-button
-          variant="primary"
-          :to="{name: 'CertificatePage', params: { cert_id: data.item.cert_id }}"
-          >View Certificates</b-button
-        >
-      </template>
-      <template #cell(cert_max_child)="data">
-        <div class="container">
-          <div class="col">
-            <p>
-              {{ data.item.cert_max_child }}
-              <span class="pull-right">
-                <b-button
-                  variant="warning"
-                  v-if="hasEdit"
-                  @click="
-                    changeMaxCerts(data.item.cert_id, data.item.cert_owner_id)
-                  "
-                  >Change Max Certs</b-button
-                >
-              </span>
-            </p>
-          </div>
-        </div>
-      </template>
-      <template #cell(cert_lock)="data">
-        <div>
-            <div v-if="data.item.cert_lock == false">
+    <b-card-group columns>
+      <b-card 
+        v-for="(item) in items" :key="item.cert_id"
+        :title="item.cert_name"
+        tag="award"
+        border-variant="secondary"
+      >
+        <template #header>
+          <b-row>
+            <b-col>
+          <div>
+            <div v-if="item.cert_lock == false">
               <b-icon icon="unlock-fill" variant="success" aria-hidden="true"></b-icon> Unlocked
-              <b-button
-                variant="danger"
-                v-if="hasEdit"
-                @click="lockAward(data.item.cert_id)"
-                >Lock</b-button>
             </div>
-            <div v-if="data.item.cert_lock == true">
+            <div v-if="item.cert_lock == true">
               <b-icon icon="lock-fill" variant="danger" aria-hidden="true"></b-icon> Locked
-              <b-button
-                variant="warning"
-                v-if="hasEdit"
-                @click="unlockAward(data.item.cert_id)"
-                >Unlock</b-button>
             </div>
-        </div>
+          </div>
+          </b-col>
+          </b-row>
+        </template>
+        Max Certificates {{ item.cert_max_child }}
+        <template #footer>
+          <b-row>
+            <b-col>
+              <b-button variant="danger" class="mr-1" v-if="hasEdit && item.cert_lock == false" @click="lockAward(item.cert_id)" ><b-icon icon="lock" aria-hidden="true"></b-icon></b-button>
+              <b-button variant="warning" class="mr-1" v-if="hasEdit && item.cert_lock == true" @click="unlockAward(item.cert_id)"><b-icon icon="unlock" aria-hidden="true"></b-icon></b-button>
+              <b-button variant="warning" class="mr-1" v-if="hasEdit" @click="changeMaxCerts(item.cert_id, item.cert_owner_id)"><b-icon icon="pencil" aria-hidden="true"></b-icon></b-button>
+              <b-button variant="danger" class="mr-1" v-if="hasEdit" @click="deleteAward(item.cert_id, item.cert_owner_id)"><b-icon icon="trash-fill" aria-hidden="true"></b-icon></b-button>
+            </b-col>
+            <b-col>
+              <b-button variant="primary" class="float-right" :to="{name: 'CertificatePage', params: { cert_id: item.cert_id }}">View Certificates</b-button>
+            </b-col>
+          </b-row>
       </template>
-      <template #cell(delete)="data">
-        <div>
-          <p v-if="!hasEdit">No Permissions</p>
-          <b-button
-            variant="danger"
-            v-if="hasEdit"
-            @click="deleteAward(data.item.cert_id, data.item.cert_owner_id)"
-            >Delete <b-icon icon="trash-fill" aria-hidden="true"></b-icon
-          ></b-button>
-        </div>
-      </template>
-    </b-table>
+      </b-card>
+    </b-card-group>
   </div>
 </template>
 <script>
@@ -96,34 +66,7 @@ export default {
       EMTPY_TABLE: "<p>Loading data...</p>",
       DEPT_NAME: "???",
       USER_ROLE: this.$parent.USER_INFO.role,
-      fields: [
-        {
-          key: "cert_owner_id",
-          label: "Award Owner ID",
-          thClass: "d-none",
-          tdClass: "d-none",
-        },
-        {
-          key: "cert_name",
-          label: "Award Name",
-        },
-        {
-          key: "cert_id",
-          label: "View Award",
-        },
-        {
-          key: "cert_max_child",
-          label: "Max Certificates",
-        },
-        {
-          key: "cert_lock",
-          label: "Award Status",
-        },
-        {
-          key: "delete",
-          label: "Delete",
-        }
-      ],
+      ADMINS: this.$parent.ADMINS,
       items: [],
       currentPage: 1,
       perPage: 10,

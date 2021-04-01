@@ -77,7 +77,7 @@ export default {
         },
         {
           key: "email",
-          lable: "Email",
+          label: "Email",
         },
         {
           key: "role",

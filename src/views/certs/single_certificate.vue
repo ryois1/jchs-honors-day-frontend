@@ -77,6 +77,10 @@
           >Delete <b-icon icon="trash-fill" aria-hidden="true"></b-icon
         ></b-button>
       </template>
+      <template #cell(cert_file)="data">
+        <p v-if="data.item.cert_file">Uploaded</p>
+        <p v-if="!data.item.cert_file">Not Uploaded</p>
+      </template>
     </b-table>
   </div>
 </template>
@@ -136,36 +140,38 @@ export default {
           tdClass: "d-none",
         },
         {
-          key: "cert_name",
-          label: "Certificate Name",
-        },
-        {
-          key: "cert_file",
-          label: "Certificate File",
-        },
-        {
-          key: "student_id",
-          lable: "Student ID",
-        },
-        {
           key: "student_first_name",
-          lable: "First Name",
+          label: "First Name",
         },
         {
           key: "student_middle_name",
-          lable: "Middle Name",
+          label: "Middle Name",
         },
         {
           key: "student_last_name",
-          lable: "Last Name",
+          label: "Last Name",
+        },
+        {
+          key: "student_id",
+          label: "Student ID",
         },
         {
           key: "student_email",
-          lable: "Student Email",
+          label: "Student Email",
+        },
+        {
+          key: "cert_name",
+          label: "Certificate Name",
+          thClass: "d-none",
+          tdClass: "d-none",
+        },
+        {
+          key: "cert_file",
+          label: "Certificate File Status",
         },
         {
           key: "creator_name",
-          lable: "Creator Name",
+          label: "Creator Name",
         },
         "delete",
       ],

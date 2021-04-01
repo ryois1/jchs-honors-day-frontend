@@ -62,7 +62,7 @@ export default {
         },
         {
           key: "email",
-          lable: "Email",
+          label: "Email",
         },
         {
           key: "homeroom",
@@ -71,7 +71,7 @@ export default {
       ],
       items: [],
       currentPage: 1,
-      perPage: 10,
+      perPage: 25,
       totalItems: 0,
     };
   },
@@ -79,14 +79,11 @@ export default {
     API_students: async function () {
       const vm = this;
       vm.isLoading = true;
-      const offset = vm.currentPage * vm.perPage - 10;
-      let authToken = vm.$parent.JWT_TOKEN;
-      if ((await authToken) == null) {
-        await this.getAuthToken();
+      const currentPage = vm.currentPage;
         const { data } = await axios.get(
           `${vm.$parent.API_BASE_URL}/students`,
           {
-            params: { offset: offset, limit: vm.perPage },
+            params: { currentPage: currentPage, limit: vm.perPage },
             headers: {
               Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
             },
@@ -97,26 +94,8 @@ export default {
           vm.EMTPY_TABLE = "<h3>There are no students to show</h3>";
         }
         vm.isLoading = false;
-        vm.totalItems = data.count;
+        vm.totalItems = data.data.count;
         vm.items = data.data.students;
-      } else {
-        const { data } = await axios.get(
-          `${vm.$parent.API_BASE_URL}/students`,
-          {
-            params: { offset: offset, limit: vm.perPage },
-            headers: {
-              Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-            },
-          }
-        );
-        if (data.data.students == 0) {
-          vm.isLoading = false;
-          vm.EMTPY_TABLE = "<h3>There are no students to show</h3>";
-        }
-        vm.totalItems = data.count;
-        vm.items = data.data.students;
-        vm.isLoading = false;
-      }
     },
   },
   mounted: function () {

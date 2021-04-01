@@ -46,7 +46,7 @@
 </template>
 <script>
 export default {
-  name: "navbar",
+  name: "GlobalNav",
 };
 </script>
 <style scoped>

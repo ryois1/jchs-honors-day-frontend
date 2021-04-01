@@ -59,17 +59,18 @@
 </template>
 <script>
 export default {
-  name: "navbar",
+  name: "AdminNav",
   methods: {
     checkAdmin: async function () {
       const vm = this;
-      if (
-        this.$parent.USER_INFO.role != "ADMIN" ||
-        this.$parent.USER_INFO.role != "COMMITTEE"
-      ) {
-        vm.$router.push({ name: "NotAdmin" });
+      if (!vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role)) {
+        console.log('not admin')
+        vm.$router.push({ name: "Home" });
       }
     },
+  },
+  mounted: async function () {
+    await this.checkAdmin();
   },
 };
 </script>
