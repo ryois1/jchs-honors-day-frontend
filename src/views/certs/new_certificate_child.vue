@@ -9,7 +9,10 @@
           ><h3>
             You have <b-badge>{{ this.certs_remaining }}</b-badge> out of
             <b-badge>{{ this.max_certs }}</b-badge> certificates remaining
-          </h3><b-button @click="bulkImport" class="mr-1" variant="success">Bulk Import</b-button></b-col
+          </h3>
+          <b-button @click="bulkImport" class="mr-1" variant="success"
+            >Bulk Import</b-button
+          ></b-col
         >
       </b-row>
       <b-row>
@@ -100,8 +103,11 @@ export default {
     };
   },
   methods: {
-    bulkImport(){
-      const prop = { cert_name: this.cert_name, cert_id: this.$route.params.cert_id };
+    bulkImport() {
+      const prop = {
+        cert_name: this.cert_name,
+        cert_id: this.$route.params.cert_id,
+      };
       this.$router.push({
         name: "CertificatePageChildBulk",
         params: { prop },
@@ -136,37 +142,49 @@ export default {
       const search = this.student_id[index];
       vm.lookedup_student = [];
       const loookup_data = { search_query: search };
-        const { data } = await axios.post(
-          `${vm.$parent.API_BASE_URL}/students/search`,
-          loookup_data,
-          {
-            headers: {
-              Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-            },
-          }
-        );
-        const students = [];
-        Object.keys(data.data.students).forEach(function (key) {
-          const row = data.data.students[key];
-          const name = `${row.first_name} ${row.last_name} (${row.id})`;
-          const value = row.id;
-          students.push({name: name, value: value});
+      axios({
+        method: "post",
+        url: `${vm.$parent.API_BASE_URL}/students/search`,
+        data: loookup_data,
+        headers: {
+          Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+        },
+      })
+        .then(async function (response) {
+          const students = [];
+          Object.keys(response.data.data.students).forEach(function (key) {
+            const row = response.data.data.students[key];
+            const name = `${row.first_name} ${row.last_name} (${row.id})`;
+            const value = row.id;
+            students.push({ name: name, value: value });
+          });
+          vm.lookedup_student = students;
+          await vm.$parent.$swal
+            .fire({
+              title: "Search Results",
+              html: `<select id="select" name="parent" class="form-control">
+          ${students.map(
+            (cat) => `<option value="${cat.value}">${cat.name}</option>`
+          )} ...`,
+              showCancelButton: true,
+              preConfirm: () => {
+                return document.getElementById("select").value;
+              },
+            })
+            .then(async function (result) {
+              vm.student_id[index] = result.value;
+              vm.$forceUpdate();
+            });
+        })
+        .catch(function (response) {
+          vm.$parent.$toast.error(
+            "There was an error searching, please try a different search term.",
+            {
+              position: "top-right",
+            }
+          );
+          console.error(response);
         });
-        vm.lookedup_student = students;
-        await vm.$parent.$swal.fire({
-          title: 'Search Results',
-          html: `<select id="select" name="parent" class="form-control">
-          ${students.map(cat => `<option value="${cat.value}">${cat.name}</option>`)} ...`,
-          showCancelButton: true,
-          preConfirm: () => {
-            return document.getElementById("select").value;
-          }
-        }).then(async function (result) {
-          vm.student_id[index] = result.value;
-          vm.$forceUpdate();
-
-        });
-       
     },
     remove() {
       this.input_index--;
