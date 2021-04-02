@@ -43,7 +43,8 @@
             <b-col>
               <b-button variant="danger" v-b-tooltip.hover title="Lock Award" class="mr-1" v-if="hasEdit && item.cert_lock == false" @click="lockAward(item.cert_id)" ><b-icon icon="lock" aria-hidden="true"></b-icon></b-button>
               <b-button variant="warning" v-b-tooltip.hover title="Unlock Award" class="mr-1" v-if="hasEdit && item.cert_lock == true" @click="unlockAward(item.cert_id)"><b-icon icon="unlock" aria-hidden="true"></b-icon></b-button>
-              <b-button variant="warning" v-b-tooltip.hover title="Change Max Certificates" class="mr-1" v-if="hasEdit" @click="changeMaxCerts(item.cert_id, item.cert_owner_id)"><b-icon icon="pencil" aria-hidden="true"></b-icon></b-button>
+              <b-button variant="warning" v-b-tooltip.hover title="Change Max Certificates" class="mr-1" v-if="hasEdit" @click="changeMaxCerts(item.cert_id, item.cert_owner_id, item)"><b-icon icon="pencil" aria-hidden="true"></b-icon></b-button>
+              <b-button variant="warning" v-b-tooltip.hover title="Change Award Name" class="mr-1" v-if="hasEdit" @click="changeAwardName(item.cert_id, item.cert_owner_id, item)"><b-icon icon="input-cursor-text" aria-hidden="true"></b-icon></b-button>
               <b-button variant="danger" v-b-tooltip.hover title="Delete Award" class="mr-1" v-if="hasEdit" @click="deleteAward(item.cert_id, item.cert_owner_id)"><b-icon icon="trash-fill" aria-hidden="true"></b-icon></b-button>
             </b-col>
             <b-col>
@@ -74,7 +75,7 @@ export default {
     };
   },
   methods: {
-    changeMaxCerts: async function (cert_id, cert_owner_id) {
+    changeMaxCerts: async function (cert_id, cert_owner_id, item) {
       const vm = this;
       if (
         !(
@@ -95,7 +96,7 @@ export default {
           confirmButtonText: "Change",
           reverseButtons: true,
           input: "text",
-          inputPlaceholder: "Number",
+          inputValue: item.cert_max_child,
         })
         .then(async function (result) {
           if (result.isConfirmed) {
@@ -105,6 +106,71 @@ export default {
             axios({
               method: "put",
               url: `${vm.$parent.API_BASE_URL}/certs/${cert_id}/max`,
+              data: data,
+              headers: {
+                Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+              },
+            })
+              .then(function (response) {
+                if (response.data.error) {
+                  console.error(response);
+                  vm.$parent.$toast.error(
+                    "There was an error modifying the award.",
+                    { position: "top-right" }
+                  );
+                } else {
+                  vm.$parent.$toast.success(
+                    "Successfully modified the award.",
+                    {
+                      position: "top-right",
+                    }
+                  );
+                  vm.API_certs().catch((error) => {
+                    console.error(error);
+                  });
+                }
+              })
+              .catch(function (response) {
+                vm.$parent.$toast.error(
+                  "There was an error modifying the award.",
+                  { position: "top-right" }
+                );
+                console.error(response);
+              });
+          }
+        });
+    },
+    changeAwardName: async function (cert_id, cert_owner_id, item) {
+      const vm = this;
+      if (
+        !(
+          vm.$parent.USER_INFO.role == "ADMIN" ||
+          vm.$parent.USER_INFO.role == "COMMITTEE"
+        )
+      ) {
+        if (cert_owner_id != vm.$parent.USER_INFO.user_id) {
+          vm.$parent.$toast.error("No permissions.", { position: "top-right" });
+          return;
+        }
+      }
+      await this.$parent.$swal
+        .fire({
+          title: `Enter New Award Name`,
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Change",
+          reverseButtons: true,
+          input: "text",
+          inputValue: item.cert_name,
+        })
+        .then(async function (result) {
+          if (result.isConfirmed) {
+            const data = {
+              certs: [{ cert_name: result.value }],
+            };
+            axios({
+              method: "put",
+              url: `${vm.$parent.API_BASE_URL}/certs/${cert_id}`,
               data: data,
               headers: {
                 Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,

@@ -50,6 +50,8 @@
               <b-button type="submit" variant="primary">Submit</b-button>
             </b-form>
           </b-card>
+      <br>
+      <b-button id="go_back" @click="goBack" variant="primary">Go Back</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -70,6 +72,10 @@ export default {
     };
   },
   methods: {
+    goBack() {
+      const prop = { dept_id: this.$route.params.dept_id };
+      this.$router.push({ name: "DepartmentsCertificates", params: { prop } });
+    },
     API_depts: async function () {
       const vm = this;
       const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/dept`, {
