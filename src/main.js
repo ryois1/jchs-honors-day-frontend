@@ -7,6 +7,8 @@ import { domain, clientId, audience } from "../auth_config.json";
 import { Auth0Plugin, getInstance } from "./auth";
 import VueSweetalert2 from 'vue-sweetalert2';
 import VueToast from 'vue-toast-notification';
+import * as Sentry from "@sentry/vue";
+import { Integrations } from "@sentry/tracing";
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -14,6 +16,12 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import 'vue-toast-notification/dist/theme-default.css';
 
 Vue.config.productionTip = false
+Sentry.init({
+  Vue,
+  dsn: "https://d6d8ecd5c3d74209a80952cdc8dc043a@o563821.ingest.sentry.io/5704184",
+  integrations: [new Integrations.BrowserTracing()],
+  tracesSampleRate: 1.0,
+});
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 Vue.use(Vuex)

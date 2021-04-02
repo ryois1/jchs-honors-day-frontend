@@ -1,11 +1,7 @@
 <template>
   <div :key="$route.fullPath" id="app">
     <main>
-      <loading
-        :active.sync="isLoading"
-        :can-cancel="onCancel"
-        :is-full-page="fullPage"
-      ></loading>
+      <loading :active.sync="isLoading" :can-cancel="onCancel" :is-full-page="fullPage"></loading>
       <globalNav></globalNav>
       <adminNav v-if="(viewingAdmin) && (isLoaded)"></adminNav>
       <router-view v-if="isLoaded"></router-view>
@@ -24,7 +20,7 @@ const globalFooter = () =>
 import axios from "axios";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
-
+import * as Sentry from "@sentry/vue";
 export default {
   name: "App",
   components: {
@@ -99,6 +95,9 @@ export default {
   },
   computed: {
     viewingAdmin(){
+      if(this.isLoading){
+        return false;
+      }
       if(this.$route.name.startsWith('Admin')){
         return true;
       }else{
@@ -109,15 +108,18 @@ export default {
       return !this.isLoading;
     }
   },
-  mounted: function () {
-    if(this.$parent.AUTH_NONCE == 'redirect'){
-      window.location.replace(this.$parent.AUTH_ORIGINAL_URL);
+  mounted: async function () {
+    const vm = this;
+    if(vm.$parent.AUTH_NONCE == 'redirect'){
+      window.location.replace(vm.$parent.AUTH_ORIGINAL_URL);
       localStorage.setItem('AUTH_NONCE', 'noredirect');
     }
-    this.API_me();
-    this.$nextTick(function () {
+    await vm.API_me();
+    await Sentry.setContext("user", {first_name: vm.USER_INFO.first_name, last_name: vm.USER_INFO.last_name, role: vm.USER_INFO.role,});
+    await Sentry.setUser({ id: vm.USER_INFO.user_id, email: vm.USER_INFO.email });
+    vm.$nextTick(function () {
       window.setInterval(() => {
-        this.API_me();
+        vm.API_me();
       }, 300000);
     });
   },
