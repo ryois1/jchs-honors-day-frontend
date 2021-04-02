@@ -78,6 +78,8 @@
               <b-button @click="verify" variant="primary">Verify</b-button>
             </b-form>
           </b-card>
+          <br>
+          <b-button id="go_back" class="mr-1" @click="goBack" variant="primary">Go Back</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -251,6 +253,10 @@ export default {
           data.data.certs[0].user_cert_current;
         vm.max_certs = data.data.certs[0].user_cert_max;
       }
+    },
+    goBack() {
+      const prop = { dept_id: this.$route.params.dept_id, cert_id: this.$route.params.cert_id };
+      this.$router.push({ name: "CertificatePage", params: { prop } });
     },
   },
   mounted: async function () {

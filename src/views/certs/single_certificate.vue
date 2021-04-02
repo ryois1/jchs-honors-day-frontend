@@ -82,6 +82,8 @@
         <p v-if="!data.item.cert_file">Not Uploaded</p>
       </template>
     </b-table>
+    <br>
+    <b-button id="go_back" class="mr-1" @click="goBack" variant="primary">Go Back</b-button>
   </div>
 </template>
 <script>
@@ -535,6 +537,10 @@ export default {
         vm.DISABLED_ADD = false;
       }
       vm.items = data.data.certs;
+    },
+    goBack() {
+      const prop = { dept_id: this.$route.params.dept_id };
+      this.$router.push({ name: "DepartmentsCertificates", params: { prop } });
     },
   },
   mounted: async function () {

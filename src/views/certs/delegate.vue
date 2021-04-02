@@ -82,6 +82,8 @@
               <b-button @click="verify" variant="primary">Verify</b-button>
             </b-form>
           </b-card>
+          <br>
+          <b-button id="go_back" class="mr-1" @click="goBack" variant="primary">Go Back</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -207,6 +209,10 @@ export default {
       vm.SELF_CERT_COUNT = data.data.certs[0].cert_max_child;
       vm.DELEGATES_USING_LOAD = data.data.certs[0].cert_max_child;
       vm.LANG_HEADER = `Delegating Certificates for Award "${data.data.certs[0].cert_name}"`;
+    },
+    goBack() {
+      const prop = { dept_id: this.$route.params.dept_id, cert_id: this.$route.params.cert_id };
+      this.$router.push({ name: "CertificatePage", params: { prop } });
     },
   },
   mounted: async function () {

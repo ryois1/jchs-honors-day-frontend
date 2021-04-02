@@ -47,7 +47,7 @@ const routes = [
     },
   },
   {
-    path: '/certificates/new',
+    path: '/departments/:dept_id/certificates/new',
     name: 'CertificateNewParent',
     component: new_certificate_parent,
     beforeEnter: authGuard,
@@ -57,40 +57,7 @@ const routes = [
     },
   },
   {
-    path: '/admin/import/pdfs/step/1',
-    name: 'ImportCertsPDFs1',
-    component: import_pdfs_1,
-    props: true,
-    beforeEnter: authGuard,
-    meta: {
-      title: 'Importing Certificate',
-      visible: true
-    },
-  },
-  {
-    path: '/admin/import/pdfs/step/2',
-    name: 'ImportCertsPDFs2',
-    component: import_pdfs_2,
-    props: true,
-    beforeEnter: authGuard,
-    meta: {
-      title: 'Importing Certificate',
-      visible: true
-    },
-  },
-  {
-    path: '/admin/import/pdfs/complete',
-    name: 'ImportCertsPDFsDone',
-    component: import_pdfs_done,
-    props: true,
-    beforeEnter: authGuard,
-    meta: {
-      title: 'Importing Certificate',
-      visible: true
-    },
-  },
-  {
-    path: '/certificates/:cert_id',
+    path: '/departments/:dept_id/certificates/:cert_id',
     name: 'CertificatePage',
     component: single_certificate,
     beforeEnter: authGuard,
@@ -100,7 +67,7 @@ const routes = [
     },
   },
   {
-    path: '/certificates/:cert_id/delegate',
+    path: '/departments/:dept_id/certificates/:cert_id/delegate',
     name: 'CertificatePageDelegate',
     component: certificate_delegate,
     beforeEnter: authGuard,
@@ -111,7 +78,7 @@ const routes = [
     },
   },
   {
-    path: '/certificates/:cert_id/delegate/verify',
+    path: '/departments/:dept_id/certificates/:cert_id/delegate/verify',
     name: 'CertificateDelegateVerify',
     component: certificate_delegate_verify,
     beforeEnter: authGuard,
@@ -122,7 +89,7 @@ const routes = [
     },
   },
   {
-    path: '/certificates/:cert_id/new',
+    path: '/departments/:dept_id/certificates/:cert_id/new',
     name: 'CertificatePageChild',
     component: new_certificate_child,
     beforeEnter: authGuard,
@@ -133,7 +100,7 @@ const routes = [
     },
   },
   {
-    path: '/certificates/:cert_id/new/bulk',
+    path: '/departments/:dept_id/certificates/:cert_id/new/bulk',
     name: 'CertificatePageChildBulk',
     component: new_certificate_child_bulk,
     beforeEnter: authGuard,
@@ -144,7 +111,7 @@ const routes = [
     },
   },
   {
-    path: '/certificates/:cert_id/new/verify',
+    path: '/departments/:dept_id/certificates/:cert_id/new/verify',
     name: 'CertificatePageChildVerify',
     component: check_child_certs,
     beforeEnter: authGuard,
@@ -181,6 +148,39 @@ const routes = [
     beforeEnter: authGuard,
     meta: {
       title: 'Admin',
+      visible: true
+    },
+  },
+  {
+    path: '/admin/import/pdfs/step/1',
+    name: 'ImportCertsPDFs1',
+    component: import_pdfs_1,
+    props: true,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Importing Certificate',
+      visible: true
+    },
+  },
+  {
+    path: '/admin/import/pdfs/step/2',
+    name: 'ImportCertsPDFs2',
+    component: import_pdfs_2,
+    props: true,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Importing Certificate',
+      visible: true
+    },
+  },
+  {
+    path: '/admin/import/pdfs/complete',
+    name: 'ImportCertsPDFsDone',
+    component: import_pdfs_done,
+    props: true,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Importing Certificate',
       visible: true
     },
   },
