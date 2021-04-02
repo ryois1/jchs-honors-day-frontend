@@ -122,7 +122,7 @@ export default {
                   vm.$parent.$toast.success("Successfully removing the user.", {
                     position: "top-right",
                   });
-                  this.API_users().catch((error) => {
+                  vm.API_users().catch((error) => {
                     console.error(error);
                   });
                 }

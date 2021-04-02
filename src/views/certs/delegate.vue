@@ -60,18 +60,6 @@
                         @click="lookupTeacher(index - 1)"
                         >Lookup</b-button
                       >
-                      <b-form-group
-                        v-for="user in lookedup_teacher"
-                        :key="user"
-                      >
-                        <b-form-radio
-                          v-model="users_email[index - 1]"
-                          :value="user.email"
-                          >{{
-                            `${user.first_name} ${user.last_name} (${user.email})`
-                          }}</b-form-radio
-                        >
-                      </b-form-group>
                     </b-col>
                   </b-row>
                 </b-container>
@@ -129,32 +117,50 @@ export default {
     lookupTeacher: async function (index) {
       const vm = this;
       const search = this.users_email[index];
-      vm.lookedup_teacher = [];
+      vm.lookedup_student = [];
       const loookup_data = { search_query: search };
-      const { data } = await axios.post(
-        `${vm.$parent.API_BASE_URL}/users/search`,
-        loookup_data,
-        {
-          headers: {
-            Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-          },
-        }
-      );
-      const output = [];
-      if (data.error) {
-        vm.$parent.$toast.error(`${data.message}`, { position: "top-right" });
-      }
-      Object.keys(data.data.users).forEach(function (key) {
-        const row = data.data.users[key];
-        const cert = {
-          id: row.id,
-          first_name: row.first_name,
-          last_name: row.last_name,
-          email: row.email,
-        };
-        output.push(cert);
-      });
-      vm.lookedup_teacher = output;
+      axios({
+        method: "post",
+        url: `${vm.$parent.API_BASE_URL}/users/search`,
+        data: loookup_data,
+        headers: {
+          Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+        },
+      })
+        .then(async function (response) {
+          const users = [];
+          Object.keys(response.data.data.users).forEach(function (key) {
+            const row = response.data.data.users[key];
+            const name = `${row.first_name} ${row.last_name} (${row.email})`;
+            const value = row.email;
+            users.push({ name: name, value: value });
+          });
+          await vm.$parent.$swal
+            .fire({
+              title: "Search Results",
+              html: `<select id="select" name="parent" class="form-control">
+          ${users.map(
+            (cat) => `<option value="${cat.value}">${cat.name}</option>`
+          )} ...`,
+              showCancelButton: true,
+              preConfirm: () => {
+                return document.getElementById("select").value;
+              },
+            })
+            .then(async function (result) {
+              vm.users_email[index] = result.value;
+              vm.$forceUpdate();
+            });
+        })
+        .catch(function (response) {
+          vm.$parent.$toast.error(
+            "There was an error searching, please try a different search term.",
+            {
+              position: "top-right",
+            }
+          );
+          console.error(response);
+        });
     },
     addTeacher() {
       this.input_index++;
