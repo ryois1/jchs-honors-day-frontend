@@ -36,14 +36,14 @@
           </b-col>
           </b-row>
         </template>
-        Max Certificates {{ item.cert_max_child }}
+        Max Certificate(s): <b>{{ item.cert_max_child }}</b>
         <template #footer>
           <b-row>
             <b-col>
-              <b-button variant="danger" class="mr-1" v-if="hasEdit && item.cert_lock == false" @click="lockAward(item.cert_id)" ><b-icon icon="lock" aria-hidden="true"></b-icon></b-button>
-              <b-button variant="warning" class="mr-1" v-if="hasEdit && item.cert_lock == true" @click="unlockAward(item.cert_id)"><b-icon icon="unlock" aria-hidden="true"></b-icon></b-button>
-              <b-button variant="warning" class="mr-1" v-if="hasEdit" @click="changeMaxCerts(item.cert_id, item.cert_owner_id)"><b-icon icon="pencil" aria-hidden="true"></b-icon></b-button>
-              <b-button variant="danger" class="mr-1" v-if="hasEdit" @click="deleteAward(item.cert_id, item.cert_owner_id)"><b-icon icon="trash-fill" aria-hidden="true"></b-icon></b-button>
+              <b-button variant="danger" v-b-tooltip.hover title="Lock Award" class="mr-1" v-if="hasEdit && item.cert_lock == false" @click="lockAward(item.cert_id)" ><b-icon icon="lock" aria-hidden="true"></b-icon></b-button>
+              <b-button variant="warning" v-b-tooltip.hover title="Unlock Award" class="mr-1" v-if="hasEdit && item.cert_lock == true" @click="unlockAward(item.cert_id)"><b-icon icon="unlock" aria-hidden="true"></b-icon></b-button>
+              <b-button variant="warning" v-b-tooltip.hover title="Change Max Certificates" class="mr-1" v-if="hasEdit" @click="changeMaxCerts(item.cert_id, item.cert_owner_id)"><b-icon icon="pencil" aria-hidden="true"></b-icon></b-button>
+              <b-button variant="danger" v-b-tooltip.hover title="Delete Award" class="mr-1" v-if="hasEdit" @click="deleteAward(item.cert_id, item.cert_owner_id)"><b-icon icon="trash-fill" aria-hidden="true"></b-icon></b-button>
             </b-col>
             <b-col>
               <b-button variant="primary" class="float-right" :to="{name: 'CertificatePage', params: { cert_id: item.cert_id }}">View Certificates</b-button>

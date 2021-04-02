@@ -29,6 +29,7 @@
       v-model="currentPage"
       :per-page="perPage"
     ></b-pagination>
+    Total Students: <b>{{totalItems}}</b>
   </div>
 </template>
 <script>

@@ -62,18 +62,6 @@
                         @click="lookupStudent(index - 1)"
                         >Lookup</b-button
                       >
-                      <b-form-group
-                        v-for="student in lookedup_student"
-                        :key="student"
-                      >
-                        <b-form-radio
-                          v-model="student_id[index - 1]"
-                          :value="student.id"
-                          >{{
-                            `${student.first_name} ${student.last_name} (${student.id})`
-                          }}</b-form-radio
-                        >
-                      </b-form-group>
                       <div v-if="!isNaN(student_id[index - 1])">
                         <p>Disabled when input is a student ID</p>
                       </div>
@@ -145,12 +133,9 @@ export default {
     },
     lookupStudent: async function (index) {
       const vm = this;
-      let authToken = vm.$parent.JWT_TOKEN;
       const search = this.student_id[index];
       vm.lookedup_student = [];
       const loookup_data = { search_query: search };
-      if ((await authToken) == null) {
-        await this.getAuthToken();
         const { data } = await axios.post(
           `${vm.$parent.API_BASE_URL}/students/search`,
           loookup_data,
@@ -160,50 +145,28 @@ export default {
             },
           }
         );
-        const output = [];
+        const students = [];
         Object.keys(data.data.students).forEach(function (key) {
           const row = data.data.students[key];
-          const cert = {
-            id: row.id,
-            first_name: row.first_name,
-            middle_name: row.middle_name,
-            last_name: row.last_name,
-            yog: row.yog,
-            email: row.email,
-            homeroom: row.homeroom,
-          };
-          output.push(cert);
+          const name = `${row.first_name} ${row.last_name} (${row.id})`;
+          const value = row.id;
+          students.push({name: name, value: value});
         });
-        vm.lookedup_student = output;
-      } else {
-        const { data } = await axios.post(
-          `${vm.$parent.API_BASE_URL}/students/search`,
-          loookup_data,
-          {
-            headers: {
-              Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
-            },
+        vm.lookedup_student = students;
+        await vm.$parent.$swal.fire({
+          title: 'Search Results',
+          html: `<select id="select" name="parent" class="form-control">
+          ${students.map(cat => `<option value="${cat.value}">${cat.name}</option>`)} ...`,
+          showCancelButton: true,
+          preConfirm: () => {
+            return document.getElementById("select").value;
           }
-        );
-        const output = [];
-        if (data.error) {
-          vm.$parent.$toast.error(`${data.message}`, { position: "top-right" });
-        }
-        Object.keys(data.data.students).forEach(function (key) {
-          const row = data.data.students[key];
-          const cert = {
-            id: row.id,
-            first_name: row.first_name,
-            middle_name: row.middle_name,
-            last_name: row.last_name,
-            yog: row.yog,
-            email: row.email,
-            homeroom: row.homeroom,
-          };
-          output.push(cert);
+        }).then(async function (result) {
+          vm.student_id[index] = result.value;
+          vm.$forceUpdate();
+
         });
-        vm.lookedup_student = output;
-      }
+       
     },
     remove() {
       this.input_index--;

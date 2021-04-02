@@ -49,6 +49,13 @@
         ></b-button>
       </template>
     </b-table>
+    <b-pagination
+      size="md"
+      :total-rows="totalItems"
+      v-model="currentPage"
+      :per-page="perPage"
+    ></b-pagination>
+    Total Users: <b>{{totalItems}}</b>
   </div>
 </template>
 <script>
@@ -200,9 +207,9 @@ export default {
     API_users: async function () {
       const vm = this;
       vm.isLoading = true;
-      const offset = vm.currentPage * vm.perPage - 10;
+      const currentPage = vm.currentPage;
       const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/users`, {
-        params: { offset: offset, limit: vm.perPage },
+        params: { currentPage: currentPage, limit: vm.perPage },
         headers: {
           Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
         },
@@ -213,7 +220,7 @@ export default {
         vm.items = [];
         vm.isLoading = false;
       } else {
-        vm.totalItems = data.count;
+        vm.totalItems = data.data.count;
         vm.items = data.data.users;
         vm.isLoading = false;
       }

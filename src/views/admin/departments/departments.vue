@@ -45,6 +45,7 @@
         >
       </template>
     </b-table>
+    Total Departments: <b>{{totalItems}}</b>
   </div>
 </template>
 <script>
@@ -122,7 +123,9 @@ export default {
     API_depts: async function () {
       const vm = this;
       vm.isLoading = true;
+      const currentPage = vm.currentPage;
       const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/dept`, {
+        params: { currentPage: currentPage, limit: vm.perPage },
         headers: {
           Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
         },
@@ -133,7 +136,7 @@ export default {
         vm.items = [];
         vm.isLoading = false;
       } else {
-        vm.totalItems = data.count;
+        vm.totalItems = data.data.depts.length;
         vm.items = data.data.depts;
         vm.isLoading = false;
       }
