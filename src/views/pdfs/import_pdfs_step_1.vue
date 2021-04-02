@@ -37,7 +37,6 @@ export default {
   methods: {
     step2(file, response) {
       const vm = this;
-      this.$parent.isLoading = true;
       setTimeout(function () {
         const prop = {
           certs_needed_count: response.data.received.length,

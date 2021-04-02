@@ -152,7 +152,7 @@ const routes = [
     },
   },
   {
-    path: '/admin/import/pdfs/step/1',
+    path: '/import/pdfs/step/1',
     name: 'ImportCertsPDFs1',
     component: import_pdfs_1,
     props: true,
@@ -163,7 +163,7 @@ const routes = [
     },
   },
   {
-    path: '/admin/import/pdfs/step/2',
+    path: '/import/pdfs/step/2',
     name: 'ImportCertsPDFs2',
     component: import_pdfs_2,
     props: true,
@@ -174,7 +174,7 @@ const routes = [
     },
   },
   {
-    path: '/admin/import/pdfs/complete',
+    path: '/import/pdfs/complete',
     name: 'ImportCertsPDFsDone',
     component: import_pdfs_done,
     props: true,

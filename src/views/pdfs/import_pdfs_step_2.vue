@@ -85,7 +85,7 @@ export default {
         },
         {
           key: "cert_student_id",
-          label: "Certificate Student ID",
+          lable: "Certificate Student ID",
         },
         {
           key: "cert_student_first_name",
@@ -108,7 +108,6 @@ export default {
       handler: function () {
         const vm = this;
         if (vm.UPLOADED_COUNT == vm.CERTS_NEEDED) {
-          vm.$parent.isLoading = true;
           setTimeout(function () {
             const prop = {
               certs_needed_count: vm.CERTS_NEEDED,
@@ -123,12 +122,9 @@ export default {
   },
   created: function () {
     const vm = this;
-    this.CERTS_NEEDED = vm.$attrs.prop.certs_need.length;
-    this.CERTS_NEEDED_ARRAY = vm.$attrs.prop.certs_need;
-    this.LANG_HEADER_RIGHT = `You must upload ${vm.$attrs.prop.certs_needed_count} PDFs`;
-    setTimeout(function () {
-      vm.$parent.isLoading = false;
-    }, 1000);
+    vm.CERTS_NEEDED = vm.$attrs.prop.certs_need.length;
+    vm.CERTS_NEEDED_ARRAY = vm.$attrs.prop.certs_need;
+    vm.LANG_HEADER_RIGHT = `You must upload ${vm.$attrs.prop.certs_needed_count} PDFs`;
   },
 };
 </script>

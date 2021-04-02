@@ -19,12 +19,9 @@ export default {
   },
   created: function () {
     const vm = this;
-    this.CERTS_NEEDED = vm.$attrs.prop.certs_needed_count;
-    this.CERTS_NEEDED_ARRAY = vm.$attrs.prop.certs_need;
-    this.LANG_HEADER = `You uploaded ${vm.$attrs.prop.uploaded_count} PDFs`;
-    setTimeout(function () {
-      vm.$parent.isLoading = false;
-    }, 1000);
+    vm.CERTS_NEEDED = vm.$attrs.prop.certs_needed_count;
+    vm.CERTS_NEEDED_ARRAY = vm.$attrs.prop.certs_need;
+    vm.LANG_HEADER = `You uploaded ${vm.$attrs.prop.uploaded_count} PDFs`;
   },
 };
 </script>
