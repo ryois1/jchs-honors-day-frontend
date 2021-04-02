@@ -7,6 +7,7 @@
         >
       </b-row>
     </b-container>
+    <b-alert v-if="this.totalItems == 0" show variant="warning">There are no departments to show</b-alert>
     <b-card-group columns>
       <b-card 
         v-for="(item) in items" :key="item.dept_id"
