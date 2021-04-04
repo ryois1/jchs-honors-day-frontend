@@ -47,7 +47,7 @@ const routes = [
     },
   },
   {
-    path: '/departments/:dept_id/certificates/new',
+    path: '/departments/:dept_id/awards/new',
     name: 'CertificateNewParent',
     component: new_certificate_parent,
     beforeEnter: authGuard,
@@ -57,17 +57,17 @@ const routes = [
     },
   },
   {
-    path: '/departments/:dept_id/certificates/:cert_id',
+    path: '/departments/:dept_id/awards/:cert_id',
     name: 'CertificatePage',
     component: single_certificate,
     beforeEnter: authGuard,
     meta: {
-      title: 'Viewing Certificate',
+      title: 'Viewing Award',
       visible: true
     },
   },
   {
-    path: '/departments/:dept_id/certificates/:cert_id/delegate',
+    path: '/departments/:dept_id/awards/:cert_id/delegate',
     name: 'CertificatePageDelegate',
     component: certificate_delegate,
     beforeEnter: authGuard,
@@ -78,7 +78,7 @@ const routes = [
     },
   },
   {
-    path: '/departments/:dept_id/certificates/:cert_id/delegate/verify',
+    path: '/departments/:dept_id/awards/:cert_id/delegate/verify',
     name: 'CertificateDelegateVerify',
     component: certificate_delegate_verify,
     beforeEnter: authGuard,
@@ -89,7 +89,7 @@ const routes = [
     },
   },
   {
-    path: '/departments/:dept_id/certificates/:cert_id/new',
+    path: '/departments/:dept_id/awards/:cert_id/new',
     name: 'CertificatePageChild',
     component: new_certificate_child,
     beforeEnter: authGuard,
@@ -100,7 +100,7 @@ const routes = [
     },
   },
   {
-    path: '/departments/:dept_id/certificates/:cert_id/new/bulk',
+    path: '/departments/:dept_id/awards/:cert_id/new/bulk',
     name: 'CertificatePageChildBulk',
     component: new_certificate_child_bulk,
     beforeEnter: authGuard,
@@ -111,7 +111,7 @@ const routes = [
     },
   },
   {
-    path: '/departments/:dept_id/certificates/:cert_id/new/verify',
+    path: '/departments/:dept_id/awards/:cert_id/new/verify',
     name: 'CertificatePageChildVerify',
     component: check_child_certs,
     beforeEnter: authGuard,
@@ -132,12 +132,12 @@ const routes = [
     },
   },
   {
-    path: '/departments/:dept_id/certificates',
+    path: '/departments/:dept_id/awards',
     name: 'DepartmentsCertificates',
     component: dept_certs,
     beforeEnter: authGuard,
     meta: {
-      title: 'Department Certificates',
+      title: 'Department Awards',
       visible: true
     },
   },
