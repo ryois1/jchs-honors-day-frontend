@@ -6,7 +6,7 @@
       type="dark"
       variant="dark"
     >
-      <b-navbar-brand :to="{ name: 'Home' }"><b-img-lazy src="/static/jchs_patriots_logo.png" width="30" height="30" class="d-inline-block align-top"></b-img-lazy>JCHS Honors Day</b-navbar-brand>
+      <b-navbar-brand :to="{ name: 'Home' }"><b-img-lazy src="/static/jchs_patriots_logo_nav.png" width="30" height="30" class="d-inline-block align-top"></b-img-lazy>JCHS Honors Day</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>

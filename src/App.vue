@@ -71,11 +71,12 @@ export default {
           }
         })
         .catch(err =>{
-          if(!err.status){
-            vm.$router.push({ name: "APIConnLost" });
+          console.log(err.response.status);
+          if(err.response.status == 403){
+            vm.$router.push({ name: "UnknownUser" });
             vm.isLoading = false;
           }else{
-            vm.$router.push({ name: "UnknownUser" });
+            vm.$router.push({ name: "APIConnLost" });
             vm.isLoading = false;
           }
         });
