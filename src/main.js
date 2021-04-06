@@ -14,12 +14,11 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'sweetalert2/dist/sweetalert2.min.css';
 import 'vue-toast-notification/dist/theme-default.css';
-
+console.log(process.env);
 Vue.config.productionTip = false
 Sentry.init({
   Vue,
   environment: process.env.NODE_ENV,
-  release: process.env.PACKAGE_VERSION,
   dsn: "https://d6d8ecd5c3d74209a80952cdc8dc043a@o563821.ingest.sentry.io/5704184",
   integrations: [new Integrations.BrowserTracing()],
   tracesSampleRate: 1.0,
