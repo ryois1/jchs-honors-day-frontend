@@ -33,6 +33,7 @@ const admin_purge = () => import(/* webpackChunkName: "admin" */ '../views/admin
 const unknown_user = () => import(/* webpackChunkName: "errors" */ '../views/errors/unknown_user.vue');
 const api_conn_lost = () => import(/* webpackChunkName: "errors" */ '../views/errors/api_connection_lost.vue');
 const page_not_found = () => import(/* webpackChunkName: "errors" */ '../views/errors/page_not_found.vue');
+const auth_error = () => import(/* webpackChunkName: "errors" */ '../views/errors/auth_error.vue');
 Vue.use(VueRouter);
 
 const routes = [
@@ -342,6 +343,15 @@ const routes = [
     component: unknown_user,
     meta: {
       title: 'Unknown User',
+      visible: true
+    },
+  },
+  {
+    path: '/error/auth',
+    name: 'AuthError',
+    component: auth_error,
+    meta: {
+      title: 'Authentication Error',
       visible: true
     },
   },
