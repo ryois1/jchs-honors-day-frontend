@@ -70,6 +70,10 @@
       :current-page="currentPage"
       :per-page="0"
     >
+      <template #cell(cert_notes)="data">
+        <div v-if="data.item.cert_notes"><p>{{noteView(data.item.cert_notes)}}</p><b-button variant="primary" @click="notes('view', data.item.cert_id, data.item.cert_owner_id, data.item)">View Note <b-icon icon="pencil-square" aria-hidden="true"></b-icon></b-button></div>
+        <div v-if="!data.item.cert_notes"><b-button variant="primary" @click="notes('add', data.item.cert_id, data.item.cert_owner_id, data.item)">Add Note <b-icon icon="pencil-square" aria-hidden="true"></b-icon></b-button></div>
+      </template>
       <template #cell(delete)="data">
         <b-button
           variant="danger"
@@ -172,6 +176,10 @@ export default {
           label: "Certificate File Status",
         },
         {
+          key: "cert_notes",
+          label: "Notes",
+        },
+        {
           key: "creator_name",
           label: "Creator Name",
         },
@@ -246,6 +254,102 @@ export default {
               });
           }
         });
+    },
+    noteView: function(note){
+      if(note.length > 20) {
+         return `${note.slice(0,19)}...`;
+      }
+      return note;
+    },
+    notes: async function (action, cert_id, cert_owner_id, item) {
+      const vm = this;
+      let note = null;
+      if (item.cert_notes === undefined){
+        note = '';
+      }else{
+        note = item.cert_notes;
+      }
+      if(action == 'view' || action == 'add'){
+      if (
+        !(
+          vm.$parent.USER_INFO.role == "ADMIN" ||
+          vm.$parent.USER_INFO.role == "COMMITTEE"
+        )
+      ) {
+        if (cert_owner_id != vm.$parent.USER_INFO.user_id) {
+          await this.$parent.$swal
+            .fire({
+              title: `Notes`,
+              icon: "info",
+              confirmButtonText: "Close",
+              reverseButtons: true,
+              text: note,
+          });
+          return;
+        }
+      }
+      await this.$parent.$swal
+        .fire({
+          title: `Notes`,
+          icon: "info",
+          showCancelButton: true,
+          confirmButtonText: "OK",
+          reverseButtons: true,
+          input: "textarea",
+          inputValue: note,
+        })
+        .then(async function (result) {
+          if (result.isConfirmed) {
+            const data = {
+              notes: result.value,
+            };
+            axios({
+              method: "put",
+              url: `${vm.$parent.API_BASE_URL}/certs/${cert_id}/notes`,
+              data: data,
+              headers: {
+                Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+              },
+            })
+              .then(function (response) {
+                if (response.data.error) {
+                  console.error(response);
+                  vm.$parent.$toast.error(
+                    "There was an error updating the note..",
+                    { position: "top-right" }
+                  );
+                } else {
+                  vm.$parent.$toast.success(
+                    "Successfully updated the note.",
+                    {
+                      position: "top-right",
+                    }
+                  );
+                  vm.API_certs().catch((error) => {
+                    console.error(error);
+                  });
+                }
+              })
+              .catch(function (response) {
+                vm.$parent.$toast.error(
+                  "There was an error updating the note.",
+                  { position: "top-right" }
+                );
+                console.error(response);
+              });
+          }
+        });
+      }
+      else{
+      await this.$parent.$swal
+        .fire({
+          title: `Notes`,
+          icon: "info",
+          confirmButtonText: "Close",
+          reverseButtons: true,
+          text: note,
+        });
+      }
     },
     API_delegates: async function () {
       const vm = this;

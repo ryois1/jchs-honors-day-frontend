@@ -1,6 +1,6 @@
 {
   "name": "honors-day-frontend",
-  "version": "0.1.0",
+  "version": "1.2.6",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -16,6 +16,7 @@
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.6.5",
+    "git-revision-webpack-plugin": "^3.0.6",
     "vue": "^2.6.11",
     "vue-loading-overlay": "^3.4.2",
     "vue-router": "^3.5.1",
