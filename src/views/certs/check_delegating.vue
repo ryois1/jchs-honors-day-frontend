@@ -185,6 +185,7 @@ export default {
           errors.push(errorinput);
           continue;
         } else {
+          if(ok_certs[index] > 0){
           ok_teacher_emails.push(teacher_emails[index]);
           const row = teachers[index];
           vm.count_ok_teachers++;
@@ -205,6 +206,17 @@ export default {
           ok_teacher_ids.push(row.id);
           output.push(teacher);
           api_data.push(send_data);
+          }else{
+          invalid_teacher_emails.push(teacher_emails[index]);
+          vm.count_invalid_teachers++;
+          const errorinput = {
+            email: teacher_emails[index],
+            reason: "Input Error [No maximum certificates specified]!",
+          };
+          errors.push(errorinput);
+          continue;
+          }
+
         }
       }
     },
