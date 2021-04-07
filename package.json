@@ -1,11 +1,12 @@
 {
   "name": "honors-day-frontend",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "build-report": "vue-cli-service build --report"
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.13.6",

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
-import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
+import { LayoutPlugin, CardPlugin, TablePlugin, FormPlugin, FormCheckboxPlugin, FormInputPlugin, PaginationPlugin, NavPlugin, NavbarPlugin, JumbotronPlugin, InputGroupPlugin, ImagePlugin, TooltipPlugin, ButtonPlugin, FormGroupPlugin, AlertPlugin, FormSelectPlugin, BadgePlugin } from 'bootstrap-vue';
+import { BootstrapVueIcons } from 'bootstrap-vue'
 import Vuex from 'vuex'
 import router from './router'
 import { domain, clientId, audience } from "../auth_config.json";
@@ -14,7 +15,6 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'sweetalert2/dist/sweetalert2.min.css';
 import 'vue-toast-notification/dist/theme-default.css';
-console.log(process.env);
 Vue.config.productionTip = false
 Sentry.init({
   Vue,
@@ -23,7 +23,25 @@ Sentry.init({
   integrations: [new Integrations.BrowserTracing()],
   tracesSampleRate: 1.0,
 });
-Vue.use(BootstrapVue)
+Vue.use(LayoutPlugin)
+Vue.use(CardPlugin)
+Vue.use(TablePlugin)
+Vue.use(FormPlugin)
+Vue.use(FormCheckboxPlugin)
+Vue.use(FormInputPlugin)
+Vue.use(PaginationPlugin)
+Vue.use(NavPlugin)
+Vue.use(NavbarPlugin)
+Vue.use(JumbotronPlugin)
+Vue.use(InputGroupPlugin)
+Vue.use(ImagePlugin)
+Vue.use(TooltipPlugin)
+Vue.use(ButtonPlugin)
+Vue.use(FormGroupPlugin)
+Vue.use(AlertPlugin)
+Vue.use(FormSelectPlugin)
+Vue.use(BadgePlugin)
+
 Vue.use(BootstrapVueIcons)
 Vue.use(Vuex)
 Vue.use(Auth0Plugin, {

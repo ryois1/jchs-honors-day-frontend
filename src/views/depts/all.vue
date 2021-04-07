@@ -41,6 +41,7 @@ export default {
         "view",
       ],
       items: [],
+      totalItems: 0,
     };
   },
   methods: {

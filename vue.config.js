@@ -6,5 +6,6 @@ module.exports = {
                 args[0].title = 'JCHS Honors Day'
                 return args
             })
-    }
+    },
+    productionSourceMap: false
 }

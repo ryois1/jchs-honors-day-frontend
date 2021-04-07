@@ -14,7 +14,7 @@
               id="checkboxes-4"
               :aria-describedby="ariaDescribedby"
             >
-              <b-form-checkbox value="true">Lock Settings</b-form-checkbox>
+              <b-form-checkbox :value="true">Lock Settings</b-form-checkbox>
             </b-form-checkbox-group>
           </b-form-group>
           <b-table bordered show-empty :items="items" :fields="fields">
