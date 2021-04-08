@@ -7,7 +7,7 @@
         >
         <b-col class="text-right">
             <h3><code>Student ID</code> column must be changed to <code>student_id</code> in the CSV.</h3>
-            <b-img src="/static/student_id.png"></b-img>
+            <b-img alt="Screenshot of Excel showing student_id column" src="/static/student_id.png"></b-img>
         </b-col>
       </b-row>
     </b-container>
