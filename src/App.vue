@@ -87,7 +87,6 @@ export default {
       API_BASE_URL: "https://api.jchs-honors-day.cf/api/v1",
       USER_INFO: null,
       JWT_TOKEN: this.$parent.token,
-      VERSION: process.env.PACKAGE_VERSION,
       ENV: process.env.NODE_ENV,
       USER_AUTHORIZED: false,
       fullPage: true,
@@ -100,11 +99,16 @@ export default {
     viewingAdmin(){
       if(this.isLoading){
         return false;
-      }
-      if(this.$route.name.startsWith('Admin')){
-        return true;
       }else{
-        return false;
+        if(this.$route.name){
+          if(this.$route.name.startsWith('Admin')){
+            return true;
+          }else{
+            return false;
+          }
+        }else{
+          return false
+        }
       }
     },
     isLoaded(){
