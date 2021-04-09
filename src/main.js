@@ -19,8 +19,8 @@ Vue.config.productionTip = false
 Sentry.init({
   Vue,
   environment: process.env.NODE_ENV,
-  dsn: "https://d6d8ecd5c3d74209a80952cdc8dc043a@o563821.ingest.sentry.io/5704184",
-  integrations: [new Integrations.BrowserTracing()],
+  dsn: process.env.SENTRY_DSN,
+  integrations: [new Integrations.BrowserTracing(), new Integrations.Vue({ Vue, attachProps: true })],
   tracesSampleRate: 1.0,
 });
 Vue.use(LayoutPlugin)
