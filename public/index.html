@@ -22,6 +22,21 @@
 <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-performance.js"></script>
-<script>var firebaseConfig = {apiKey: "AIzaSyA0W5aHjPaQC2FEF3P0loSjjyO-etJ_fNQ",authDomain: "jchs-honors-day.firebaseapp.com",projectId: "jchs-honors-day",storageBucket: "jchs-honors-day.appspot.com",messagingSenderId: "21782066383",appId: "1:21782066383:web:5d06a09f95b911802933ba",measurementId: "G-77HDS18957"}; firebase.initializeApp(firebaseConfig); firebase.analytics(); var perf = firebase.performance();</script>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyA0W5aHjPaQC2FEF3P0loSjjyO-etJ_fNQ",
+    authDomain: "jchs-honors-day.firebaseapp.com",
+    projectId: "jchs-honors-day",
+    storageBucket: "jchs-honors-day.appspot.com",
+    messagingSenderId: "21782066383",
+    appId: "1:21782066383:web:5d06a09f95b911802933ba",
+    measurementId: "G-77HDS18957"}; 
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+  var perf = firebase.performance();
+  const messaging = firebase.messaging();
+  messaging.getToken({vapidKey: "BGBSe1rKmuXFGKf5RU7sHnE3e7RbgXxICtB66gi3WAuWfz_NIDZ1i6dE_ErZ7It_3se071x_SeIHD06wJ307CoI"});
+  </script>
   </body>
 </html>
