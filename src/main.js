@@ -20,7 +20,7 @@ Sentry.init({
   Vue,
   environment: process.env.NODE_ENV,
   dsn: process.env.SENTRY_DSN,
-  integrations: [new Integrations.BrowserTracing(), new Integrations.Vue({ Vue, attachProps: true })],
+  integrations: [new Integrations.BrowserTracing()],
   tracesSampleRate: 1.0,
 });
 Vue.use(LayoutPlugin)
