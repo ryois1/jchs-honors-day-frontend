@@ -19,9 +19,9 @@ Vue.config.productionTip = false
 Sentry.init({
   Vue,
   environment: process.env.NODE_ENV,
-  dsn: 'https://325ab4844a9b467c8a28eec1edc8f561@logging.jchs-honors-day.cf/1',
+  dsn: 'https://56b17f822420443c863ec6f82e80e163@o568401.ingest.sentry.io/5713429',
   integrations: [new Integrations.BrowserTracing()],
-  tracesSampleRate: 1.0,
+  tracesSampleRate: 0.3,
 });
 Vue.use(LayoutPlugin)
 Vue.use(CardPlugin)

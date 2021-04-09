@@ -28,7 +28,7 @@
     "webpack": "^4.46.0"
   },
   "devDependencies": {
-    "@sentry/webpack-plugin": "^1.14.2",
+    "@sentry/webpack-plugin": "^1.15.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
