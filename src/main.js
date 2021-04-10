@@ -4,7 +4,6 @@ import { LayoutPlugin, CardPlugin, TablePlugin, FormPlugin, FormCheckboxPlugin, 
 import { BootstrapVueIcons } from 'bootstrap-vue'
 import Vuex from 'vuex'
 import router from './router'
-import { domain, clientId, audience } from "../auth_config.json";
 import { Auth0Plugin, getInstance } from "./auth";
 import VueSweetalert2 from 'vue-sweetalert2';
 import VueToast from 'vue-toast-notification';
@@ -21,7 +20,7 @@ Sentry.init({
     trackComponents: true,
   },
   environment: process.env.NODE_ENV,
-  dsn: 'https://eea78933a1fa4b04b5c5391ddf0d0b33@sentry.ryois.net/3',
+  dsn: process.env.SENTRY_DSN,
   integrations: [new Integrations.BrowserTracing()],
   tracesSampleRate: 1.0,
 });
@@ -45,6 +44,9 @@ Vue.use(FormSelectPlugin)
 Vue.use(BadgePlugin)
 Vue.use(BootstrapVueIcons)
 Vue.use(Vuex)
+const domain = process.env.AUTH0_DOMAIN;
+const clientId = process.env.AUTH0_CLIENTID;
+const audience = process.env.AUTH0_DOMAIN;
 Vue.use(Auth0Plugin, {
   domain,
   clientId,

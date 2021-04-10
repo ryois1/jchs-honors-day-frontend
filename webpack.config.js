@@ -4,15 +4,14 @@ module.exports = {
     configureWebpack: {
       plugins: [
         new SentryWebpackPlugin({
-            token: 'f7ee8a9a999a11eb8edd0242ac120014',
-            authToken: 'f7ee8a9a999a11eb8edd0242ac120014',
-            org: "jcs",
-            url: "https://sentry.ryois.net/",
-            debug: true,
-            project: "honors-day-frontend",
+            token: process.env.SENTRY_AUTH_TOKEN,
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+            org: process.env.SENTRY_ORG,
+            url: process.env.SENTRY_URL,
+            project: process.env.SENTRY_PROJECT,
             include: "./dist",
             ignore: ["node_modules", "webpack.config.js"],
         }),
       ],
     },
-  };
+};
