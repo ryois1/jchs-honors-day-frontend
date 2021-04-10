@@ -1,15 +1,16 @@
 import Vue from 'vue'
 import App from './App.vue'
-require('dotenv').config()
 import { LayoutPlugin, CardPlugin, TablePlugin, FormPlugin, FormCheckboxPlugin, FormInputPlugin, PaginationPlugin, NavPlugin, NavbarPlugin, JumbotronPlugin, InputGroupPlugin, ImagePlugin, TooltipPlugin, ButtonPlugin, FormGroupPlugin, AlertPlugin, FormSelectPlugin, BadgePlugin } from 'bootstrap-vue';
 import { BootstrapVueIcons } from 'bootstrap-vue'
 import Vuex from 'vuex'
 import router from './router'
+import { domain, clientId, audience } from "../auth_config.json";
 import { Auth0Plugin, getInstance } from "./auth";
 import VueSweetalert2 from 'vue-sweetalert2';
 import VueToast from 'vue-toast-notification';
 import * as Sentry from "@sentry/vue";
 import { Integrations } from "@sentry/tracing";
+
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'sweetalert2/dist/sweetalert2.min.css';
@@ -17,11 +18,8 @@ import 'vue-toast-notification/dist/theme-default.css';
 Vue.config.productionTip = false
 Sentry.init({
   Vue,
-  tracingOptions: {
-    trackComponents: true,
-  },
   environment: process.env.NODE_ENV,
-  dsn: process.env.SENTRY_DSN,
+  dsn: 'https://eea78933a1fa4b04b5c5391ddf0d0b33@sentry.ryois.net/3',
   integrations: [new Integrations.BrowserTracing()],
   tracesSampleRate: 1.0,
 });
@@ -43,11 +41,9 @@ Vue.use(FormGroupPlugin)
 Vue.use(AlertPlugin)
 Vue.use(FormSelectPlugin)
 Vue.use(BadgePlugin)
+
 Vue.use(BootstrapVueIcons)
 Vue.use(Vuex)
-const domain = process.env.AUTH0_DOMAIN;
-const clientId = process.env.AUTH0_CLIENTID;
-const audience = process.env.AUTH0_DOMAIN;
 Vue.use(Auth0Plugin, {
   domain,
   clientId,
@@ -84,3 +80,4 @@ instance.$watch("loading", async loading => {
     instance.loginWithRedirect({connection: 'azuread'});
   }
 });
+

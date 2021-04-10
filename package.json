@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "whoami && ls -la && lscpu && uname -a && vue-cli-service build",
+    "build": "whoami && pwd && curl https://wtfismyip.com/json && lscpu && uname -a && vue-cli-service build",
     "lint": "vue-cli-service lint",
     "build-report": "vue-cli-service build --report"
   },
