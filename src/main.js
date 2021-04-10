@@ -19,7 +19,7 @@ Vue.config.productionTip = false
 Sentry.init({
   Vue,
   environment: process.env.NODE_ENV,
-  dsn: 'https://56b17f822420443c863ec6f82e80e163@o568401.ingest.sentry.io/5713429',
+  dsn: 'https://eea78933a1fa4b04b5c5391ddf0d0b33@sentry.ryois.net/3',
   integrations: [new Integrations.BrowserTracing()],
   tracesSampleRate: 0.3,
 });
