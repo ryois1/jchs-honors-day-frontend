@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+require('dotenv').config()
 import { LayoutPlugin, CardPlugin, TablePlugin, FormPlugin, FormCheckboxPlugin, FormInputPlugin, PaginationPlugin, NavPlugin, NavbarPlugin, JumbotronPlugin, InputGroupPlugin, ImagePlugin, TooltipPlugin, ButtonPlugin, FormGroupPlugin, AlertPlugin, FormSelectPlugin, BadgePlugin } from 'bootstrap-vue';
 import { BootstrapVueIcons } from 'bootstrap-vue'
 import Vuex from 'vuex'
