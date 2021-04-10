@@ -21,7 +21,7 @@ Sentry.init({
   environment: process.env.NODE_ENV,
   dsn: 'https://eea78933a1fa4b04b5c5391ddf0d0b33@sentry.ryois.net/3',
   integrations: [new Integrations.BrowserTracing()],
-  tracesSampleRate: 0.3,
+  tracesSampleRate: 1.0,
 });
 Vue.use(LayoutPlugin)
 Vue.use(CardPlugin)
