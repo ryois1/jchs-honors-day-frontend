@@ -9,6 +9,7 @@ const new_certificate_child_bulk = () => import(/* webpackChunkName: "certificat
 const check_child_certs = () => import(/* webpackChunkName: "certificates" */ '../views/certs/check_child_certs.vue');
 const certificate_delegate = () => import(/* webpackChunkName: "certificates" */ '../views/certs/delegate.vue');
 const certificate_delegate_verify = () => import(/* webpackChunkName: "certificates" */ '../views/certs/check_delegating.vue');
+const import_pdfs_precheck = () => import(/* webpackChunkName: "pdfs" */ '../views/pdfs/import_pdfs_precheck.vue');
 const import_pdfs_1 = () => import(/* webpackChunkName: "pdfs" */ '../views/pdfs/import_pdfs_step_1.vue');
 const import_pdfs_2 = () => import(/* webpackChunkName: "pdfs" */ '../views/pdfs/import_pdfs_step_2.vue');
 const import_pdfs_done = () => import(/* webpackChunkName: "pdfs" */ '../views/pdfs/import_pdfs_done.vue');
@@ -153,13 +154,24 @@ const routes = [
     },
   },
   {
+    path: '/import/pdfs/precheck',
+    name: 'ImportCertsPDFsPreCheck',
+    component: import_pdfs_precheck,
+    props: true,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Pre Check - Importing Certificate',
+      visible: true
+    },
+  },
+  {
     path: '/import/pdfs/step/1',
     name: 'ImportCertsPDFs1',
     component: import_pdfs_1,
     props: true,
     beforeEnter: authGuard,
     meta: {
-      title: 'Importing Certificate',
+      title: 'Step 1 - Importing Certificate',
       visible: true
     },
   },
@@ -170,7 +182,7 @@ const routes = [
     props: true,
     beforeEnter: authGuard,
     meta: {
-      title: 'Importing Certificate',
+      title: 'Step 2 - Importing Certificate',
       visible: true
     },
   },
@@ -181,7 +193,7 @@ const routes = [
     props: true,
     beforeEnter: authGuard,
     meta: {
-      title: 'Importing Certificate',
+      title: 'Finished Importing Certificate',
       visible: true
     },
   },
@@ -414,5 +426,4 @@ router.beforeEach((to, from, next) => {
 
   next();
 });
-
 export default router;
