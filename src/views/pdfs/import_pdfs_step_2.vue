@@ -28,12 +28,15 @@
         <b-row>
           <b-col>
             <b-table
-              :tbody-tr-class="rowClass"
               bordered
               show-empty
-              :items="CERTS_NEEDED_ARRAY"
+              :items="formartedItems"
               :fields="fields"
             >
+              <template #cell(status)="data">
+                <p v-if="data.item.status=='uploaded'">Uploaded</p>
+                <p v-if="data.item.status=='nofile'">Not Uploaded</p>
+              </template>
             </b-table>
           </b-col>
         </b-row>
@@ -52,55 +55,68 @@ export default {
   data: function () {
     const vm = this;
     return {
-      LANG_HEADER: "Importing PDFs - Step 2 - PDFs",
+      LANG_HEADER: "Importing PDFs - Step 2 - Upload PDFs",
       LANG_HEADER_RIGHT: "You must upload ??? PDFs",
       UPLOADED_COUNT: 0,
       CERTS_NEEDED: 0,
       CERTS_NEEDED_ARRAY: [],
       dropzoneOptions: {
-        url: `${this.$parent.API_BASE_URL}/import/pdf`,
-        thumbnailWidth: 50,
-        accept: function (file, done) {
-          if (
-            vm.CERTS_NEEDED_ARRAY.find(
-              (element) => (element.cert_file_name = file.name)
-            )
-          ) {
-            done();
-          } else {
-            done("Invalid file name");
-          }
-        },
+        url: `${vm.$parent.API_BASE_URL}/import/pdf`,
+        thumbnailWidth: 10,
         acceptedFiles: "application/pdf",
-        headers: { Authorization: `Bearer ${this.$parent.JWT_TOKEN}` },
+        headers: { Authorization: `Bearer ${vm.$parent.JWT_TOKEN}` },
       },
       fields: [
         {
+          key: "status",
+          label: "Upload Status",
+        },
+        {
           key: "cert_id",
           label: "Certificate ID",
+        },
+        {
+          key: "department_name",
+          label: "Department",
         },
         {
           key: "cert_name",
           label: "Certificate Name",
         },
         {
+          key: "cert_file_name",
+          label: "File Name",
+        },
+        {
           key: "cert_student_id",
-          lable: "Certificate Student ID",
+          label: "Student ID",
         },
         {
           key: "cert_student_first_name",
-          label: "Certificate Student First Name",
+          label: "Student First Name",
         },
         {
           key: "cert_student_last_name",
-          label: "Certificate Student Last Name",
+          label: "Student Last Name",
         },
       ],
     };
   },
   methods: {
-    dropzoneUploaded: async function () {
-      this.UPLOADED_COUNT++;
+    getVariant (status) {
+      switch (status) {
+        case 'uploaded':
+          return 'success'
+        case 'nofile':
+          return 'danger'
+      }
+    },
+    dropzoneUploaded: async function (file, response) {
+      const vm = this;
+      console.log(response);
+      const index = vm.CERTS_NEEDED_ARRAY.findIndex((obj => obj.cert_id == response.data.cert_id));
+      vm.CERTS_NEEDED_ARRAY[index].status = "uploaded";
+      vm.UPLOADED_COUNT++;
     },
   },
   watch: {
@@ -108,17 +124,24 @@ export default {
       handler: function () {
         const vm = this;
         if (vm.UPLOADED_COUNT == vm.CERTS_NEEDED) {
-          setTimeout(function () {
-            const prop = {
-              certs_needed_count: vm.CERTS_NEEDED,
-              certs_need: vm.CERTS_NEEDED_ARRAY,
-              uploaded_count: vm.UPLOADED_COUNT,
-            };
-            vm.$router.push({ name: "ImportCertsPDFsDone", params: { prop } });
-          }, 5000);
+          vm.$parent.$swal.fire({
+            title: `Uploads complete!`,
+            icon: "success",
+            confirmButtonText: "Dismiss",
+          });
         }
       },
     },
+  },
+  computed: {
+    formartedItems () {
+      const vm = this;
+      if (!vm.CERTS_NEEDED_ARRAY) return []
+      return vm.CERTS_NEEDED_ARRAY.map(item => {
+        item._rowVariant = vm.getVariant(item.status)
+        return item
+      })
+    }
   },
   created: function () {
     const vm = this;
@@ -136,8 +159,5 @@ export default {
 }
 #certstable {
   padding-top: 2em;
-}
-#dropzone {
-  height: 400px;
 }
 </style>
