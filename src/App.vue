@@ -54,7 +54,7 @@ export default {
       const vm = this;
       await axios
         .get(`${vm.API_BASE_URL}/me`, {
-          timeout: 1000,
+          timeout: 10000,
           headers: {
             Authorization: `Bearer ${vm.JWT_TOKEN}`,
           },
