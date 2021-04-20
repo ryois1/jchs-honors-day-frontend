@@ -80,9 +80,14 @@ export default {
             vm.isLoading = false;
           }
         })
-        .catch(async function () {
-          vm.$router.push({ name: "APIConnLost" });
-          vm.isLoading = false;
+        .catch(async function (error) {
+          if (error.response.status == 403) {
+            vm.$router.push({ name: "AuthError", query: { error_description: error.response.data.message } });
+            vm.isLoading = false;
+          }else{
+            vm.$router.push({ name: "APIConnLost" });
+            vm.isLoading = false;
+          }
         });
     },
   },
