@@ -23,7 +23,6 @@ const mobile = () =>
 import axios from "axios";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
-import * as Sentry from "@sentry/vue";
 export default {
   name: "App",
   components: {
@@ -131,8 +130,6 @@ export default {
       localStorage.setItem('AUTH_NONCE', 'noredirect');
     }
     await vm.API_me();
-    await Sentry.setContext("user", {first_name: vm.USER_INFO.first_name, last_name: vm.USER_INFO.last_name, role: vm.USER_INFO.role,});
-    await Sentry.setUser({ id: vm.USER_INFO.user_id, email: vm.USER_INFO.email });
     vm.$nextTick(function () {
       window.setInterval(() => {
         vm.API_me();
