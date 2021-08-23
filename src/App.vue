@@ -92,7 +92,7 @@ export default {
   },
   data: function () {
     return {
-      API_BASE_URL: "https://api.jchs-honors-day.cf/api/v1",
+      API_BASE_URL: "https://api.awards.jchsprojects.com/api/v1",
       USER_INFO: null,
       JWT_TOKEN: this.$parent.token,
       ENV: process.env.NODE_ENV,
