@@ -7,7 +7,6 @@
         >
         <b-col class="text-right">
             <h3><code>Student ID</code> column must be changed to <code>student_id</code> in the CSV.</h3>
-            <b-img alt="Screenshot of Excel showing student_id column" src="https://firebasestorage.googleapis.com/v0/b/jchs-honors-day.appspot.com/o/web%2Fstudent_id.png?alt=media"></b-img>
         </b-col>
       </b-row>
     </b-container>

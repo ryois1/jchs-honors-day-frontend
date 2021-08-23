@@ -4,14 +4,12 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "whoami && pwd && curl https://wtfismyip.com/json && lscpu && uname -a && vue-cli-service build",
+    "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "build-report": "vue-cli-service build --report"
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.13.6",
-    "@sentry/tracing": "^6.2.5",
-    "@sentry/vue": "^6.2.5",
     "@tinymce/tinymce-vue": "^3.2.8",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
@@ -29,7 +27,6 @@
     "webpack": "^4.46.0"
   },
   "devDependencies": {
-    "@sentry/webpack-plugin": "^1.15.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",

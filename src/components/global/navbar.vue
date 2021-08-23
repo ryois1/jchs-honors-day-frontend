@@ -6,7 +6,7 @@
       type="dark"
       variant="dark"
     >
-      <b-navbar-brand :to="{ name: 'Home' }"><b-img-lazy src="https://firebasestorage.googleapis.com/v0/b/jchs-honors-day.appspot.com/o/web%2Fjchs_patriots_logo_web.png?alt=media" width="30" height="30" alt="JCHS Patriots Mascot" class="d-inline-block align-top"></b-img-lazy>JCHS Awards Portal</b-navbar-brand>
+      <b-navbar-brand :to="{ name: 'Home' }"><b-img-lazy src="https://awards.jchsprojects.com/jchs_patriots_logo_web.png" width="30" height="30" alt="JCHS Patriots Mascot" class="d-inline-block align-top"></b-img-lazy>JCHS Awards Portal</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
