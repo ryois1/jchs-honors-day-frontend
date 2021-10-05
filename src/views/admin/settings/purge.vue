@@ -35,6 +35,13 @@
         @click="purgeAll"
         >Purge Everything</b-button
       >
+      <b-button
+        class="mr-1"
+        v-if="this.$parent.USER_INFO.role == 'ADMIN'"
+        variant="danger"
+        @click="unlockAll"
+        >Unlock All Awards</b-button
+      >
     </b-jumbotron>
   </div>
 </template>
@@ -44,7 +51,7 @@ export default {
   name: "homepage",
   data: function () {
     return {
-      LANG_WELCOME: `All Actions on This Page are Destructive`,
+      LANG_WELCOME: `Warning Area`,
     };
   },
   methods: {
@@ -217,6 +224,50 @@ export default {
               .catch(function (response) {
                 vm.$parent.$toast.error(
                   "There was an error purging everything.",
+                  { position: "top-right" }
+                );
+                console.error(response);
+              });
+          }
+        });
+    },
+    unlockAll: async function () {
+      const vm = this;
+      this.$parent.$swal
+        .fire({
+          title: `Unlock all awards?`,
+          html:
+            "<p>Are you sure you want to unlock all awards?</p>",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#dc3545",
+          confirmButtonText: "Unlock",
+          reverseButtons: true,
+        })
+        .then(async function (result) {
+          if (result.isConfirmed) {
+            axios
+              .delete(`${vm.$parent.API_BASE_URL}/purge/unlock`, {
+                headers: {
+                  Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+                },
+              })
+              .then(function (response) {
+                if (response.data.error) {
+                  console.error(response);
+                  vm.$parent.$toast.error(
+                    "There was an error unlocking everything.",
+                    { position: "top-right" }
+                  );
+                } else {
+                  vm.$parent.$toast.success("Successfully unlocked everything.", {
+                    position: "top-right",
+                  });
+                }
+              })
+              .catch(function (response) {
+                vm.$parent.$toast.error(
+                  "There was an error unlocking everything.",
                   { position: "top-right" }
                 );
                 console.error(response);
