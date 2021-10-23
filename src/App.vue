@@ -63,7 +63,7 @@ export default {
       const vm = this;
       await axios
         .get(`${vm.API_BASE_URL}/me`, {
-          timeout: 10000,
+          timeout: 1000,
           headers: {
             Authorization: `Bearer ${vm.JWT_TOKEN}`,
           },
@@ -80,13 +80,13 @@ export default {
           }
         })
         .catch(async function (error) {
-          if (error.response.status == 403) {
-            vm.$router.push({ name: "AuthError", query: { error_description: error.response.data.message } });
-            vm.isLoading = false;
-          }else{
+            console.log(error);
             vm.$router.push({ name: "APIConnLost" });
             vm.isLoading = false;
-          }
+            if (error.response.status == 403) {
+              vm.$router.push({ name: "AuthError", query: { error_description: error.response.data.message } });
+              vm.isLoading = false;
+            }
         });
     },
   },
