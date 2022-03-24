@@ -108,6 +108,7 @@ export default {
       isLoading: true,
       ADMINS: ["ADMIN", "COMMITTEE", "DEPT_ADMIN"],
       VUE_APP_VER: process.env.VUE_APP_VER,
+      VUE_PKG_VER: process.env.VUE_PKG_VER,
     };
   },
   computed: {
@@ -238,7 +239,7 @@ html {
   width: 100%;
 }
 main{
-  min-height: calc(100vh - 72px);
+  min-height: calc(100vh - 92px);
 }
 body{
   height: 100%;
