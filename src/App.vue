@@ -107,7 +107,7 @@ export default {
       onCancel: false,
       isLoading: true,
       ADMINS: ["ADMIN", "COMMITTEE", "DEPT_ADMIN"],
-      VUE_APP_GIT_HASH: process.env.VUE_APP_COMMIT_HASH,
+      VUE_APP_VER: process.env.VUE_APP_VER,
     };
   },
   computed: {
