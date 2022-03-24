@@ -24,17 +24,20 @@
       :options="dropzoneOptions"
     ></vue-dropzone>
     <h3>User Role Column</h3>
-    <b-list-group>
+    <b-list-group class="listgroup">
       <b-list-group-item
+      class="listgroup"
         ><code>ADMIN</code> == System Administrator</b-list-group-item
       >
       <b-list-group-item
+      class="listgroup"
         ><code>COMMITTEE</code> == Honors Day Committee</b-list-group-item
       >
       <b-list-group-item
+      class="listgroup"
         ><code>DEPT_ADMIN</code> == Department Chair</b-list-group-item
       >
-      <b-list-group-item><code>TEACHER</code> == Teacher</b-list-group-item>
+      <b-list-group-item class="listgroup"><code>TEACHER</code> == Teacher</b-list-group-item>
     </b-list-group>
   </div>
 </template>

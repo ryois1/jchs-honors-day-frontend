@@ -177,6 +177,10 @@ export default {
     color: #ffffff;
     background-color: var(--primary-dark-bg);
   }
+  .listgroup{
+    color: #ffffff !important;
+    background-color: var(--alt-dark-bg) !important;
+  }
   body{
     height: 100%;
     width: 100%;

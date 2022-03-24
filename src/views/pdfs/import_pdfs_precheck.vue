@@ -4,6 +4,13 @@
         <b-row>
             <b-col><h1>{{ LANG_HEADER }}</h1></b-col>
         </b-row>
+        <h2>Check ALL items before proceeding.</h2>
+<b-list-group class="listgroup" >
+  <b-list-group-item class="listgroup">Did you edit the YEAR OF GRADUATION in Admin -> Email Settings -> Current YOG (AND Get a toast "Updated config")</b-list-group-item>
+  <b-list-group-item class="listgroup">Confirm all spelling/years are correct in award names</b-list-group-item>
+  <b-list-group-item class="listgroup">Confirm student table is updated with LATEST information for students, including Year of Graduation</b-list-group-item>
+</b-list-group>
+
         <h3>You may import multiple times.</h3>
         <h3>To prepare the CSV file, please input PDF file names into the <code>cert_file</code> column.</h3>
         <b-button class="mr-1" v-if="this.$parent.USER_INFO.role == 'ADMIN'" variant="primary" @click="downloadCertsCSV" >Download CSV</b-button>

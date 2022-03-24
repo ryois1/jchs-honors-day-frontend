@@ -11,36 +11,43 @@
         class="mr-1"
         v-if="this.$parent.USER_INFO.role == 'ADMIN'"
         variant="danger"
+        @click="purgeDelegates"
+        ><b-icon icon="trash-fill"></b-icon> Delete All Delegations</b-button
+      >
+      <b-button
+        class="mr-1"
+        v-if="this.$parent.USER_INFO.role == 'ADMIN'"
+        variant="danger"
         @click="purgeAwards"
-        >Purge Awards</b-button
+        ><b-icon icon="award-fill"></b-icon> Purge Awards</b-button
       >
       <b-button
         class="mr-1"
         v-if="this.$parent.USER_INFO.role == 'ADMIN'"
         variant="danger"
         @click="purgeCerts"
-        >Purge Certificates</b-button
+        ><b-icon icon="award-fill"></b-icon> Purge Certificates</b-button
       >
       <b-button
         class="mr-1"
         v-if="this.$parent.USER_INFO.role == 'ADMIN'"
         variant="danger"
         @click="purgeStudents"
-        >Purge Students</b-button
+        ><b-icon icon="people-fill"></b-icon> Purge Students</b-button
       >
       <b-button
         class="mr-1"
         v-if="this.$parent.USER_INFO.role == 'ADMIN'"
         variant="danger"
         @click="purgeAll"
-        >Purge Everything</b-button
+        ><b-icon icon="trash-fill"></b-icon> Purge Everything</b-button
       >
       <b-button
         class="mr-1"
         v-if="this.$parent.USER_INFO.role == 'ADMIN'"
-        variant="danger"
+        variant="warning"
         @click="unlockAll"
-        >Unlock All Awards</b-button
+        ><b-icon icon="unlock-fill"></b-icon> Unlock All Awards</b-button
       >
     </b-jumbotron>
   </div>
@@ -67,12 +74,21 @@ export default {
             input: 'popup-dark-input',
           },
           html:
-            "<p>Are you sure you want to purge awards?</p><br><b>This action cannot be undone.<br>This deletes awards, certificates, and user associations with the award.</b><br>",
+            "<p>Are you sure you want to purge awards?</p><br><b>This action cannot be undone.<br>This deletes awards, certificates, and user associations with the award.</b><br><br><b>Type \"DELETE\" below to delete.",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
           confirmButtonText: "Delete",
           reverseButtons: true,
+          input: "text",
+          inputAttributes: {
+            id: "confirmDelete",
+          },
+          inputValidator: (value) => {
+            if (value != "DELETE") {
+              return '<span>You must type in <b class="text-danger">DELETE</b> to delete.</span>';
+            }
+          },
         })
         .then(async function (result) {
           if (result.isConfirmed) {
@@ -117,12 +133,21 @@ export default {
             input: 'popup-dark-input',
           },
           html:
-            "<p>Are you sure you want to purge certificates?</p><br><b>This action cannot be undone.<br>This deletes certificates only</b><br>",
+            "<p>Are you sure you want to purge certificates?</p><br><b>This action cannot be undone.<br>This deletes certificates only</b><br><br><b>Type \"DELETE\" below to delete.",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
           confirmButtonText: "Delete",
           reverseButtons: true,
+          input: "text",
+          inputAttributes: {
+            id: "confirmDelete",
+          },
+          inputValidator: (value) => {
+            if (value != "DELETE") {
+              return '<span>You must type in <b class="text-danger">DELETE</b> to delete.</span>';
+            }
+          },
         })
         .then(async function (result) {
           if (result.isConfirmed) {
@@ -167,12 +192,21 @@ export default {
             input: 'popup-dark-input',
           },
           html:
-            "<p>Are you sure you want to purge students?</p><br><b>This action cannot be undone.</b><br>",
+            "<p>Are you sure you want to purge students?</p><br><b>This action cannot be undone.</b><br><br><b>Type \"DELETE\" below to delete.",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
           confirmButtonText: "Delete",
           reverseButtons: true,
+          input: "text",
+          inputAttributes: {
+            id: "confirmDelete",
+          },
+          inputValidator: (value) => {
+            if (value != "DELETE") {
+              return '<span>You must type in <b class="text-danger">DELETE</b> to delete.</span>';
+            }
+          },
         })
         .then(async function (result) {
           if (result.isConfirmed) {
@@ -217,12 +251,21 @@ export default {
             input: 'popup-dark-input',
           },
           html:
-            "<p>Are you sure you want to purge everything?</p><br><b>This action cannot be undone.<br>This deletes awards, certificates, user associations with the awards, users, and departments.</b><br>",
+            "<p>Are you sure you want to purge everything?</p><br><b>This action cannot be undone.<br>This deletes awards, certificates, user associations with the awards, users, and departments.</b><br><br><b>Type \"DELETE ALL\" below to delete.",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
           confirmButtonText: "Delete",
           reverseButtons: true,
+          input: "text",
+          inputAttributes: {
+            id: "confirmDelete",
+          },
+          inputValidator: (value) => {
+            if (value != "DELETE ALL") {
+              return '<span>You must type in <b class="text-danger">DELETE ALL</b> to delete.</span>';
+            }
+          },
         })
         .then(async function (result) {
           if (result.isConfirmed) {
@@ -248,6 +291,65 @@ export default {
               .catch(function (response) {
                 vm.$parent.$toast.error(
                   "There was an error purging everything.",
+                  { position: "top-right" }
+                );
+                console.error(response);
+              });
+          }
+        });
+    },
+    purgeDelegates: async function () {
+      const vm = this;
+      this.$parent.$swal
+        .fire({
+          title: `Purge Delegates?`,
+                    customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
+          html:
+            "<p>Are you sure you want to purge all delegates?</p><br><b>This action cannot be undone.<br>This deletes user associations with the awards.</b><br><br><b>Type \"DELETE\" below to delete.",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#dc3545",
+          confirmButtonText: "Delete",
+          reverseButtons: true,
+          input: "text",
+          inputAttributes: {
+            id: "confirmDelete",
+          },
+          inputValidator: (value) => {
+            if (value != "DELETE") {
+              return '<span>You must type in <b class="text-danger">DELETEL</b> to delete.</span>';
+            }
+          },
+        })
+        .then(async function (result) {
+          if (result.isConfirmed) {
+            axios
+              .delete(`${vm.$parent.API_BASE_URL}/purge/delegations`, {
+                headers: {
+                  Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+                },
+              })
+              .then(function (response) {
+                if (response.data.error) {
+                  console.error(response);
+                  vm.$parent.$toast.error(
+                    "There was an error purging delegates.",
+                    { position: "top-right" }
+                  );
+                } else {
+                  vm.$parent.$toast.success("Successfully purged delegates.", {
+                    position: "top-right",
+                  });
+                }
+              })
+              .catch(function (response) {
+                vm.$parent.$toast.error(
+                  "There was an error purging delegates.",
                   { position: "top-right" }
                 );
                 console.error(response);

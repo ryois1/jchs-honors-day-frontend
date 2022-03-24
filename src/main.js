@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import { LayoutPlugin, CardPlugin, TablePlugin, FormPlugin, FormCheckboxPlugin, FormInputPlugin, PaginationPlugin, NavPlugin, NavbarPlugin, JumbotronPlugin, InputGroupPlugin, ImagePlugin, TooltipPlugin, ButtonPlugin, FormGroupPlugin, AlertPlugin, FormSelectPlugin, BadgePlugin } from 'bootstrap-vue';
+import { LayoutPlugin, CardPlugin, TablePlugin, FormPlugin, FormCheckboxPlugin, FormInputPlugin, PaginationPlugin, NavPlugin, NavbarPlugin, JumbotronPlugin, InputGroupPlugin, ImagePlugin, TooltipPlugin, ButtonPlugin, FormGroupPlugin, AlertPlugin, FormSelectPlugin, BadgePlugin, ListGroupPlugin } from 'bootstrap-vue';
 import { BootstrapVueIcons } from 'bootstrap-vue'
 import Vuex from 'vuex'
 import router from './router'
@@ -15,6 +15,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import 'vue-toast-notification/dist/theme-default.css';
 Vue.config.productionTip = false
 Vue.use(LayoutPlugin)
+Vue.use(ListGroupPlugin)
 Vue.use(CardPlugin)
 Vue.use(TablePlugin)
 Vue.use(FormPlugin)
