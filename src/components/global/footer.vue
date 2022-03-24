@@ -16,7 +16,7 @@ export default {
   data: function () {
     return {
       LICENSE: `Exclusively licensed to Jefferson County High School, Dandridge, TN.`,
-      FOOTER: `Designed and developed by Russell Payne 2021, All Rights Reserved - Build: ${this.$parent.VUE_APP_VER ? this.$parent.VUE_APP_VER : "dev build"}, Version: ${this.$parent.VUE_PKG_VER ? this.$parent.VUE_PKG_VER : "dev build"}`,
+      FOOTER: `Designed and developed by Russell Payne 2021, All Rights Reserved - Build: ${this.$parent.VUE_APP_VER ? this.$parent.VUE_APP_VER : "dev build"}`,
     };
   },
 };
