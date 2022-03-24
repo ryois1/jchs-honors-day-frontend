@@ -1,3 +1,5 @@
+const { GitRevisionPlugin } = require('git-revision-webpack-plugin')
+
 module.exports = {
     chainWebpack: config => {
         config
