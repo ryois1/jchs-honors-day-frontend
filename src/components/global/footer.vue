@@ -15,7 +15,7 @@ export default {
   name: "footer",
   data: function () {
     return {
-      FOOTER: `Designed and developed by Russell Payne 2021 - Version: ${this.$parent.VUE_APP_GIT_HASH ? this.$parent.VUE_APP_GIT_HASH : "dev"}`,
+      FOOTER: `Designed and developed by Russell Payne 2021 - Version: ${this.$parent.VUE_APP_VER ? this.$parent.VUE_APP_VER : "dev build"}`,
     };
   },
 };
