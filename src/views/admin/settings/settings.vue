@@ -20,6 +20,7 @@
           <b-table bordered show-empty :items="items" :fields="fields">
             <template #cell(config_value)="data">
               <b-form-input
+              class="cardsinput"
                 :disabled="settingsLock"
                 required
                 v-model="data.item.config_value"

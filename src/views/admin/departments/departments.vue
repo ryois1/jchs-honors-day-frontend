@@ -81,6 +81,12 @@ export default {
       this.$parent.$swal
         .fire({
           title: `Delete this department?`,
+                    customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           html:
             "<p>Are you sure you want to delete this department?</p><br><b>This action cannot be undone.<br>This deletes certificates, awards, and user associations with the department.</b><br>",
           icon: "warning",

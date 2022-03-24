@@ -125,6 +125,12 @@ export default {
         const vm = this;
         if (vm.UPLOADED_COUNT == vm.CERTS_NEEDED) {
           vm.$parent.$swal.fire({
+                                customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
             title: `Uploads complete!`,
             icon: "success",
             confirmButtonText: "Dismiss",

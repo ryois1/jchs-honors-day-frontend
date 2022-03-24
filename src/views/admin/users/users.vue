@@ -54,6 +54,7 @@
       :total-rows="totalItems"
       v-model="currentPage"
       :per-page="perPage"
+      class="pagination"
     ></b-pagination>
     Total Users: <b>{{totalItems}}</b>
   </div>
@@ -106,6 +107,12 @@ export default {
         .fire({
           title: `Select New Role for User`,
           icon: "question",
+          customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           showCancelButton: true,
           confirmButtonText: "Change",
           reverseButtons: true,
@@ -169,6 +176,12 @@ export default {
           confirmButtonColor: "#dc3545",
           confirmButtonText: "Delete",
           reverseButtons: true,
+          customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
         })
         .then(async function (result) {
           if (result.isConfirmed) {

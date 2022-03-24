@@ -69,6 +69,7 @@
       :fields="fields"
       :current-page="currentPage"
       :per-page="0"
+      class="table"
     >
       <template #cell(cert_notes)="data">
         <div v-if="data.item.cert_notes"><p>{{noteView(data.item.cert_notes)}}</p><b-button variant="primary" @click="notes('view', data.item.cert_id, data.item.cert_owner_id, data.item)">View Note <b-icon icon="pencil-square" aria-hidden="true"></b-icon></b-button></div>
@@ -207,6 +208,12 @@ export default {
       }
       this.$parent.$swal
         .fire({
+                              customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           title: `Delete this delegation?`,
           html:
             "<p>Are you sure you want to delete this delegation?</p><br><b>This action cannot be undone.</b><br>",
@@ -279,6 +286,12 @@ export default {
         if (cert_owner_id != vm.$parent.USER_INFO.user_id) {
           await this.$parent.$swal
             .fire({
+                                  customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
               title: `Notes`,
               icon: "info",
               confirmButtonText: "Close",
@@ -290,6 +303,12 @@ export default {
       }
       await this.$parent.$swal
         .fire({
+                              customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           title: `Notes`,
           icon: "info",
           showCancelButton: true,
@@ -343,6 +362,12 @@ export default {
       else{
       await this.$parent.$swal
         .fire({
+                              customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           title: `Notes`,
           icon: "info",
           confirmButtonText: "Close",
@@ -376,6 +401,12 @@ export default {
       const self_current_count = vm.SELF_CURRENT_CERT;
       this.$parent.$swal
         .fire({
+                              customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           title: `Release these slots?`,
           html:
             '<b>This action can only be reversed by the department admins or system administrators.</b>',
@@ -438,6 +469,12 @@ export default {
       }
       this.$parent.$swal
         .fire({
+                              customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           title: `Delete this certificate?`,
           html:
             "<p>Are you sure you want to delete this certificate?</p><br><b>This action cannot be undone.</b>",
@@ -491,6 +528,12 @@ export default {
       const vm = this;
       vm.$parent.$swal
         .fire({
+                              customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           title: `Are you sure you want delegate this certificate? (Search by Email)`,
           icon: "warning",
           showCancelButton: true,
@@ -525,6 +568,12 @@ export default {
           if (result.isConfirmed) {
             vm.$parent.$swal
               .fire({
+                                    customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
                 showCancelButton: true,
                 confirmButtonColor: "#dc3545",
                 confirmButtonText: "Transfer",
@@ -598,6 +647,12 @@ export default {
         vm.NOT_LOCKED = false;
         vm.LOCKED = true;
         vm.$parent.$swal.fire({
+                              customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           title: `This award is locked for editing.`,
           icon: "error",
           confirmButtonText: "Ok",

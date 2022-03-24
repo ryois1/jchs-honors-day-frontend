@@ -50,6 +50,12 @@ export default {
           cancelButtonColor: "#00B32C",
           confirmButtonText: "Yes",
           reverseButtons: true,
+          customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
         })
         .then((result) => {
           if (result.isConfirmed) {
@@ -140,6 +146,66 @@ export default {
 </script>
 
 <style>
+:root {
+  --primary-dark-bg: #121212;
+  --alt-dark-bg: #37373b;
+  --input-dark-bg: #383636;
+}
+@media (prefers-color-scheme: dark) {
+  .popup-dark{
+    color: #ffffff !important;
+    background-color: var(--alt-dark-bg) !important;
+  }
+  .popup-dark-input{
+    color: #ffffff !important;
+    background-color: var(--input-dark-bg) !important;
+  }
+  .popup-dark-text{
+    color: #ffffff !important;
+  }
+  .vue-dropzone {
+    color: #ffffff !important;
+    background-color: var(--alt-dark-bg) !important;
+  }
+  .pagination{
+    color: var(--alt-dark-bg) !important;
+  }
+  #app {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: 100%;
+    color: #ffffff;
+    background-color: var(--primary-dark-bg);
+  }
+  body{
+    height: 100%;
+    width: 100%;
+    margin-bottom: 54px; 
+    color: #ffffff;
+    background-color: var(--primary-dark-bg);
+  }
+  main{
+    color: #ffffff;
+    background-color: var(--primary-dark-bg);
+    min-height: calc(100vh - 72px);
+  }
+  #footer {
+    background-color: var(--primary-dark-bg);
+  }
+  .cards{
+    color: #ffffff !important;
+    background-color: var(--alt-dark-bg) !important;
+  }
+  .cardsinput {
+    color: #ffffff !important;
+    background-color: var(--input-dark-bg) !important;
+  }
+  .table{
+    color: #ffffff !important;
+    background-color: var(--alt-dark-bg) !important;
+  }
+}
+
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

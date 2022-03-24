@@ -9,6 +9,7 @@
           ><p>Email Subject:</p>
           <b-form-input
             required
+            class="cardsinput"
             v-model="email_subject"
             @change="editConfig('email.subject', email_subject)"
         /></b-col>
@@ -18,6 +19,7 @@
             type="number"
             :state="formatYear"
             required
+            class="cardsinput"
             v-model="email_yog"
             @change="editConfig('email.current_yog', email_yog)"
         /></b-col>
@@ -110,7 +112,6 @@
           </div>
         </b-col>
       </b-row>
-      <hr class="my-4" />
     </b-container>
   </div>
 </template>
@@ -138,6 +139,8 @@ export default {
         menubar: false,
         browser_spellcheck: true,
         contextmenu: false,
+        skin: "oxide-dark",
+        content_css: "dark",
         plugins: [
           "advlist autolink lists link image charmap",
           "searchreplace visualblocks code fullscreen",

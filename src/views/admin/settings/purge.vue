@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-jumbotron v-if="$auth.isAuthenticated && this.$parent.USER_AUTHORIZED">
+    <b-jumbotron id="purge_hero" v-if="$auth.isAuthenticated && this.$parent.USER_AUTHORIZED">
       <template #header>{{ LANG_WELCOME }}</template>
       <template #lead>
         Please make sure you know what you are doing and the consequences of the
@@ -60,6 +60,12 @@ export default {
       this.$parent.$swal
         .fire({
           title: `Purge Awards?`,
+                    customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           html:
             "<p>Are you sure you want to purge awards?</p><br><b>This action cannot be undone.<br>This deletes awards, certificates, and user associations with the award.</b><br>",
           icon: "warning",
@@ -104,6 +110,12 @@ export default {
       this.$parent.$swal
         .fire({
           title: `Purge Certificates?`,
+                    customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           html:
             "<p>Are you sure you want to purge certificates?</p><br><b>This action cannot be undone.<br>This deletes certificates only</b><br>",
           icon: "warning",
@@ -148,6 +160,12 @@ export default {
       this.$parent.$swal
         .fire({
           title: `Purge Students?`,
+                    customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           html:
             "<p>Are you sure you want to purge students?</p><br><b>This action cannot be undone.</b><br>",
           icon: "warning",
@@ -192,6 +210,12 @@ export default {
       this.$parent.$swal
         .fire({
           title: `Purge Everything?`,
+                    customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           html:
             "<p>Are you sure you want to purge everything?</p><br><b>This action cannot be undone.<br>This deletes awards, certificates, user associations with the awards, users, and departments.</b><br>",
           icon: "warning",
@@ -236,6 +260,12 @@ export default {
       this.$parent.$swal
         .fire({
           title: `Unlock all awards?`,
+                    customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           html:
             "<p>Are you sure you want to unlock all awards?</p>",
           icon: "warning",
@@ -279,4 +309,10 @@ export default {
 };
 </script>
 <style scoped>
+@media (prefers-color-scheme: dark) {
+  #purge_hero{
+    color: #ffffff;
+    background-color: var(--alt-dark-bg);
+  }
+}
 </style>

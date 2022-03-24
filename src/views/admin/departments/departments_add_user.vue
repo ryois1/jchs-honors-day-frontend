@@ -8,7 +8,7 @@
       </b-row>
       <b-row>
         <b-col>
-          <b-card bg-variant="light">
+          <b-card class="cards">
             <b-form @submit.prevent="processForm">
               <div v-for="index in input_index" :key="index">
                 <b-container fluid>
@@ -25,6 +25,7 @@
                           placeholder="Teacher Email"
                           type="email"
                           required
+                          class="cardsinput"
                         ></b-form-input>
                       </b-form-group>
                     </b-col>
@@ -94,6 +95,12 @@ export default {
           await vm.$parent.$swal
             .fire({
               title: "Search Results",
+          customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
               html: `<select id="select" name="parent" class="form-control">
           ${users.map(
             (cat) => `<option value="${cat.value}">${cat.name}</option>`

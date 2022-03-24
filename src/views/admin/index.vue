@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-jumbotron v-if="$auth.isAuthenticated && this.$parent.USER_AUTHORIZED">
+    <b-jumbotron id="admin_hero" v-if="$auth.isAuthenticated && this.$parent.USER_AUTHORIZED">
       <template #header>{{ LANG_WELCOME }}</template>
       <hr class="my-4" />
       <b-button
@@ -23,4 +23,10 @@ export default {
 };
 </script>
 <style scoped>
+@media (prefers-color-scheme: dark) {
+  #admin_hero{
+    color: #ffffff;
+    background-color: var(--alt-dark-bg);
+  }
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-jumbotron v-if="$auth.isAuthenticated && this.$parent.USER_AUTHORIZED">
+    <b-jumbotron id="home_hero" v-if="$auth.isAuthenticated && this.$parent.USER_AUTHORIZED">
       <template #header>{{ LANG_WELCOME }}</template>
     </b-jumbotron>
   </div>
@@ -21,4 +21,10 @@ export default {
 };
 </script>
 <style scoped>
+@media (prefers-color-scheme: dark) {
+  #home_hero{
+    color: #ffffff;
+    background-color: var(--alt-dark-bg);
+  }
+}
 </style>

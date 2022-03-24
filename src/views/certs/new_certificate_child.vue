@@ -17,7 +17,7 @@
       </b-row>
       <b-row>
         <b-col>
-          <b-card bg-variant="light">
+          <b-card class="cards">
             <b-form @submit.prevent="processForm">
               <b-form-group
                 id="cert_name-group"
@@ -32,6 +32,7 @@
                   type="text"
                   placeholder="Name"
                   required
+                  class="cardsinput"
                 ></b-form-input>
               </b-form-group>
               <div v-for="index in input_index" :key="index">
@@ -48,6 +49,7 @@
                           v-model="student_id[index - 1]"
                           placeholder="Student ID or Name"
                           required
+                          class="cardsinput"
                         ></b-form-input>
                       </b-form-group>
                     </b-col>
@@ -163,6 +165,12 @@ export default {
           vm.lookedup_student = students;
           await vm.$parent.$swal
             .fire({
+                                  customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
               title: "Search Results",
               html: `<select id="select" name="parent" class="form-control">
           ${students.map(

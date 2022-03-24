@@ -6,7 +6,7 @@
       </b-row>
       <b-row>
         <b-col>
-          <b-card bg-variant="light">
+          <b-card class="cards">
             <b-form @submit.prevent="processForm">
               <b-form-group
                 id="cert_name-group"
@@ -20,6 +20,7 @@
                   type="text"
                   placeholder="Name"
                   required
+                  class="cardsinput"
                 ></b-form-input>
               </b-form-group>
               <b-button type="submit" variant="primary">Submit</b-button>

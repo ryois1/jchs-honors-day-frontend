@@ -108,6 +108,12 @@ export default {
       if (duplicates.length > 0) {
         vm.ok_button_disabled = 1;
         vm.$parent.$swal.fire({
+                              customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           title: `You have duplicate teachers`,
           icon: "warning",
           confirmButtonText: "Ok",
@@ -232,6 +238,12 @@ export default {
       if (this.invalid_teacher_emails.length > 0) {
         vm.$parent.$swal
           .fire({
+                                customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
             title: `Are you sure you want submit this with unverified teachers?`,
             icon: "warning",
             showCancelButton: true,
@@ -325,6 +337,12 @@ export default {
         const vm = this;
         if (vm.current_input_count > vm.cert_remain) {
           vm.$parent.$swal.fire({
+                                customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
             title: `You are trying to delegate more slots than you have.`,
             icon: "warning",
             confirmButtonText: "Ok",

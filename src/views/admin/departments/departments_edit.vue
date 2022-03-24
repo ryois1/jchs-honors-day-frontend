@@ -92,6 +92,12 @@ export default {
       this.$parent.$swal
         .fire({
           title: `Remove this user?`,
+                    customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           html:
             "<p>Are you sure you want to remove this user from the department?</p><br><b>THIS DOES NOT DELETE USERS, use Admin > Users<br>This DOES NOT delete certificates.</b><br>",
           icon: "warning",

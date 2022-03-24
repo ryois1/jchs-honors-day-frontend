@@ -120,6 +120,12 @@ export default {
       const duplicates = findDuplicates(student_ids);
       if (duplicates.length > 0) {
         vm.$parent.$swal.fire({
+                              customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           title: `You have duplicate students`,
           icon: "warning",
           confirmButtonText: "Ok",
@@ -217,6 +223,12 @@ export default {
       if (this.invalid_student_ids.length > 0) {
         vm.$parent.$swal
           .fire({
+                                customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
             title: `Are you sure you want submit this with unverified students?`,
             icon: "warning",
             showCancelButton: true,

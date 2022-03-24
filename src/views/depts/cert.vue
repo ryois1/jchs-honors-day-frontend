@@ -22,6 +22,7 @@
         v-for="(item) in items" :key="item.cert_id"
         :title="item.cert_name"
         border-variant="secondary"
+        class="cards"
       >
         <template #header>
           <b-row>
@@ -90,6 +91,12 @@ export default {
       }
       await this.$parent.$swal
         .fire({
+                              customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           title: `Enter New Amount`,
           icon: "question",
           showCancelButton: true,
@@ -155,6 +162,12 @@ export default {
       }
       await this.$parent.$swal
         .fire({
+                              customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           title: `Enter New Award Name`,
           icon: "question",
           showCancelButton: true,
@@ -221,6 +234,12 @@ export default {
 
       this.$parent.$swal
         .fire({
+                              customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           title: `Delete this award?`,
           html:
             "<p>Are you sure you want to delete this award?</p><br><b>This action cannot be undone.</b><br>",
@@ -280,6 +299,12 @@ export default {
 
       this.$parent.$swal
         .fire({
+                              customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           title: `Lock this award?`,
           html:
             "<p>Are you sure you want to lock this award?<br>Nobody will be able to edit the award after it has been locked",
@@ -336,6 +361,12 @@ export default {
 
       this.$parent.$swal
         .fire({
+                              customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
           title: `Unlock this award?`,
           html:
             "<p>Are you sure you want to unlock this award?<br>Users with permission will be able edit the award",
