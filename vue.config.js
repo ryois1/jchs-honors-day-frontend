@@ -10,7 +10,7 @@ module.exports = {
             return args
         })
         config.plugin('define').tap(args => {
-            args[0]['process.env']['VUE_PKG_VER'] = version;
+            args[0]['process.env']['VUE_PKG_VER'] = String(version);
             return args
         })
         config.plugin('define').tap(args => {

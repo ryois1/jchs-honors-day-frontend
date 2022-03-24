@@ -108,7 +108,7 @@ export default {
       isLoading: true,
       ADMINS: ["ADMIN", "COMMITTEE", "DEPT_ADMIN"],
       VUE_APP_VER: process.env.VUE_APP_VER,
-      VUE_PKG_VER: String(process.env.VUE_PKG_VER),
+      VUE_PKG_VER: process.env.VUE_PKG_VER,
     };
   },
   computed: {
