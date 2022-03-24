@@ -2,7 +2,7 @@
   <div id="newcert">
     <b-container fluid>
       <b-row>
-        <b-col><h1>Creating Award</h1></b-col>
+        <b-col><h1>{{LANG_HEADER}}</h1></b-col>
       </b-row>
       <b-row>
         <b-col>
@@ -39,17 +39,6 @@
                   class="cardsinput"
                 ></b-form-input>
               </b-form-group>
-              <b-form-group
-                id="dept-group"
-                label="Department:"
-                label-for="dept"
-              >
-                <b-form-select
-                  v-model="cert_dept"
-                  :options="depts"
-                  class="cardsinput"
-                ></b-form-select>
-              </b-form-group>
               <b-button type="submit" variant="primary">Submit</b-button>
             </b-form>
           </b-card>
@@ -66,7 +55,10 @@ export default {
   name: "new_parent_cert",
   data: function () {
     return {
+      LANG_HEADER: "Creating Award in ???",
       STATUS_TEXT: "Please input certificate data",
+      DEPT_NAME: "",
+      DEPT_ID: "",
       RESULT: null,
       cert_name: null,
       cert_max_child: null,
@@ -95,12 +87,35 @@ export default {
         vm.depts.push(user);
       });
     },
+        API_dept: async function () {
+      const vm = this;
+      const { data } = await axios.get(
+        `${vm.$parent.API_BASE_URL}/dept/${vm.$route.params.dept_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+          },
+        }
+      );
+      vm.DEPT_NAME = data.data.depts[0].department_name;
+      if (
+        vm.$parent.USER_INFO.role == "ADMIN" ||
+        vm.$parent.USER_INFO.role == "DEPT_ADMIN" ||
+        vm.$parent.USER_INFO.role == "COMMITTEE"
+      ) {
+        vm.LANG_HEADER = `Creating Award in "${vm.DEPT_NAME}"`;
+        vm.DEPT_ID = vm.$route.params.dept_id;
+      } else {
+        vm.LANG_HEADER = `Creating Award in "${vm.DEPT_NAME}"`;
+        vm.DEPT_ID = vm.$route.params.dept_id;
+      }
+    },
     processForm: function () {
       const vm = this;
       vm.$parent.showLoader = true;
       const cert_name = this.cert_name;
       const cert_max_child = this.cert_max_child;
-      const cert_dept = this.cert_dept;
+      const cert_dept = vm.DEPT_ID;
       const data = {
         certs: [
           {
@@ -145,6 +160,9 @@ export default {
   },
   mounted: function () {
     this.API_depts().catch((error) => {
+      console.error(error);
+    });
+    this.API_dept().catch((error) => {
       console.error(error);
     });
   },

@@ -152,6 +152,12 @@ export default {
   --input-dark-bg: #383636;
 }
 @media (prefers-color-scheme: dark) {
+  .page-item.active .page-link {  
+    background-color: var(--primary)!important;  
+  }
+  .page-link {  
+    background-color: var(--alt-dark-bg)!important;
+  }
   .popup-dark{
     color: #ffffff !important;
     background-color: var(--alt-dark-bg) !important;

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-jumbotron header="Authentication Error">
+    <b-jumbotron id="error_hero" header="Authentication Error">
         <h3>{{error}}</h3>
     </b-jumbotron>
   </div>
@@ -15,3 +15,11 @@ export default {
   },
 }
 </script>
+<style scoped>
+@media (prefers-color-scheme: dark) {
+  #error_hero{
+    color: #ffffff;
+    background-color: var(--alt-dark-bg);
+  }
+}
+</style>
