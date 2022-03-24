@@ -238,7 +238,7 @@ html {
   width: 100%;
 }
 main{
-  min-height: calc(100vh - 92px);
+  min-height: calc(100vh - 96px);
 }
 body{
   height: 100%;
