@@ -214,8 +214,19 @@ export default {
     color: #ffffff !important;
     background-color: var(--alt-dark-bg) !important;
   }
+  .table-danger, .table-danger > th, .table-danger > td {
+    background-color: #b00020 !important;
+    border-color: #ff0000 !important;
+  }
+  .table-success, .table-success > th, .table-success > td {
+    background-color: #20b000 !important;
+    border-color: #00ff00 !important;
+  }
 }
-
+.dropzone .dz-preview .dz-image{
+  width: 120px !important;
+  height: 120px !important;
+}  
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
