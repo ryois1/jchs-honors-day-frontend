@@ -4,13 +4,13 @@
       <b-row>
         <b-col
           ><h1>
-            {{ LANG_VIEWING_CERT }} <b-badge>{{ CERT_COUNT }}</b-badge>
+            {{ LANG_VIEWING_CERT }} <b-badge v-if="showContents">{{ CERT_COUNT }}</b-badge>
           </h1>
-          <h3>
+          <h3 v-if="showContents">
             Your certificate slots <b-badge>{{ SELF_CERT_COUNT }}</b-badge>
           </h3></b-col
         >
-        <b-col class="text-right" v-if="this.NOT_LOCKED">
+        <b-col class="text-right" v-if="showContents && this.NOT_LOCKED">
           <b-button
             v-if="
               this.allowed_delegate &&
@@ -24,14 +24,14 @@
             >Delegate Certificates to Teachers</b-button
           >
           <b-button
-            v-if="this.$parent.USER_INFO.role == 'TEACHER'"
+            v-if="showContents && this.$parent.USER_INFO.role == 'TEACHER'"
             @click="releaseCert"
             class="mr-1"
             variant="primary"
             >Return Certificates to Department Chair</b-button
           >
           <b-button
-            v-if="this.CERT_MAX_CHILD >= this.totalItems && this.allowed_edit"
+            v-if="showContents && this.CERT_MAX_CHILD >= this.totalItems && this.allowed_edit"
             variant="primary"
             :disabled="DISABLED_ADD"
             class="btn-success btn-lg"
@@ -42,13 +42,13 @@
           <b-tooltip v-if="this.$parent.USER_INFO.role == 'TEACHER'" show target="award-button">Click here to get started!</b-tooltip>
           </b-col
         >
-        <b-col class="text-right" v-if="!this.allowed_edit"
+        <b-col class="text-right" v-if="!this.allowed_edit && showContents"
           ><h5>You are not allowed to edit this certificate</h5></b-col
         >
       </b-row>
     </b-container>
     <b-table
-      v-if="this.$parent.ADMINS.includes(this.$parent.USER_INFO.role)"
+      v-if="showContents && this.$parent.ADMINS.includes(this.$parent.USER_INFO.role)"
       :empty-html="DELEGATES_EMTPY_TABLE"
       bordered
       show-empty
@@ -70,6 +70,7 @@
       :current-page="currentPage"
       :per-page="0"
       class="table"
+      v-if="showContents"
     >
       <template #cell(cert_notes)="data">
         <div v-if="data.item.cert_notes"><p>{{noteView(data.item.cert_notes)}}</p><b-button variant="primary" @click="notes('view', data.item.cert_id, data.item.cert_owner_id, data.item)">View Note <b-icon icon="pencil-square" aria-hidden="true"></b-icon></b-button></div>
@@ -137,6 +138,7 @@ export default {
       allowed_delegate: false,
       NOT_LOCKED: true,
       LOCKED: false,
+      showContents: true,
       EMTPY_TABLE: "<p>Loading data...</p>",
       DELEGATES_EMTPY_TABLE: "<p>Loading data...</p>",
       fields: [
@@ -636,6 +638,10 @@ export default {
           },
         }
       );
+      if(data.error){
+        vm.LANG_VIEWING_CERT = `There was an error loading this award: "${data.message}".`;
+        vm.showContents = false;
+      }
       vm.CERT_NAME = data.data.certs[0].cert_name;
       vm.CERT_OWNER_ID = data.data.certs[0].cert_owner_id;
       vm.CERT_EMAIL = data.data.certs[0].user_email;

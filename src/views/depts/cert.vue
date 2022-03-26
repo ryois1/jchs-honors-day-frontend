@@ -8,7 +8,7 @@
         >
         <b-col class="text-right"
           ><b-button
-            v-if="this.$parent.USER_INFO.role == 'ADMIN'"
+            v-if="this.$parent.USER_INFO.role == 'ADMIN' && showButtons"
             variant="primary"
             :to="{name: 'CertificateNewParent'}"
             >New Award</b-button
@@ -16,7 +16,7 @@
         >
       </b-row>
     </b-container>
-    <b-alert v-if="this.totalItems === 0" show variant="warning">No Awards</b-alert>
+    <b-alert v-if="this.totalItems === 0 && showError" show variant="warning">No Awards</b-alert>
     <b-card-group columns>
       <b-card 
         v-for="(item) in items" :key="item.cert_id"
@@ -55,6 +55,7 @@
       </template>
       </b-card>
     </b-card-group>
+    <b-button id="go_back" class="mr-1" @click="goBack" variant="primary">Go Back</b-button>
   </div>
 </template>
 <script>
@@ -73,9 +74,14 @@ export default {
       currentPage: 1,
       perPage: 10,
       totalItems: null,
+      showError: true,
+      showButtons: true,
     };
   },
   methods: {
+    goBack() {
+      this.$router.push({ name: "Departments"});
+    },
     changeMaxCerts: async function (cert_id, cert_owner_id, item) {
       const vm = this;
       if (
@@ -439,6 +445,11 @@ export default {
           },
         }
       );
+      if(data.error){
+        vm.LANG_HEADER = `There was an error loading the department: ${data.message}.`
+        vm.showError = false;
+        vm.showButtons = false;
+      }
       vm.DEPT_NAME = data.data.depts[0].department_name;
       if (
         vm.$parent.USER_INFO.role == "ADMIN" ||

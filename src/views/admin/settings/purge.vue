@@ -322,7 +322,7 @@ export default {
           },
           inputValidator: (value) => {
             if (value != "DELETE") {
-              return '<span>You must type in <b class="text-danger">DELETEL</b> to delete.</span>';
+              return '<span>You must type in <b class="text-danger">DELETE</b> to delete.</span>';
             }
           },
         })
