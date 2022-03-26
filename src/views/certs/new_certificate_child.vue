@@ -172,7 +172,7 @@ export default {
             input: 'popup-dark-input',
           },
               title: "Search Results",
-              html: `<select id="select" name="parent" class="form-control">
+              html: `<select id="select" name="parent" class="form-control cardsinput">
           ${students.map(
             (cat) => `<option value="${cat.value}">${cat.name}</option>`
           )} ...`,
