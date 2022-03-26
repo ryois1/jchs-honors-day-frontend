@@ -227,8 +227,10 @@ export default {
     color: #ffffff !important;
     background-color: var(--alt-dark-bg) !important;
   }
-  .cardsinput {
+  .cardsinput, .swal2-select{
     color: #ffffff !important;
+    -moz-appearance: none; 
+    -webkit-appearance: none; 
     background-color: var(--input-dark-bg) !important;
   }
   .table{
