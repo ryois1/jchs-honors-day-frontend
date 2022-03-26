@@ -6,11 +6,11 @@
       type="dark"
       variant="dark"
     >
-      <b-navbar-brand :to="{ name: 'Home' }"><b-img-lazy src="https://awards.jchsprojects.com/static/jchs_patriots_logo_web.png" width="30" height="30" alt="JCHS Patriots Mascot" class="d-inline-block align-top"></b-img-lazy>JCHS Awards Portal</b-navbar-brand>
+      <b-navbar-brand :to="{ name: 'Home' }"><b-img-lazy src="https://awards.jchsprojects.com/static/jchs_patriots_logo_web.png" width="30" height="30" alt="JCHS Patriots Mascot" class="d-inline-block align-top"></b-img-lazy> JCHS Awards Portal</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item 
+          <b-nav-item
             :to="{ name: 'Home' }" 
             :active="$route.name == 'Home'"
             >Home</b-nav-item
@@ -32,9 +32,11 @@
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown
-            :text="`Hi ${this.$parent.USER_INFO.first_name}`"
             right
           >
+            <template slot="button-content">
+              <b-icon icon="person-circle"></b-icon> <em>{{this.$parent.USER_INFO.first_name + " " + this.$parent.USER_INFO.last_name}}</em>
+            </template>
             <b-dropdown-item @click="this.$parent.logout"
               >Sign Out</b-dropdown-item
             >

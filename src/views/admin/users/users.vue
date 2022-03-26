@@ -22,7 +22,11 @@
           >
         </b-col>
       </b-row>
+    <b-row>
+        <b-form-input style="width: 400px;" v-model="searchFilter" class="cardsinput" placeholder="Search Users"></b-form-input>
+    </b-row>
     </b-container>
+
     <b-table
       :empty-html="EMTPY_TABLE"
       bordered
@@ -30,7 +34,8 @@
       :items="items"
       :fields="fields"
       :current-page="currentPage"
-      :per-page="0"
+      :per-page="10"
+      :filter="searchFilter"
     >
       <template #cell(role)="data">
         <p v-if="data.item.role=='ADMIN'">System Administrator</p>
@@ -68,6 +73,7 @@ export default {
     return {
       LANG_HEADER: "Viewing All Users",
       EMTPY_TABLE: "<p>Loading data...</p>",
+      searchFilter: "",
       fields: [
         {
           key: "id",
@@ -78,10 +84,12 @@ export default {
         {
           key: "first_name",
           label: "First Name",
+          sortable: true
         },
         {
           key: "last_name",
           label: "Last Name",
+          sortable: true
         },
         {
           key: "email",
@@ -90,6 +98,7 @@ export default {
         {
           key: "role",
           label: "Role",
+          sortable: true
         },
         "change_role",
         "delete",
@@ -120,7 +129,7 @@ export default {
           inputPlaceholder: "Select a role",
           inputOptions: {
             TEACHER: "Teacher",
-            DEPT_ADMIN: "Department Administrator",
+            DEPT_ADMIN: "Department Chair",
             COMMITTEE: "Honors Day Committee",
             ADMIN: "System Administrator",
           },
@@ -220,9 +229,9 @@ export default {
     API_users: async function () {
       const vm = this;
       vm.isLoading = true;
-      const currentPage = vm.currentPage;
+      //const currentPage = vm.currentPage;
       const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/users`, {
-        params: { currentPage: currentPage, limit: vm.perPage },
+        //params: { currentPage: currentPage, limit: vm.perPage },
         headers: {
           Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
         },
@@ -243,16 +252,7 @@ export default {
     this.API_users().catch((error) => {
       console.error(error);
     });
-  },
-  watch: {
-    currentPage: {
-      handler: function () {
-        this.API_users().catch((error) => {
-          console.error(error);
-        });
-      },
-    },
-  },
+  }
 };
 </script>
 <style scoped>

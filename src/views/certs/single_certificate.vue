@@ -409,7 +409,7 @@ export default {
           },
           title: `Release these slots?`,
           html:
-            '<b>This action can only be reversed by the department admins or system administrators.</b>',
+            '<b>This action can only be reversed by the department chairs or system administrators.</b>',
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",

@@ -2,7 +2,6 @@ import Vue from 'vue'
 import App from './App.vue'
 import { LayoutPlugin, CardPlugin, TablePlugin, FormPlugin, FormCheckboxPlugin, FormInputPlugin, PaginationPlugin, NavPlugin, NavbarPlugin, JumbotronPlugin, InputGroupPlugin, ImagePlugin, TooltipPlugin, ButtonPlugin, FormGroupPlugin, AlertPlugin, FormSelectPlugin, BadgePlugin, ListGroupPlugin } from 'bootstrap-vue';
 import { BootstrapVueIcons } from 'bootstrap-vue'
-import Vuex from 'vuex'
 import router from './router'
 import { domain, clientId, audience } from "../auth_config.json";
 import { Auth0Plugin, getInstance } from "./auth";
@@ -35,7 +34,6 @@ Vue.use(FormSelectPlugin)
 Vue.use(BadgePlugin)
 
 Vue.use(BootstrapVueIcons)
-Vue.use(Vuex)
 Vue.use(Auth0Plugin, {
   domain,
   clientId,

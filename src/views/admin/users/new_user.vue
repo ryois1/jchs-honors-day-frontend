@@ -6,7 +6,7 @@
       </b-row>
       <b-row>
         <b-col>
-          <b-card bg-variant="light">
+          <b-card class="cards">
             <b-form @submit.prevent="processForm">
               <b-form-group
                 id="user_first_name-group"
@@ -19,6 +19,7 @@
                   v-model="user_first_name"
                   type="text"
                   placeholder="First Name"
+                  class="cardsinput"
                   required
                 ></b-form-input>
               </b-form-group>
@@ -32,6 +33,7 @@
                   v-model="user_last_name"
                   type="text"
                   placeholder="Last Name"
+                  class="cardsinput"
                   required
                 ></b-form-input>
               </b-form-group>
@@ -45,6 +47,7 @@
                   v-model="user_email"
                   type="email"
                   placeholder="Email"
+                  class="cardsinput"
                   required
                 ></b-form-input>
               </b-form-group>
@@ -56,6 +59,7 @@
                 <b-form-select
                   v-model="user_role"
                   :options="user_role_options"
+                  class="cardsinput"
                 ></b-form-select>
               </b-form-group>
               <b-button type="submit" variant="primary">Submit</b-button>
@@ -82,8 +86,8 @@ export default {
         { text: "Select Role", disabled: true },
         { value: "ADMIN", text: "System Admin" },
         { value: "COMMITTEE", text: "Honors Day Committee" },
-        { value: "TEACHER", text: "Teacher" },
         { value: "DEPT_ADMIN", text: "Department Chair" },
+        { value: "TEACHER", text: "Teacher" },
       ],
     };
   },

@@ -3,6 +3,7 @@
     <mobile v-if="isMobile()"></mobile>
     <main v-if="!isMobile()">
       <loading :active.sync="isLoading" :can-cancel="onCancel" :is-full-page="fullPage"></loading>
+      <accessLevel v-if="isLoaded && showAccessLevel"></accessLevel>
       <globalNav></globalNav>
       <adminNav v-if="(viewingAdmin) && (isLoaded)"></adminNav>
       <router-view v-if="isLoaded"></router-view>
@@ -16,6 +17,8 @@ const globalNav = () =>
   import(/* webpackChunkName: "components" */ "./components/global/navbar.vue");
 const adminNav = () =>
   import(/* webpackChunkName: "components" */ "./components/admin_nav.vue");
+const accessLevel = () =>
+  import(/* webpackChunkName: "components" */ "./components/global/accessLevel.vue");
 const globalFooter = () =>
   import(/* webpackChunkName: "components" */ "./components/global/footer.vue");
 const mobile = () =>
@@ -28,6 +31,7 @@ export default {
   components: {
     Loading,
     globalNav,
+    accessLevel,
     adminNav,
     globalFooter,
     mobile,
@@ -108,6 +112,7 @@ export default {
       isLoading: true,
       ADMINS: ["ADMIN", "COMMITTEE", "DEPT_ADMIN"],
       VUE_APP_VER: process.env.VUE_APP_VER,
+      showAccessLevel: true,
     };
   },
   computed: {
@@ -151,8 +156,23 @@ export default {
   --primary-dark-bg: #121212;
   --alt-dark-bg: #37373b;
   --input-dark-bg: #383636;
+  --nav-primary-text: #D3D3D3;
+  --nav-dropdown-hover-bg: #8a8787;
+  --nav-dropdown-bg: #5e5b5b;
 }
 @media (prefers-color-scheme: dark) {
+  .dropdown-menu{
+    color: #ffffff !important;
+    background-color: var(--nav-dropdown-bg) !important;
+  }
+  .dropdown-item {
+    color: #ffffff !important;
+    background-color: var(--nav-dropdown-bg) !important;
+  }
+  .dropdown-item:hover, .dropdown-item:focus {
+    color: #ffffff !important;
+    background-color: var(--nav-dropdown-hover-bg) !important;
+  }
   .page-item.active .page-link {  
     background-color: var(--primary)!important;  
   }

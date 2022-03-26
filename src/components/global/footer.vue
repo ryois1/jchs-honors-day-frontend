@@ -12,7 +12,7 @@
 </template>
 <script>
 export default {
-  name: "footer",
+  name: "globalFooter",
   data: function () {
     return {
       LICENSE: `Exclusively licensed to Jefferson County High School, Dandridge, TN.`,
