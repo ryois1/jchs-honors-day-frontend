@@ -42,7 +42,7 @@ export default {
   name: "certs",
   data: function () {
     return {
-      LANG_HEADER: "Editing System-wide Settings",
+      LANG_HEADER: "System-wide Settings",
       fields: [
         {
           key: "config_name",

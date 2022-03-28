@@ -71,7 +71,7 @@ export default {
   name: "certs",
   data: function () {
     return {
-      LANG_HEADER: "Viewing All Users",
+      LANG_HEADER: "All Users",
       EMTPY_TABLE: "<p>Loading data...</p>",
       searchFilter: "",
       fields: [

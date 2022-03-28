@@ -2,7 +2,7 @@
   <div id="students">
     <b-container fluid>
       <b-row>
-        <b-col><h1>Viewing All Students</h1></b-col>
+        <b-col><h1>All Students</h1></b-col>
         <b-col class="text-right">
           <b-button
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"

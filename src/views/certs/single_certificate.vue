@@ -124,7 +124,7 @@ export default {
         },
         "delete",
       ],
-      LANG_VIEWING_CERT: "Viewing Award",
+      LANG_VIEWING_CERT: "Loading...",
       CERT_COUNT: "None",
       SELF_CERT_COUNT: "None",
       CERT_NAME: "Unknown",
@@ -673,7 +673,7 @@ export default {
           vm.SELF_CERT_COUNT = `0/${data.data.certs[0].user_cert_max}`;
         }
       }
-      vm.LANG_VIEWING_CERT = `Viewing Award "${vm.CERT_NAME}"`;
+      vm.LANG_VIEWING_CERT = `${vm.CERT_NAME}`;
     },
     API_certs: async function () {
       const vm = this;

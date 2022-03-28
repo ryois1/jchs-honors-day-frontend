@@ -126,7 +126,7 @@ export default {
   },
   data: function () {
     return {
-      LANG_HEADER: "Editing Email Messages",
+      LANG_HEADER: "Email Messages",
       senior_message: null,
       junior_message: null,
       sophomore_message: null,

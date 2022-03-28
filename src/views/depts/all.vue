@@ -26,7 +26,7 @@ export default {
   name: "certs",
   data: function () {
     return {
-      LANG_HEADER: "Viewing Departments",
+      LANG_HEADER: "Departments",
       EMTPY_TABLE: "<p>Loading data...</p>",
       fields: [
         {
@@ -62,9 +62,6 @@ export default {
   },
   mounted: function () {
     const vm = this;
-    if (vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role)) {
-      vm.LANG_HEADER = "Viewing Departments";
-    }
     vm.API_depts().catch((error) => {
       console.error(error);
     });

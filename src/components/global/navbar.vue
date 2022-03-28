@@ -13,12 +13,12 @@
           <b-nav-item
             :to="{ name: 'Home' }" 
             :active="$route.name == 'Home'"
-            >Home</b-nav-item
+            ><b-icon icon="house"></b-icon> Home</b-nav-item
           >
           <b-nav-item
             :to="{ name: 'Departments'}"
             :active="$route.name.includes('Departments') || $route.name.includes('Certificate')"
-            >Departments</b-nav-item
+            ><b-icon icon="grid"></b-icon> Departments</b-nav-item
           >
           <b-nav-item
             :to="{ name: 'Admin' }"
@@ -27,7 +27,7 @@
               this.$parent.USER_INFO.role == 'COMMITTEE'
             "
             :active="$route.name.includes('Admin')"
-            >Admin</b-nav-item
+            ><b-icon icon="gear"></b-icon> Admin</b-nav-item
           >
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
@@ -35,7 +35,7 @@
             right
           >
             <template slot="button-content">
-              <b-icon icon="person-circle"></b-icon> <em>{{this.$parent.USER_INFO.first_name + " " + this.$parent.USER_INFO.last_name}}</em>
+              <b-icon icon="person-circle"></b-icon> {{this.$parent.USER_INFO.first_name + " " + this.$parent.USER_INFO.last_name}}
             </template>
             <b-dropdown-item @click="this.$parent.logout"
               >Sign Out</b-dropdown-item

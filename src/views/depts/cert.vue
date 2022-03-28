@@ -65,7 +65,7 @@ export default {
   name: "certs",
   data: function () {
     return {
-      LANG_HEADER: "Viewing All Awards in ???",
+      LANG_HEADER: "Awards in ???",
       EMTPY_TABLE: "<p>Loading data...</p>",
       DEPT_NAME: "???",
       USER_ROLE: this.$parent.USER_INFO.role,
@@ -451,15 +451,7 @@ export default {
         vm.showButtons = false;
       }
       vm.DEPT_NAME = data.data.depts[0].department_name;
-      if (
-        vm.$parent.USER_INFO.role == "ADMIN" ||
-        vm.$parent.USER_INFO.role == "DEPT_ADMIN" ||
-        vm.$parent.USER_INFO.role == "COMMITTEE"
-      ) {
-        vm.LANG_HEADER = `Viewing Awards in "${vm.DEPT_NAME}"`;
-      } else {
-        vm.LANG_HEADER = `Viewing Awards in "${vm.DEPT_NAME}"`;
-      }
+      vm.LANG_HEADER = `Awards in "${vm.DEPT_NAME}"`;
     },
   },
   mounted: function () {
