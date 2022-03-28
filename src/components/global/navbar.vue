@@ -17,7 +17,7 @@
           >
           <b-nav-item
             :to="{ name: 'Departments'}"
-            :active="$route.name == 'Departments'"
+            :active="$route.name.includes('Departments') || $route.name.includes('Certificate')"
             >Departments</b-nav-item
           >
           <b-nav-item
@@ -26,7 +26,7 @@
               this.$parent.USER_INFO.role == 'ADMIN' ||
               this.$parent.USER_INFO.role == 'COMMITTEE'
             "
-            :active="$route.name == 'Admin'"
+            :active="$route.name.includes('Admin')"
             >Admin</b-nav-item
           >
         </b-navbar-nav>

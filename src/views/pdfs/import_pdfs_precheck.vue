@@ -4,7 +4,7 @@
         <b-row>
             <b-col><h1>{{ LANG_HEADER }}</h1></b-col>
         </b-row>
-        <h2>Check ALL items before proceeding.</h2>
+        <b-alert class="alertContainer" show variant="warning"><b-icon style="width: 72px; height: 72px;" icon="exclamation-triangle-fill" variant="warning"></b-icon><h3 class="verticalText" >Check ALL items before proceeding.</h3></b-alert>
 <b-list-group class="listgroup" >
   <b-list-group-item class="listgroup">Did you edit the YEAR OF GRADUATION in Admin -> Email Settings -> Current YOG (AND Get a toast "Updated config")</b-list-group-item>
   <b-list-group-item class="listgroup">Confirm all spelling/years are correct in award names</b-list-group-item>
@@ -84,5 +84,11 @@ export default {
   padding-top: 2em;
   padding-left: 5em;
   padding-right: 5em;
+}
+.alertContainer {
+  height: 6em;
+  position: relative;
+  display: flex;
+  align-items: center
 }
 </style>

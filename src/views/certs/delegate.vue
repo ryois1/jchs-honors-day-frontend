@@ -231,6 +231,7 @@ export default {
   },
   mounted: async function () {
     await this.API_cert();
+    this.addTeacher();
     await this.API_delegates();
     if (this.$attrs.prop) {
       if (typeof this.$attrs.prop.users !== "undefined") {

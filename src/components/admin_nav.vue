@@ -15,41 +15,41 @@
           <b-nav-item
             :to="{ name: 'AdminDepts' }"
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
-            :active="$route.name == 'AdminDepts'"
+            :active="$route.name.includes('AdminDepts')"
             >Departments</b-nav-item
           >
           <b-nav-item
             :to="{ name: 'AdminAwards' }"
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
-            :active="$route.name == 'AdminAwards'"
+            :active="$route.name.includes('AdminAwards')"
             >Import Awards</b-nav-item
           >
           <b-nav-item
             :to="{ name: 'AdminUsers' }"
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
-            :active="$route.name == 'AdminUsers'"
+            :active="$route.name.includes('AdminUsers')"
             >Users</b-nav-item
           >
           <b-nav-item
             :to="{ name: 'AdminStudents' }"
-            :active="$route.name == 'AdminStudents'"
+            :active="$route.name.includes('AdminStudents')"
             >Students</b-nav-item
           >
           <b-nav-item
             :to="{ name: 'AdminEmail' }"
-            :active="$route.name == 'AdminEmail'"
+            :active="$route.name.includes('AdminEmail')"
             >Email Settings</b-nav-item
           >
           <b-nav-item
             :to="{ name: 'AdminSettings' }"
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
-            :active="$route.name == 'AdminSettings'"
+            :active="$route.name.includes('AdminSettings')"
             >System Settings</b-nav-item
           >
           <b-nav-item
             :to="{ name: 'AdminPurge' }"
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
-            :active="$route.name == 'AdminPurge'"
+            :active="$route.name.includes('AdminPurge')"
             >Purge</b-nav-item
           >
         </b-navbar-nav>

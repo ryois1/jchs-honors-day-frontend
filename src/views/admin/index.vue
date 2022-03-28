@@ -4,10 +4,25 @@
       <template #header>{{ LANG_WELCOME }}</template>
       <hr class="my-4" />
       <b-button
+        class="mr-1"
         v-if="this.$parent.USER_INFO.role == 'ADMIN'"
         variant="primary"
         :to="{ name: 'ImportCertsPDFsPreCheck' }"
-        >Import PDFs</b-button
+        ><b-icon icon="file-earmark-medical"></b-icon> Import PDFs</b-button
+      > 
+      <b-button
+        class="mr-1"
+        v-if="this.$parent.USER_INFO.role == 'ADMIN'"
+        variant="primary"
+        :to="{ name: 'AdminStudentsImport' }"
+        ><b-icon icon="people"></b-icon> Import Students</b-button
+      >
+      <b-button
+        class="mr-1"
+        v-if="this.$parent.USER_INFO.role == 'ADMIN'"
+        variant="primary"
+        :to="{ name: 'AdminUsersImport' }"
+        ><b-icon icon="people-fill"></b-icon> Import Users</b-button
       >
     </b-jumbotron>
     <b-container fluid>
@@ -34,7 +49,7 @@ export default {
   name: "homepage",
   data: function () {
     return {
-      LANG_WELCOME: `Admin`,
+      LANG_WELCOME: `Admin Home`,
       awardsTotal: 0,
       studentsTotal: 0,
       usersTotal: 0,

@@ -270,6 +270,7 @@ export default {
   mounted: async function () {
     await this.API_cert_info();
     await this.API_certs();
+    this.addStudent();
     if (this.$attrs.prop) {
       if (typeof this.$attrs.prop.student_id !== "undefined") {
         this.student_id = this.$attrs.prop.student_id;

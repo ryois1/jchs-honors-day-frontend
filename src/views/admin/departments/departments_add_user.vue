@@ -159,6 +159,7 @@ export default {
     },
   },
   mounted: async function () {
+    this.addTeacher();
     await this.API_dept();
     if (this.$attrs.prop) {
       if (typeof this.$attrs.prop.users !== "undefined") {
