@@ -43,7 +43,7 @@
                           id="user_certs"
                           v-model="users_cert[index - 1]"
                           placeholder="..."
-                          type="email"
+                          type="number"
                           required
                           class="cardsinput"
                         ></b-form-input>
@@ -223,6 +223,21 @@ export default {
       vm.SELF_CERT_COUNT = data.data.certs[0].cert_max_child;
       vm.DELEGATES_USING_LOAD = data.data.certs[0].cert_max_child;
       vm.LANG_HEADER = `Delegating Certificates for Award "${data.data.certs[0].cert_name}"`;
+      if(data.data.certs[0].cert_lock){
+        vm.$parent.$swal.fire({
+                              customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
+          title: `This award is locked for editing.`,
+          icon: "error",
+          confirmButtonText: "Ok",
+        });
+        const prop = { dept_id: this.$route.params.dept_id, cert_id: this.$route.params.cert_id };
+        this.$router.push({ name: "CertificatePage", params: { prop } });
+      }
     },
     goBack() {
       const prop = { dept_id: this.$route.params.dept_id, cert_id: this.$route.params.cert_id };
@@ -231,7 +246,6 @@ export default {
   },
   mounted: async function () {
     await this.API_cert();
-    this.addTeacher();
     await this.API_delegates();
     if (this.$attrs.prop) {
       if (typeof this.$attrs.prop.users !== "undefined") {

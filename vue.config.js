@@ -13,4 +13,5 @@ module.exports = {
         })
     },
     productionSourceMap: true,
+    integrity: true
 }

@@ -1,6 +1,6 @@
 {
   "name": "honors-day-frontend",
-  "version": "1.6.2",
+  "version": "1.8.4",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

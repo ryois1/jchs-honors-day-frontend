@@ -94,7 +94,7 @@ export default {
   data: function () {
     return {
       STATUS_TEXT: "Please input certificate data",
-      LANG_CREATING: "Creating Certificate for Award",
+      LANG_CREATING: "Awarding Certificates for Award",
       RESULT: null,
       input_index: 0,
       max_certs: null,
@@ -248,7 +248,22 @@ export default {
         }
       );
       vm.cert_name = data.data.certs[0].cert_name;
-      vm.LANG_CREATING = `Creating Certificates for Award "${data.data.certs[0].cert_name}"`;
+      if(data.data.certs[0].cert_lock){
+        vm.$parent.$swal.fire({
+                              customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
+          title: `This award is locked for editing.`,
+          icon: "error",
+          confirmButtonText: "Ok",
+        });
+        const prop = { dept_id: this.$route.params.dept_id, cert_id: this.$route.params.cert_id };
+        this.$router.push({ name: "CertificatePage", params: { prop } });
+      }
+      vm.LANG_CREATING = `Awarding Certificates for Award "${data.data.certs[0].cert_name}"`;
       if (
         vm.$parent.USER_INFO.role == "ADMIN" ||
         vm.$parent.USER_INFO.role == "DEPT_ADMIN"
@@ -270,7 +285,6 @@ export default {
   mounted: async function () {
     await this.API_cert_info();
     await this.API_certs();
-    this.addStudent();
     if (this.$attrs.prop) {
       if (typeof this.$attrs.prop.student_id !== "undefined") {
         this.student_id = this.$attrs.prop.student_id;
