@@ -1,5 +1,5 @@
 <template>
-    <div id="accesslevel">
+    <div id="accesslevel" v-if="showAdmin">
         <p>Your access level is: <b>{{accessLevel}}</b><em style="padding-left: 20px;" @click="hideLevel()">Hide</em></p>
     </div>
 </template>
@@ -12,6 +12,10 @@ export default {
         },
     },
     computed: {
+        showAdmin: function() {
+            const vm = this;
+            return(vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role));
+        },
         accessLevel: function () {
             const role = this.$parent.USER_INFO.role;
             if(role == "ADMIN"){
