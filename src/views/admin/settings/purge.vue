@@ -3,9 +3,10 @@
     <b-jumbotron id="purge_hero" v-if="$auth.isAuthenticated && this.$parent.USER_AUTHORIZED">
       <template #header>{{ LANG_WELCOME }}</template>
       <template #lead>
-        Please make sure you know what you are doing and the consequences of the
-        actions on this page!
+        <b-alert class="alertContainer" show variant="danger"><b-icon style="width: 72px; height: 72px;" icon="exclamation-triangle-fill" variant="danger"></b-icon><h3 class="verticalText" >Please make sure you know what you are doing and the consequences of the actions on this page!</h3></b-alert>
+        
       </template>
+      <b-alert class="alertContainer" show variant="info"><b-icon style="width: 72px; height: 72px;" icon="question" variant="info"></b-icon><h3 class="verticalText" >For a yearly cleaning, purge certificates, then students, then delegations, then unlock all (if desired).</h3></b-alert>
       <hr class="my-4" />
       <b-button
         class="mr-1"
@@ -74,7 +75,7 @@ export default {
             input: 'popup-dark-input',
           },
           html:
-            "<p>Are you sure you want to purge awards?</p><br><b>This action cannot be undone.<br>This deletes awards, certificates, and user associations with the award.</b><br><br><b>Type \"DELETE\" below to delete.",
+            "<p>Are you sure you want to purge awards?</p><br><b>This action is irreversible.<br>This deletes awards, certificates, and user associations with the award.</b><br><br><b>Type \"DELETE\" below to delete.",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
@@ -133,7 +134,7 @@ export default {
             input: 'popup-dark-input',
           },
           html:
-            "<p>Are you sure you want to purge certificates?</p><br><b>This action cannot be undone.<br>This deletes certificates only</b><br><br><b>Type \"DELETE\" below to delete.",
+            "<p>Are you sure you want to purge certificates?</p><br><b>This action is irreversible.<br>This deletes certificates only</b><br><br><b>Type \"DELETE\" below to delete.",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
@@ -192,7 +193,7 @@ export default {
             input: 'popup-dark-input',
           },
           html:
-            "<p>Are you sure you want to purge students?</p><br><b>This action cannot be undone.</b><br><br><b>Type \"DELETE\" below to delete.",
+            "<p>Are you sure you want to purge students?</p><br><b>This action is irreversible.</b><br><br><b>Type \"DELETE\" below to delete.",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
@@ -251,7 +252,7 @@ export default {
             input: 'popup-dark-input',
           },
           html:
-            "<p>Are you sure you want to purge everything?</p><br><b>This action cannot be undone.<br>This deletes awards, certificates, user associations with the awards, users, and departments.</b><br><br><b>Type \"DELETE ALL\" below to delete.",
+            "<p>Are you sure you want to purge everything?</p><br><b>This action is irreversible<br>This deletes awards, certificates, user associations with the awards, users, and departments.</b><br><br><b>Type \"DELETE ALL\" below to delete.",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
@@ -310,7 +311,7 @@ export default {
             input: 'popup-dark-input',
           },
           html:
-            "<p>Are you sure you want to purge all delegates?</p><br><b>This action cannot be undone.<br>This deletes user associations with the awards.</b><br><br><b>Type \"DELETE\" below to delete.",
+            "<p>Are you sure you want to purge all delegates?</p><br><b>This action is irreversible.<br>This deletes user associations with the awards.</b><br><br><b>Type \"DELETE\" below to delete.",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#dc3545",
@@ -416,5 +417,11 @@ export default {
     color: #ffffff;
     background-color: var(--alt-dark-bg);
   }
+}
+.alertContainer {
+  height: 6em;
+  position: relative;
+  display: flex;
+  align-items: center
 }
 </style>
