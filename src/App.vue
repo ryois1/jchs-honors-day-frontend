@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import * as Sentry from "@sentry/browser";
 const globalNav = () =>
   import(/* webpackChunkName: "components" */ "./components/global/navbar.vue");
 const adminNav = () =>
@@ -87,6 +88,7 @@ export default {
             vm.USER_INFO = response.data.data;
             vm.$forceUpdate();
             vm.isLoading = false;
+            Sentry.setUser({ ip: vm.USER_INFO.ip, id: vm.USER_INFO.user_id, email: vm.USER_INFO.email, username: `${vm.USER_INFO.first_name} ${vm.USER_INFO.last_name}` });
           }
         })
         .catch(async function (error) {

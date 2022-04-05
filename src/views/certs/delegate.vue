@@ -66,9 +66,9 @@
                   </b-row>
                 </b-container>
               </div>
-              <b-button @click="addTeacher" class="mr-1" variant="success"
+              <b-button @click="addTeacher" class="mr-1 mb-1" variant="success"
                 >Add Teacher</b-button
-              >
+              ><br>
               <b-button @click="verify" variant="primary">Verify</b-button>
             </b-form>
           </b-card>
