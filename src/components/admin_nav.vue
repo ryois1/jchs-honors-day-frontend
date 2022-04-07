@@ -63,7 +63,7 @@ export default {
   methods: {
     checkAdmin: async function () {
       const vm = this;
-      if (!vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role)) {
+      if (vm.$parent.USER_INFO.role == 'DEPT_ADMIN' || (!vm.$parent.ADMINS.includes(vm.$parent.USER_INFO.role))) {
         vm.$router.push({ name: "Home" });
       }
     },
