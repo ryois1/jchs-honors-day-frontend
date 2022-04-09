@@ -3,9 +3,9 @@ import VueRouter from 'vue-router';
 import { authGuard } from "../auth/authGuard";
 const homepage = () => import(/* webpackChunkName: "homepage" */ '../views/homepage.vue');
 const single_certificate = () => import(/* webpackChunkName: "certificates" */ '../views/certs/single_certificate.vue');
-const new_certificate_parent = () => import(/* webpackChunkName: "certificates" */ '../views/certs/new_certificate_parent.vue');
-const new_certificate_child = () => import(/* webpackChunkName: "certificates" */ '../views/certs/new_certificate_child.vue');
-const new_certificate_child_bulk = () => import(/* webpackChunkName: "certificates" */ '../views/certs/bulk_import.vue');
+const new_certificate_award = () => import(/* webpackChunkName: "certificates" */ '../views/certs/new_certificate_award.vue');
+const new_certificate_cert = () => import(/* webpackChunkName: "certificates" */ '../views/certs/new_certificate_cert.vue');
+const new_certificate_cert_bulk = () => import(/* webpackChunkName: "certificates" */ '../views/certs/bulk_import.vue');
 const check_child_certs = () => import(/* webpackChunkName: "certificates" */ '../views/certs/check_child_certs.vue');
 const certificate_delegate = () => import(/* webpackChunkName: "certificates" */ '../views/certs/delegate.vue');
 const certificate_delegate_verify = () => import(/* webpackChunkName: "certificates" */ '../views/certs/check_delegating.vue');
@@ -50,8 +50,8 @@ const routes = [
   },
   {
     path: '/departments/:dept_id/awards/new',
-    name: 'CertificateNewParent',
-    component: new_certificate_parent,
+    name: 'CertificateNewAward',
+    component: new_certificate_award,
     beforeEnter: authGuard,
     meta: {
       title: 'New Award',
@@ -92,8 +92,8 @@ const routes = [
   },
   {
     path: '/departments/:dept_id/awards/:cert_id/new',
-    name: 'CertificatePageChild',
-    component: new_certificate_child,
+    name: 'CertificatePageCert',
+    component: new_certificate_cert,
     beforeEnter: authGuard,
     props: true,
     meta: {
@@ -103,8 +103,8 @@ const routes = [
   },
   {
     path: '/departments/:dept_id/awards/:cert_id/new/bulk',
-    name: 'CertificatePageChildBulk',
-    component: new_certificate_child_bulk,
+    name: 'CertificatePageCertBulk',
+    component: new_certificate_cert_bulk,
     beforeEnter: authGuard,
     props: true,
     meta: {
@@ -114,7 +114,7 @@ const routes = [
   },
   {
     path: '/departments/:dept_id/awards/:cert_id/new/verify',
-    name: 'CertificatePageChildVerify',
+    name: 'CertificatePageCertVerify',
     component: check_child_certs,
     beforeEnter: authGuard,
     props: true,

@@ -32,16 +32,13 @@
       :current-page="currentPage"
       :per-page="0"
     >
-      <template #cell(delete)="data">
-        <b-button variant="danger" @click="deleteDept(data.item.dept_id)"
-          >Delete <b-icon icon="trash-fill" aria-hidden="true"></b-icon
-        ></b-button>
-      </template>
-      <template #cell(edit)="data">
+      <template #cell(actions)="data">
+        <b-button variant="danger" class="mr-1" @click="deleteDept(data.item.dept_id)"
+          ><b-icon icon="trash-fill" aria-hidden="true"></b-icon> Delete</b-button>
         <b-button
           variant="primary"
           :to="{ name: 'AdminDeptsEdit', params: { dept_id: data.item.dept_id }}"
-          >View Department Users</b-button
+          ><b-icon icon="arrow-right" aria-hidden="true"></b-icon> View Department Users</b-button
         >
       </template>
     </b-table>
@@ -66,8 +63,7 @@ export default {
           key: "dept_name",
           label: "Department Name",
         },
-        "edit",
-        "delete",
+        "actions"
       ],
       items: [],
       currentPage: 1,

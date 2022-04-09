@@ -26,7 +26,7 @@
     <b-container fluid>
       <b-row>
         <b-col class="text-right"
-          ><b-button id="go_back" class="mr-1" @click="goBack" variant="primary"
+          ><b-button id="go_back" class="mr-1" @click="goBack"
             >Go Back</b-button
           ></b-col
         >
@@ -215,8 +215,9 @@ export default {
       }
     },
     goBack() {
-      const prop = { cert_name: this.cert_name, student_id: this.student_ids };
-      this.$router.push({ name: "CertificatePageChild", params: { prop } });
+      const vm = this;
+      const prop = { cert_name: vm.$attrs.prop.cert_name, student_id: vm.$attrs.prop.student_id };
+      vm.$router.push({ name: "CertificatePageCert", params: { prop } });
     },
     processForm: function () {
       const vm = this;

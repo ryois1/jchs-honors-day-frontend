@@ -10,8 +10,8 @@
           ><b-button
             v-if="this.$parent.USER_INFO.role == 'ADMIN' && showButtons"
             variant="primary"
-            :to="{name: 'CertificateNewParent'}"
-            >New Award</b-button
+            :to="{name: 'CertificateNewAward'}"
+            ><b-icon icon="plus-square"></b-icon> New Award</b-button
           ></b-col
         >
       </b-row>
@@ -49,13 +49,13 @@
               <b-button variant="danger" v-b-tooltip.hover title="Delete Award" class="mr-1" v-if="hasEdit" @click="deleteAward(item.cert_id, item.cert_owner_id)"><b-icon icon="trash-fill" aria-hidden="true"></b-icon></b-button>
             </b-col>
             <b-col>
-              <b-button variant="primary" class="float-right" :to="{name: 'CertificatePage', params: { cert_id: item.cert_id }}">View Certificates</b-button>
+              <b-button variant="primary" class="float-right" :to="{name: 'CertificatePage', params: { cert_id: item.cert_id }}"><b-icon icon="arrow-right"></b-icon> Go to Certificate</b-button>
             </b-col>
           </b-row>
       </template>
       </b-card>
     </b-card-group>
-    <b-button id="go_back" class="mr-1" @click="goBack" variant="primary">Go Back</b-button>
+    <b-button id="go_back" class="mr-1" @click="goBack">Go Back</b-button>
   </div>
 </template>
 <script>

@@ -43,6 +43,7 @@ export default {
         thumbnailWidth: 50,
         acceptedFiles: ".csv",
         headers: { Authorization: `Bearer ${this.$parent.JWT_TOKEN}` },
+        dictDefaultMessage: "Drop files or click here to upload."
       },
     };
   },

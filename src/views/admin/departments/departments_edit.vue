@@ -32,10 +32,9 @@
         <p v-if="data.item.role=='DEPT_ADMIN'">Department Chair</p>
         <p v-if="data.item.role=='TEACHER'">Teacher</p>
       </template>
-      <template #cell(delete)="data">
+      <template #cell(actions)="data">
         <b-button variant="danger" @click="deleteUser(data.item.id)"
-          >Delete <b-icon icon="trash-fill" aria-hidden="true"></b-icon
-        ></b-button>
+          ><b-icon icon="trash-fill" aria-hidden="true"></b-icon> Delete</b-button>
       </template>
     </b-table>
     <b-pagination
@@ -44,6 +43,7 @@
       v-model="currentPage"
       :per-page="perPage"
     ></b-pagination>
+    <b-button id="go_back" @click="goBack">Go Back</b-button>
   </div>
 </template>
 <script>
@@ -78,7 +78,7 @@ export default {
           key: "role",
           label: "Role",
         },
-        "delete",
+        "actions",
       ],
       items: [],
       currentPage: 1,
@@ -87,6 +87,9 @@ export default {
     };
   },
   methods: {
+    goBack() {
+      this.$router.push({ name: "AdminDepts"});
+    },
     deleteUser: async function (user_id) {
       const vm = this;
       this.$parent.$swal

@@ -36,7 +36,7 @@
             :disabled="DISABLED_ADD"
             class="btn-success btn-lg"
             id="award-button"
-            :to="{ name: 'CertificatePageChild', params: { cert_id: this.$route.params.cert_id } }"
+            :to="{ name: 'CertificatePageCert', params: { cert_id: this.$route.params.cert_id } }"
             >Award Certificates to Students</b-button
           >
           <b-tooltip v-if="this.$parent.USER_INFO.role == 'TEACHER'" show target="award-button">Click here to get started!</b-tooltip>
@@ -55,10 +55,9 @@
       :items="delegates_items"
       :fields="delegates_fields"
     >
-      <template #cell(delete)="data">
+      <template #cell(actions)="data">
         <b-button variant="danger" @click="deleteDelegate(data.item.user_id)"
-          >Delete <b-icon icon="trash-fill" aria-hidden="true"></b-icon
-        ></b-button>
+          ><b-icon icon="trash-fill" aria-hidden="true"></b-icon> Delete</b-button>
       </template>
     </b-table>
     <b-table
@@ -73,15 +72,14 @@
       v-if="showContents"
     >
       <template #cell(cert_notes)="data">
-        <div v-if="data.item.cert_notes"><p>{{noteView(data.item.cert_notes)}}</p><b-button variant="primary" @click="notes('view', data.item.cert_id, data.item.cert_owner_id, data.item)">View Note <b-icon icon="pencil-square" aria-hidden="true"></b-icon></b-button></div>
-        <div v-if="!data.item.cert_notes"><b-button variant="primary" @click="notes('add', data.item.cert_id, data.item.cert_owner_id, data.item)">Add Note <b-icon icon="pencil-square" aria-hidden="true"></b-icon></b-button></div>
+        <div v-if="data.item.cert_notes"><p>{{noteView(data.item.cert_notes)}}</p><b-button variant="primary" @click="notes('view', data.item.cert_id, data.item.cert_owner_id, data.item)"><b-icon icon="pencil-square" aria-hidden="true"></b-icon> View Note</b-button></div>
+        <div v-if="!data.item.cert_notes"><b-button variant="primary" @click="notes('add', data.item.cert_id, data.item.cert_owner_id, data.item)"><b-icon icon="pencil-square" aria-hidden="true"></b-icon> Add Note</b-button></div>
       </template>
-      <template #cell(delete)="data">
+      <template #cell(actions)="data">
         <b-button
           variant="danger"
           @click="deleteCert(data.item.cert_id, data.item.cert_owner_id)"
-          >Delete <b-icon icon="trash-fill" aria-hidden="true"></b-icon
-        ></b-button>
+          ><b-icon icon="trash-fill" aria-hidden="true"></b-icon> Delete</b-button>
       </template>
       <template #cell(cert_file)="data">
         <p v-if="data.item.cert_file">Uploaded</p>
@@ -89,7 +87,7 @@
       </template>
     </b-table>
     <br>
-    <b-button id="go_back" class="mr-1" @click="goBack" variant="primary">Go Back</b-button>
+    <b-button id="go_back" class="mr-1" @click="goBack">Go Back</b-button>
   </div>
 </template>
 <script>
@@ -122,7 +120,7 @@ export default {
           key: "current",
           label: "Currently Used by Delegate",
         },
-        "delete",
+        "actions",
       ],
       LANG_VIEWING_CERT: "Loading...",
       CERT_COUNT: "None",
@@ -186,7 +184,7 @@ export default {
           key: "creator_name",
           label: "Creator Name",
         },
-        "delete",
+        "actions",
       ],
       delegates_items: [],
       items: [],

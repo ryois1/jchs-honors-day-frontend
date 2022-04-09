@@ -52,6 +52,8 @@
               <b-button @click="verify" variant="primary">Verify</b-button>
             </b-form>
           </b-card>
+                          <br>
+      <b-button id="go_back" @click="goBack">Go Back</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -71,6 +73,9 @@ export default {
     };
   },
   methods: {
+    goBack() {
+      this.$router.push({ name: "AdminDepts"});
+    },
     lookupTeacher: async function (index) {
       const vm = this;
       const search = this.users[index];

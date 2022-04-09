@@ -26,6 +26,8 @@
               <b-button type="submit" variant="primary">Submit</b-button>
             </b-form>
           </b-card>
+                <br>
+      <b-button id="go_back" @click="goBack">Go Back</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -43,6 +45,9 @@ export default {
     };
   },
   methods: {
+    goBack() {
+      this.$router.push({ name: "AdminDepts"});
+    },
     processForm: function () {
       const vm = this;
       vm.$parent.showLoader = true;

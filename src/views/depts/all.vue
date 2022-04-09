@@ -8,14 +8,14 @@
       </b-row>
     </b-container>
     <b-alert v-if="this.totalItems == 0" show variant="warning">There are no departments to show</b-alert>
-    <b-card-group columns >
+    <b-card-group columns>
       <b-card 
         v-for="(item) in items" :key="item.dept_id"
         :title="item.dept_name"
         border-variant="secondary"
         class="cards"
       >
-        <b-button :to="{name: 'DepartmentsCertificates', params: { dept_id: item.dept_id }}" variant="primary">Go to Department</b-button>
+        <b-button :to="{name: 'DepartmentsCertificates', params: { dept_id: item.dept_id }}" variant="primary"><b-icon icon="arrow-right"></b-icon> Go to Department</b-button>
       </b-card>
     </b-card-group>
   </div>
@@ -28,19 +28,6 @@ export default {
     return {
       LANG_HEADER: "Departments",
       EMTPY_TABLE: "<p>Loading data...</p>",
-      fields: [
-        {
-          key: "dept_id",
-          label: "Department ID",
-          thClass: "d-none",
-          tdClass: "d-none",
-        },
-        {
-          key: "dept_name",
-          label: "Department Name",
-        },
-        "view",
-      ],
       items: [],
       totalItems: 0,
     };
@@ -65,15 +52,6 @@ export default {
     vm.API_depts().catch((error) => {
       console.error(error);
     });
-  },
-  watch: {
-    currentPage: {
-      handler: function () {
-        this.API_depts().catch((error) => {
-          console.error(error);
-        });
-      },
-    },
   },
 };
 </script>

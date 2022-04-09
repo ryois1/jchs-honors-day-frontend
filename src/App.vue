@@ -3,8 +3,9 @@
     <mobile v-if="isMobile()"></mobile>
     <main v-if="!isMobile()">
       <loading :active.sync="isLoading" :can-cancel="onCancel" :is-full-page="fullPage"></loading>
+      <devNotice v-if="ENV == 'development'"></devNotice>
       <accessLevel v-if="isLoaded && showAccessLevel"></accessLevel>
-      <globalNav></globalNav>
+      <globalNav v-if="!viewingAdmin"></globalNav>
       <adminNav v-if="(viewingAdmin) && (isLoaded)"></adminNav>
       <router-view v-if="isLoaded"></router-view>
     </main>
@@ -20,6 +21,8 @@ const adminNav = () =>
   import(/* webpackChunkName: "components" */ "./components/admin_nav.vue");
 const accessLevel = () =>
   import(/* webpackChunkName: "components" */ "./components/global/accessLevel.vue");
+const devNotice = () =>
+  import(/* webpackChunkName: "components" */ "./components/global/devNotice.vue");
 const globalFooter = () =>
   import(/* webpackChunkName: "components" */ "./components/global/footer.vue");
 const mobile = () =>
@@ -33,6 +36,7 @@ export default {
     Loading,
     globalNav,
     accessLevel,
+    devNotice,
     adminNav,
     globalFooter,
     mobile,
@@ -104,7 +108,10 @@ export default {
   },
   data: function () {
     return {
-      API_BASE_URL: "https://api.awards.jchsprojects.com/api/v1",
+      API_BASE_URL:
+        process.env.NODE_ENV === "development"
+          ? "https://api-dev.awards.jchsprojects.com/api/v1"
+          : "https://api.awards.jchsprojects.com/api/v1",
       USER_INFO: null,
       JWT_TOKEN: this.$parent.token,
       ENV: process.env.NODE_ENV,

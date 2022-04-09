@@ -81,7 +81,7 @@
             </b-form>
           </b-card>
           <br>
-          <b-button id="go_back" class="mr-1" @click="goBack" variant="primary">Go Back</b-button>
+          <b-button id="go_back" class="mr-1" @click="goBack">Go Back</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -113,7 +113,7 @@ export default {
         cert_id: this.$route.params.cert_id,
       };
       this.$router.push({
-        name: "CertificatePageChildBulk",
+        name: "CertificatePageCertBulk",
         params: { prop },
       });
     },
@@ -202,7 +202,7 @@ export default {
     verify() {
       const prop = { cert_name: this.cert_name, student_id: this.student_id };
       this.$router.push({
-        name: "CertificatePageChildVerify",
+        name: "CertificatePageCertVerify",
         params: { prop },
       });
     },

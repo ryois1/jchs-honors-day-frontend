@@ -43,7 +43,7 @@
             </b-form>
           </b-card>
       <br>
-      <b-button id="go_back" @click="goBack" variant="primary">Go Back</b-button>
+      <b-button id="go_back" @click="goBack">Go Back</b-button>
         </b-col>
       </b-row>
     </b-container>

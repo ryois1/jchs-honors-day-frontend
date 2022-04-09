@@ -27,16 +27,16 @@
     </b-jumbotron>
     <b-container fluid>
     <b-card-group deck>
-      <b-card bg-variant="primary" text-variant="white" header="Total Awards" class="text-center">
+      <b-card bg-variant="dark" text-variant="white" header="Total Awards" class="text-center">
         <h3><b-card-text>{{awardsTotal}}</b-card-text></h3>
       </b-card>
-      <b-card bg-variant="primary" text-variant="white" header="Total Certificates" class="text-center">
+      <b-card bg-variant="dark" text-variant="white" header="Total Certificates" class="text-center">
         <h3><b-card-text>{{certsTotal}}</b-card-text></h3>
       </b-card>
-      <b-card bg-variant="primary" text-variant="white" header="Total Students" class="text-center">
+      <b-card bg-variant="dark" text-variant="white" header="Total Students" class="text-center">
         <h3><b-card-text>{{studentsTotal}}</b-card-text></h3>
       </b-card>
-      <b-card bg-variant="primary" text-variant="white" header="Total Users" class="text-center">
+      <b-card bg-variant="dark" text-variant="white" header="Total Users" class="text-center">
         <h3><b-card-text>{{usersTotal}}</b-card-text></h3>
       </b-card>
     </b-card-group>

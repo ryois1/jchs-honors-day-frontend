@@ -43,15 +43,12 @@
         <p v-if="data.item.role=='DEPT_ADMIN'">Department Chair</p>
         <p v-if="data.item.role=='TEACHER'">Teacher</p>
       </template>
-      <template #cell(change_role)="data">
-        <b-button variant="warning" @click="changeRole(data.item.id)"
-          >Change User Role</b-button
+      <template #cell(actions)="data">
+        <b-button variant="warning" class="mr-1" @click="changeRole(data.item.id)"
+          ><b-icon icon="pencil" aria-hidden="true"></b-icon> Change User Role</b-button
         >
-      </template>
-      <template #cell(delete)="data">
         <b-button variant="danger" @click="deleteUser(data.item.id)"
-          >Delete <b-icon icon="trash-fill" aria-hidden="true"></b-icon
-        ></b-button>
+          ><b-icon icon="trash-fill" aria-hidden="true"></b-icon> Delete</b-button>
       </template>
     </b-table>
     <b-pagination
@@ -100,8 +97,7 @@ export default {
           label: "Role",
           sortable: true
         },
-        "change_role",
-        "delete",
+        "actions",
       ],
       items: [],
       currentPage: 1,

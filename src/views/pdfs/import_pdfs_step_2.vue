@@ -65,6 +65,7 @@ export default {
         thumbnailWidth: 10,
         acceptedFiles: "application/pdf",
         headers: { Authorization: `Bearer ${vm.$parent.JWT_TOKEN}` },
+        dictDefaultMessage: "Drop files or click here to upload."
       },
       fields: [
         {

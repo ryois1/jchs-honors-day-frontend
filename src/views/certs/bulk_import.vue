@@ -42,6 +42,7 @@ export default {
             cert_name: this.AWARD_NAME,
         },
         headers: { Authorization: `Bearer ${this.$parent.JWT_TOKEN}` },
+        dictDefaultMessage: "Drop files or click here to upload."
       },
     };
   },
