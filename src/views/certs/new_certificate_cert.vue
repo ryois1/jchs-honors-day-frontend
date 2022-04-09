@@ -1,6 +1,7 @@
 <template>
   <div id="newcert">
     <b-container fluid>
+      <goBack target="CertificatePage"></goBack>
       <b-row>
         <b-col
           ><h1>{{ LANG_CREATING }}</h1></b-col
@@ -10,7 +11,7 @@
             You have <b-badge>{{ this.certs_remaining }}</b-badge> out of
             <b-badge>{{ this.max_certs }}</b-badge> certificates remaining
           </h3>
-          <b-button @click="bulkImport" class="mr-1" variant="success"
+          <b-button @click="bulkImport" class="mb-2" variant="success"
             >Bulk Import</b-button
           ></b-col
         >
@@ -81,7 +82,6 @@
             </b-form>
           </b-card>
           <br>
-          <b-button id="go_back" class="mr-1" @click="goBack">Go Back</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -89,7 +89,12 @@
 </template>
 <script>
 import axios from "axios";
+import goBack from '../../components/global/go_back.vue'
+
 export default {
+  components: {
+    goBack: goBack,
+  },
   name: "new_parent_cert",
   data: function () {
     return {
@@ -276,10 +281,6 @@ export default {
           data.data.certs[0].user_cert_current;
         vm.max_certs = data.data.certs[0].user_cert_max;
       }
-    },
-    goBack() {
-      const prop = { dept_id: this.$route.params.dept_id, cert_id: this.$route.params.cert_id };
-      this.$router.push({ name: "CertificatePage", params: { prop } });
     },
   },
   mounted: async function () {

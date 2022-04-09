@@ -1,6 +1,7 @@
 <template>
   <div id="departments">
     <b-container fluid>
+      <goBack target="AdminDepts"></goBack>
       <b-row>
         <b-col
           ><h1>{{ LANG_HEADER }}</h1></b-col
@@ -29,11 +30,13 @@
 <script>
 import axios from "axios";
 import vue2Dropzone from "vue2-dropzone";
+import goBack from '../../../components/global/go_back.vue'
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
 export default {
   name: "import_departments",
   components: {
     vueDropzone: vue2Dropzone,
+    goBack
   },
   data: function () {
     return {

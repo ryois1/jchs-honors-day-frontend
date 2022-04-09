@@ -1,6 +1,7 @@
 <template>
   <div id="newcert">
     <b-container fluid>
+      <goBack target="AdminDeptsEdit"></goBack>
       <b-row>
         <b-col
           ><h1>{{ LANG_HEADER }}</h1></b-col
@@ -52,8 +53,6 @@
               <b-button @click="verify" variant="primary">Verify</b-button>
             </b-form>
           </b-card>
-                          <br>
-      <b-button id="go_back" @click="goBack">Go Back</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -61,7 +60,12 @@
 </template>
 <script>
 import axios from "axios";
+import goBack from '../../../components/global/go_back.vue'
+
 export default {
+  components: {
+    goBack
+  },
   name: "new_parent_cert",
   data: function () {
     return {
@@ -73,9 +77,6 @@ export default {
     };
   },
   methods: {
-    goBack() {
-      this.$router.push({ name: "AdminDepts"});
-    },
     lookupTeacher: async function (index) {
       const vm = this;
       const search = this.users[index];

@@ -1,6 +1,7 @@
 <template>
   <div id="newcert">
     <b-container fluid>
+      <goBack target="CertificatePage"></goBack>
       <b-row>
         <b-col
           ><h1>{{ LANG_HEADER }}</h1></b-col
@@ -72,8 +73,6 @@
               <b-button @click="verify" variant="primary">Verify</b-button>
             </b-form>
           </b-card>
-          <br>
-          <b-button id="go_back" class="mr-1" @click="goBack">Go Back</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -81,7 +80,12 @@
 </template>
 <script>
 import axios from "axios";
+import goBack from '../../components/global/go_back.vue'
+
 export default {
+  components: {
+    goBack: goBack,
+  },
   name: "delegate_cert",
   data: function () {
     return {
@@ -238,10 +242,6 @@ export default {
         const prop = { dept_id: this.$route.params.dept_id, cert_id: this.$route.params.cert_id };
         this.$router.push({ name: "CertificatePage", params: { prop } });
       }
-    },
-    goBack() {
-      const prop = { dept_id: this.$route.params.dept_id, cert_id: this.$route.params.cert_id };
-      this.$router.push({ name: "CertificatePage", params: { prop } });
     },
   },
   mounted: async function () {

@@ -1,6 +1,7 @@
 <template>
   <div id="newcert">
     <b-container fluid>
+      <goBack target="DepartmentsCertificates"></goBack>
       <b-row>
         <b-col><h1>{{LANG_HEADER}}</h1></b-col>
       </b-row>
@@ -42,8 +43,6 @@
               <b-button type="submit" variant="primary">Submit</b-button>
             </b-form>
           </b-card>
-      <br>
-      <b-button id="go_back" @click="goBack">Go Back</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -51,8 +50,13 @@
 </template>
 <script>
 import axios from "axios";
+import goBack from '../../components/global/go_back.vue'
+
 export default {
   name: "new_parent_cert",
+  components: {
+    goBack: goBack,
+  },
   data: function () {
     return {
       LANG_HEADER: "Creating Award in ???",
@@ -67,10 +71,6 @@ export default {
     };
   },
   methods: {
-    goBack() {
-      const prop = { dept_id: this.$route.params.dept_id };
-      this.$router.push({ name: "DepartmentsCertificates", params: { prop } });
-    },
     API_depts: async function () {
       const vm = this;
       const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/dept`, {

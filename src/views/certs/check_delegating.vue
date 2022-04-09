@@ -19,9 +19,7 @@
     <b-container fluid>
       <b-row>
         <b-col class="text-right"
-          ><b-button id="go_back" @click="goBack"
-            >Go Back</b-button
-          ></b-col
+          ><b-button id="go_back" class="mr-1" @click="goBack"><b-icon icon="arrow-left"></b-icon> Go Back</b-button></b-col
         >
         <b-col class="text-left"
           ><b-button

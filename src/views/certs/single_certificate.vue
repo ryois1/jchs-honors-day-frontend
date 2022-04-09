@@ -1,6 +1,7 @@
 <template>
   <div id="certs">
     <b-container fluid>
+      <goBack target="DepartmentsCertificates"></goBack>
       <b-row>
         <b-col
           ><h1>
@@ -87,13 +88,16 @@
       </template>
     </b-table>
     <br>
-    <b-button id="go_back" class="mr-1" @click="goBack">Go Back</b-button>
   </div>
 </template>
 <script>
 import axios from "axios";
+import goBack from '../../components/global/go_back.vue'
 
 export default {
+  components: {
+    goBack: goBack,
+  },
   name: "certs",
   data: function () {
     return {
@@ -700,10 +704,6 @@ export default {
         vm.DISABLED_ADD = false;
       }
       vm.items = data.data.certs;
-    },
-    goBack() {
-      const prop = { dept_id: this.$route.params.dept_id };
-      this.$router.push({ name: "DepartmentsCertificates", params: { prop } });
     },
   },
   mounted: async function () {

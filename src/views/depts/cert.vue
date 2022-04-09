@@ -4,7 +4,7 @@
       <b-row>
         <b-col
           cols="8"
-          ><h1>{{ LANG_HEADER }}</h1></b-col
+          ><goBack target="Departments"></goBack></b-col
         >
         <b-col class="text-right"
           ><b-button
@@ -13,6 +13,12 @@
             :to="{name: 'CertificateNewAward'}"
             ><b-icon icon="plus-square"></b-icon> New Award</b-button
           ></b-col
+        >
+      </b-row>
+      <b-row>
+        <b-col
+          cols="8"
+          ><h1>{{ LANG_HEADER }}</h1></b-col
         >
       </b-row>
     </b-container>
@@ -55,14 +61,17 @@
       </template>
       </b-card>
     </b-card-group>
-    <b-button id="go_back" class="mr-1" @click="goBack">Go Back</b-button>
   </div>
 </template>
 <script>
 import axios from "axios";
+import goBack from '../../components/global/go_back.vue'
 
 export default {
   name: "certs",
+  components: {
+    goBack
+  },
   data: function () {
     return {
       LANG_HEADER: "Awards in ???",
@@ -79,9 +88,6 @@ export default {
     };
   },
   methods: {
-    goBack() {
-      this.$router.push({ name: "Departments"});
-    },
     changeMaxCerts: async function (cert_id, cert_owner_id, item) {
       const vm = this;
       if (

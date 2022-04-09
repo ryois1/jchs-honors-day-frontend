@@ -1,6 +1,7 @@
 <template>
   <div id="newcert">
     <b-container fluid>
+      <goBack target="AdminDepts"></goBack>
       <b-row>
         <b-col><h1>Creating Department</h1></b-col>
       </b-row>
@@ -26,8 +27,6 @@
               <b-button type="submit" variant="primary">Submit</b-button>
             </b-form>
           </b-card>
-                <br>
-      <b-button id="go_back" @click="goBack">Go Back</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -35,7 +34,12 @@
 </template>
 <script>
 import axios from "axios";
+import goBack from '../../../components/global/go_back.vue'
+
 export default {
+  components: {
+    goBack
+  },
   name: "new_parent_cert",
   data: function () {
     return {
@@ -46,7 +50,7 @@ export default {
   },
   methods: {
     goBack() {
-      this.$router.push({ name: "AdminDepts"});
+      this.$router.push({ name: ""});
     },
     processForm: function () {
       const vm = this;

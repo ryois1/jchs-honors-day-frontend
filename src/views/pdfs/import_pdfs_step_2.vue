@@ -114,7 +114,6 @@ export default {
     },
     dropzoneUploaded: async function (file, response) {
       const vm = this;
-      console.log(response);
       const index = vm.CERTS_NEEDED_ARRAY.findIndex((obj => obj.cert_id == response.data.cert_id));
       vm.CERTS_NEEDED_ARRAY[index].status = "uploaded";
       vm.UPLOADED_COUNT++;

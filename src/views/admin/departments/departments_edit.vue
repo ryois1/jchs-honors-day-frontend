@@ -1,6 +1,7 @@
 <template>
   <div id="certs">
     <b-container fluid>
+      <goBack target="AdminDepts"></goBack>
       <b-row>
         <b-col
           ><h1>{{ LANG_HEADER }}</h1></b-col
@@ -43,13 +44,15 @@
       v-model="currentPage"
       :per-page="perPage"
     ></b-pagination>
-    <b-button id="go_back" @click="goBack">Go Back</b-button>
   </div>
 </template>
 <script>
 import axios from "axios";
-
+import goBack from '../../../components/global/go_back.vue'
 export default {
+  components: {
+    goBack
+  },
   name: "certs",
   data: function () {
     return {
@@ -87,9 +90,6 @@ export default {
     };
   },
   methods: {
-    goBack() {
-      this.$router.push({ name: "AdminDepts"});
-    },
     deleteUser: async function (user_id) {
       const vm = this;
       this.$parent.$swal

@@ -1,6 +1,7 @@
 <template>
   <div id="users">
     <b-container fluid>
+    <goBack target="AdminUsers"></goBack>
       <b-row>
         <b-col
           ><h1>{{ LANG_HEADER }}</h1></b-col
@@ -45,10 +46,13 @@
 import axios from "axios";
 import vue2Dropzone from "vue2-dropzone";
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
+import goBack from '../../../components/global/go_back.vue'
+
 export default {
   name: "import_users",
   components: {
     vueDropzone: vue2Dropzone,
+    goBack: goBack,
   },
   data: function () {
     return {
@@ -64,6 +68,9 @@ export default {
     };
   },
   methods: {
+    goBack() {
+      this.$router.push({ name: ""});
+    },
     downloadTemplate: async function () {
       const vm = this;
       axios

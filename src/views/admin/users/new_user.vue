@@ -1,6 +1,7 @@
 <template>
   <div id="newuser">
     <b-container fluid>
+    <goBack target="AdminUsers"></goBack>
       <b-row>
         <b-col><h1>Creating New Users</h1></b-col>
       </b-row>
@@ -72,8 +73,13 @@
 </template>
 <script>
 import axios from "axios";
+import goBack from '../../../components/global/go_back.vue'
+
 export default {
   name: "new_parent_cert",
+  components: {
+    goBack: goBack,
+  },
   data: function () {
     return {
       STATUS_TEXT: "Please input user data",
