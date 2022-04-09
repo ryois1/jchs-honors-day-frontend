@@ -4,7 +4,7 @@
     <main v-if="!isMobile()">
       <loading :active.sync="isLoading" :can-cancel="onCancel" :is-full-page="fullPage"></loading>
       <devNotice v-if="ENV == 'development'"></devNotice>
-      <accessLevel v-if="isLoaded && showAccessLevel"></accessLevel>
+      <accessLevel v-if="isLoaded"></accessLevel>
       <globalNav v-if="!viewingAdmin"></globalNav>
       <adminNav v-if="(viewingAdmin) && (isLoaded)"></adminNav>
       <router-view v-if="isLoaded"></router-view>
@@ -121,7 +121,6 @@ export default {
       isLoading: true,
       ADMINS: ["ADMIN", "COMMITTEE", "DEPT_ADMIN"],
       VUE_APP_VER: process.env.VUE_APP_VER,
-      showAccessLevel: true,
     };
   },
   computed: {
@@ -130,7 +129,7 @@ export default {
         return false;
       }else{
         if(this.$route.name){
-          if(this.$route.name.startsWith('Admin')){
+          if(this.$route.name.startsWith('Admin') || this.$route.name.startsWith('ImportCertsPDFs')){
             return true;
           }else{
             return false;

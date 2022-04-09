@@ -6,6 +6,7 @@ Sentry.init({
   Vue,
   dsn: "https://cb6d74dd07584e75b8876a5fd5ad457b@o1190729.ingest.sentry.io/6311925",
   release: "jchs-awards-portal@" + process.env.VUE_APP_VER,
+  environment: process.env.NODE_ENV,
   integrations: [
     new BrowserTracing({
       routingInstrumentation: Sentry.vueRouterInstrumentation(router),
@@ -84,4 +85,3 @@ instance.$watch("loading", async loading => {
     instance.loginWithRedirect({connection: 'azuread'});
   }
 });
-

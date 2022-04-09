@@ -1,6 +1,6 @@
 <template>
     <div id="accesslevel" :style="style" v-if="showAdmin">
-        <p>Your access level is: <b>{{accessLevel}}</b><em style="padding-left: 20px;" @click="hideLevel()">Dismiss</em></p>
+        <p><b-icon v-if="showIcons" icon="exclamation-triangle"></b-icon> Your access level is: <b v-html="accessLevel"></b><em v-if="canHide" style="padding-left: 20px;" @click="hideLevel()">Dismiss</em> <b-icon v-if="showIcons" icon="exclamation-triangle"></b-icon></p>
     </div>
 </template>
 <script>
@@ -13,6 +13,7 @@ export default {
     },
     data: function () {
         return {
+            canHide: true,
             style: {
                 backgroundColor: "",
             }
@@ -28,19 +29,23 @@ export default {
             const role = this.$parent.USER_INFO.role;
             if(role == "ADMIN"){
                 vm.style.backgroundColor = "#ff0000";
-                return "!! System Administrator, Full System Access";
+                vm.canHide = false;
+                return 'System Administrator, Full System Access';
             }else if(role == "COMMITTEE"){
-                vm.style.backgroundColor = "#000000";
+                vm.style.backgroundColor = "var(--primary-dark-bg)";
                 return "Honors Day Committee, Full Departments Access";
             }else if(role == "DEPT_ADMIN"){
-                vm.style.backgroundColor = "#000000";
+                vm.style.backgroundColor = "var(--primary-dark-bg)";
                 return "Department Chair, Limited Department Access";
             }else if(role == "TEACHER"){
-                vm.style.backgroundColor = "#000000";
+                vm.style.backgroundColor = "var(--primary-dark-bg)";
                 return "Teacher/Staff, Limited Awards Access";
             }
             return "Unknown";
-        }
+        },
+        showIcons: function(){
+            return (!this.canHide);
+        },
     }
 }
 </script>
