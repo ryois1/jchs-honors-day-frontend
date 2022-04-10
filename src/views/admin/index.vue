@@ -14,6 +14,13 @@
         class="mr-1"
         v-if="this.$parent.USER_INFO.role == 'ADMIN'"
         variant="primary"
+        :to="{ name: 'AdminSendEmailsPrecheck' }"
+        ><b-icon icon="envelope"></b-icon> Send Emails</b-button
+      > 
+      <b-button
+        class="mr-1"
+        v-if="this.$parent.USER_INFO.role == 'ADMIN'"
+        variant="primary"
         :to="{ name: 'AdminStudentsImport' }"
         ><b-icon icon="people"></b-icon> Import Students</b-button
       >

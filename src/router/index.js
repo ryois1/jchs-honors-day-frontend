@@ -35,6 +35,10 @@ const unknown_user = () => import(/* webpackChunkName: "errors" */ '../views/err
 const api_conn_lost = () => import(/* webpackChunkName: "errors" */ '../views/errors/api_connection_lost.vue');
 const page_not_found = () => import(/* webpackChunkName: "errors" */ '../views/errors/page_not_found.vue');
 const auth_error = () => import(/* webpackChunkName: "errors" */ '../views/errors/auth_error.vue');
+const send_emails_precheck = () => import(/* webpackChunkName: "sendEmails" */ '../views/sendEmails/send_email_precheck.vue');
+const send_emails_create_job = () => import(/* webpackChunkName: "sendEmails" */ '../views/sendEmails/send_email_create_job.vue');
+const send_emails_execute = () => import(/* webpackChunkName: "sendEmails" */ '../views/sendEmails/send_email_execute.vue');
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -346,6 +350,36 @@ const routes = [
     beforeEnter: authGuard,
     meta: {
       title: 'Settings | Admin',
+      visible: true
+    },
+  },
+  {
+    path: '/admin/emails/precheck',
+    name: 'AdminSendEmailsPrecheck',
+    component: send_emails_precheck,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Send Emails Precheck | Admin',
+      visible: true
+    },
+  },
+  {
+    path: '/admin/emails/create_job',
+    name: 'AdminSendEmailsCreateJob',
+    component: send_emails_create_job,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Send Emails Creating Job | Admin',
+      visible: true
+    },
+  },
+  {
+    path: '/admin/emails/execute/:job_id',
+    name: 'AdminSendEmailsExecute',
+    component: send_emails_execute,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Send Emails Execute | Admin',
       visible: true
     },
   },
