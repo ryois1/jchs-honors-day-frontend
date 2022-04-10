@@ -9,8 +9,13 @@
             variant="primary"
             class="mr-1"
             :to="{ name: 'AdminStudentsImport' }"
-            >Bulk Import</b-button
-          >
+            >Bulk Import</b-button>
+          <b-button
+            v-if="this.$parent.USER_INFO.role == 'ADMIN'"
+            variant="primary"
+            class="mr-1"
+            :to="{ name: 'AdminStudentsImportParentEmails' }"
+            >Import Parent Emails</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -64,6 +69,10 @@ export default {
         {
           key: "email",
           label: "Email",
+        },
+        {
+          key: "parent_email",
+          label: "Parent Emails",
         },
         {
           key: "homeroom",

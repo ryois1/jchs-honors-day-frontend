@@ -21,7 +21,8 @@ const admin_new_user = () => import(/* webpackChunkName: "admin" */ '../views/ad
 const admin_users_import = () => import(/* webpackChunkName: "admin" */ '../views/admin/users/users_import.vue');
 const admin_settings = () => import(/* webpackChunkName: "admin" */ '../views/admin/settings/settings.vue')
 const admin_email = () => import(/* webpackChunkName: "admin" */ '../views/admin/settings/email.vue');
-const admin_awards = () => import(/* webpackChunkName: "admin" */ '../views/admin/awards/awards_import.vue');
+const admin_awards_import = () => import(/* webpackChunkName: "admin" */ '../views/admin/awards/awards_import.vue');
+const admin_awards = () => import(/* webpackChunkName: "admin" */ '../views/admin/awards/awards.vue');
 const admin_depts = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments/departments.vue');
 const admin_depts_import = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments/departments_import.vue');
 const admin_depts_edit = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments/departments_edit.vue');
@@ -30,6 +31,7 @@ const admin_depts_add = () => import(/* webpackChunkName: "admin" */ '../views/a
 const admin_depts_verify = () => import(/* webpackChunkName: "admin" */ '../views/admin/departments/departments_verify_user.vue');
 const admin_students = () => import(/* webpackChunkName: "admin" */ '../views/admin/students/students.vue');
 const admin_students_import = () => import(/* webpackChunkName: "admin" */ '../views/admin/students/students_import.vue');
+const admin_students_import_parent_emails = () => import(/* webpackChunkName: "admin" */ '../views/admin/students/parent_emails_import.vue');
 const admin_purge = () => import(/* webpackChunkName: "admin" */ '../views/admin/settings/purge.vue');
 const unknown_user = () => import(/* webpackChunkName: "errors" */ '../views/errors/unknown_user.vue');
 const api_conn_lost = () => import(/* webpackChunkName: "errors" */ '../views/errors/api_connection_lost.vue');
@@ -212,12 +214,22 @@ const routes = [
     },
   },
   {
+    path: '/admin/awards/import',
+    name: 'AdminAwardsImport',
+    component: admin_awards_import,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Importing Awards | Admin',
+      visible: true
+    },
+  },
+  {
     path: '/admin/awards',
     name: 'AdminAwards',
     component: admin_awards,
     beforeEnter: authGuard,
     meta: {
-      title: 'Importing Awards | Admin',
+      title: 'Awards | Admin',
       visible: true
     },
   },
@@ -228,6 +240,16 @@ const routes = [
     beforeEnter: authGuard,
     meta: {
       title: 'Import Students | Admin',
+      visible: true
+    },
+  },
+  {
+    path: '/admin/students/import/parent_emails',
+    name: 'AdminStudentsImportParentEmails',
+    component: admin_students_import_parent_emails,
+    beforeEnter: authGuard,
+    meta: {
+      title: 'Import Parent Emails | Admin',
       visible: true
     },
   },

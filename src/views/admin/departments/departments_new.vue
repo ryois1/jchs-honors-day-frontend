@@ -1,7 +1,7 @@
 <template>
   <div id="newcert">
     <b-container fluid>
-      <goBack target="AdminDepts"></goBack>
+      <goBack/>
       <b-row>
         <b-col><h1>Creating Department</h1></b-col>
       </b-row>

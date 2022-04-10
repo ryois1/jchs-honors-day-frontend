@@ -4,7 +4,7 @@
       <b-row>
         <b-col
           cols="8"
-          ><goBack target="Departments"></goBack></b-col
+          ><goBack/></b-col
         >
         <b-col class="text-right"
           ><b-button

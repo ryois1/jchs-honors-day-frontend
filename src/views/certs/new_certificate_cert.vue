@@ -1,7 +1,7 @@
 <template>
   <div id="newcert">
     <b-container fluid>
-      <goBack target="CertificatePage"></goBack>
+      <goBack target="CertificatePage"/>
       <b-row>
         <b-col
           ><h1>{{ LANG_CREATING }}</h1></b-col

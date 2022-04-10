@@ -23,7 +23,7 @@
             :to="{ name: 'AdminAwards' }"
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             :active="$route.name.includes('AdminAwards')"
-            ><b-icon icon="file-earmark-arrow-up" aria-hidden="true"></b-icon> Import Awards</b-nav-item
+            ><b-icon icon="file-earmark" aria-hidden="true"></b-icon> Awards</b-nav-item
           >
           <b-nav-item
             :to="{ name: 'AdminUsers' }"

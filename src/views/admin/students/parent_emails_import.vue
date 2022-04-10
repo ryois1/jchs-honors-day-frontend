@@ -1,7 +1,7 @@
 <template>
-  <div id="users">
+  <div id="students">
     <b-container fluid>
-    <goBack/>
+      <goBack/>
       <b-row>
         <b-col
           ><h1>{{ LANG_HEADER }}</h1></b-col
@@ -17,6 +17,7 @@
         </b-col>
       </b-row>
     </b-container>
+    <h4>Please note that Aspen does not verify email syntax and validity! This import function will kickback emails that do not follow the standard email address syntax.</h4>
     <vue-dropzone
       v-if="this.DROPZONE_ACTIVE"
       ref="exceldrop"
@@ -24,22 +25,6 @@
       v-on:vdropzone-success="complete"
       :options="dropzoneOptions"
     ></vue-dropzone>
-    <h3>User Role Column</h3>
-    <b-list-group class="listgroup">
-      <b-list-group-item
-      class="listgroup"
-        ><code>ADMIN</code> == System Administrator</b-list-group-item
-      >
-      <b-list-group-item
-      class="listgroup"
-        ><code>COMMITTEE</code> == Honors Day Committee</b-list-group-item
-      >
-      <b-list-group-item
-      class="listgroup"
-        ><code>DEPT_ADMIN</code> == Department Chair</b-list-group-item
-      >
-      <b-list-group-item class="listgroup"><code>TEACHER</code> == Teacher</b-list-group-item>
-    </b-list-group>
   </div>
 </template>
 <script>
@@ -47,19 +32,18 @@ import axios from "axios";
 import vue2Dropzone from "vue2-dropzone";
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
 import goBack from '../../../components/global/go_back.vue'
-
 export default {
-  name: "import_users",
+  name: "import_students",
   components: {
     vueDropzone: vue2Dropzone,
     goBack: goBack,
   },
   data: function () {
     return {
-      LANG_HEADER: "Bulk Importing Users",
+      LANG_HEADER: "Importing Parent Emails",
       DROPZONE_ACTIVE: true,
       dropzoneOptions: {
-        url: `${this.$parent.API_BASE_URL}/import/users`,
+        url: `${this.$parent.API_BASE_URL}/import/parent_emails`,
         thumbnailWidth: 50,
         acceptedFiles: ".csv",
         headers: { Authorization: `Bearer ${this.$parent.JWT_TOKEN}` },
@@ -74,7 +58,7 @@ export default {
     downloadTemplate: async function () {
       const vm = this;
       axios
-        .get(`${vm.$parent.API_BASE_URL}/templates/users`, {
+        .get(`${vm.$parent.API_BASE_URL}/templates/parent_emails`, {
           headers: {
             Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
           },
@@ -113,7 +97,7 @@ export default {
     complete(file, response) {
       const vm = this;
       setTimeout(function () {
-        vm.LANG_HEADER = `Imported ${response.data.received.length} User(s)`;
+        vm.LANG_HEADER = `Imported ${response.data.received.length} Parent Emails(s)\n Skipped ${response.data.skipped.length} due to invalid data.`;
         vm.DROPZONE_ACTIVE = false;
       }, 1000);
     },
@@ -121,7 +105,7 @@ export default {
 };
 </script>
 <style scoped>
-#users {
+#students {
   padding-top: 2em;
   padding-left: 5em;
   padding-right: 5em;

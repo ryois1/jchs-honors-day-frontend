@@ -1,7 +1,7 @@
 <template>
   <div id="users">
     <b-container fluid>
-      <goBack target="CertificatePageCert"></goBack>
+      <goBack/>
       <b-row>
         <b-col
           ><h1>{{ LANG_HEADER }}</h1></b-col

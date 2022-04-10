@@ -10,7 +10,13 @@ export default {
     methods: {
         goBack() {
             const props = this.nav_prop;
-            this.$router.push({ name: this.target, params: { props } });
+            const target = this.target;
+            if(target){
+                this.$router.push({ name: target, params: { props } });
+                return;
+            }else{
+                this.$router.go(-1);
+            }
         },
     }
 }

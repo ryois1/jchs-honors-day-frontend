@@ -1,7 +1,7 @@
 <template>
   <div id="newuser">
     <b-container fluid>
-    <goBack target="AdminUsers"></goBack>
+    <goBack/>
       <b-row>
         <b-col><h1>Creating New Users</h1></b-col>
       </b-row>
