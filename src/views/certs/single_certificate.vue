@@ -22,14 +22,14 @@
             }"
             class="mr-1"
             variant="primary"
-            >Delegate Certificates to Teachers</b-button
+            ><b-icon icon="box-arrow-up" aria-hidden="true"></b-icon> Delegate Certificates to Teachers</b-button
           >
           <b-button
             v-if="showContents && this.$parent.USER_INFO.role == 'TEACHER'"
             @click="releaseCert"
             class="mr-1"
             variant="primary"
-            >Return Certificates to Department Chair</b-button
+            ><b-icon icon="box-arrow-up" aria-hidden="true"></b-icon> Return Certificates to Department Chair</b-button
           >
           <b-button
             v-if="showContents && this.CERT_MAX_CHILD >= this.totalItems && this.allowed_edit"
@@ -38,7 +38,7 @@
             class="btn-success btn-lg"
             id="award-button"
             :to="{ name: 'CertificatePageCert', params: { cert_id: this.$route.params.cert_id } }"
-            >Award Certificates to Students</b-button
+            ><b-icon icon="award" aria-hidden="true"></b-icon> Award Certificates to Students</b-button
           >
           <b-tooltip v-if="this.$parent.USER_INFO.role == 'TEACHER'" show target="award-button">Click here to get started!</b-tooltip>
           </b-col

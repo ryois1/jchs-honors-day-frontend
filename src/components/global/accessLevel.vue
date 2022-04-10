@@ -28,7 +28,7 @@ export default {
             const vm = this;
             const role = this.$parent.USER_INFO.role;
             if(role == "ADMIN"){
-                vm.style.backgroundColor = "#ff0000";
+                vm.style.backgroundColor = "#660000";
                 vm.canHide = false;
                 return 'System Administrator, Full System Access';
             }else if(role == "COMMITTEE"){

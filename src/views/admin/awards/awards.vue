@@ -12,7 +12,7 @@
             variant="primary"
             class="mr-1"
             :to="{ name: 'AdminAwardsImport' }"
-            >Bulk Import</b-button
+            ><b-icon icon="file-earmark-arrow-up" aria-hidden="true"></b-icon> Bulk Import</b-button
           >
         </b-col>
       </b-row>
@@ -76,7 +76,7 @@ export default {
           Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
         },
       });
-      if (data.data.depts == 0) {
+      if (data.error) {
         vm.EMTPY_TABLE = "<h3>There are no awards to show</h3>";
         vm.totalItems = 0;
         vm.items = [];

@@ -20,7 +20,7 @@
       <b-row>
         <b-col class="text-right"
           ><b-button id="go_back" @click="goBack"
-            >Go Back</b-button
+            ><b-icon icon="arrow-left"></b-icon> Go Back</b-button
           ></b-col
         >
         <b-col class="text-left"
@@ -29,7 +29,7 @@
             id="confirm_button"
             :disabled="ok_button_disabled == 1"
             :variant="ok_button_variant"
-            >Confirm</b-button
+            ><b-icon icon="check2-all" aria-hidden="true"></b-icon> Confirm</b-button
           ></b-col
         >
       </b-row>

@@ -3,6 +3,7 @@
     <b-jumbotron id="admin_hero" v-if="$auth.isAuthenticated && this.$parent.USER_AUTHORIZED">
       <template #header>{{ LANG_WELCOME }}</template>
       <hr class="my-4" />
+      <h4>Quick Actions</h4>
       <b-button
         class="mr-1"
         v-if="this.$parent.USER_INFO.role == 'ADMIN'"
@@ -46,6 +47,9 @@
       <b-card bg-variant="dark" text-variant="white" header="Total Users" class="text-center">
         <h3><b-card-text>{{usersTotal}}</b-card-text></h3>
       </b-card>
+      <b-card bg-variant="dark" text-variant="white" header="Total Departments" class="text-center">
+        <h3><b-card-text>{{departmentsTotal}}</b-card-text></h3>
+      </b-card>
     </b-card-group>
     </b-container>
   </div>
@@ -61,6 +65,7 @@ export default {
       studentsTotal: 0,
       usersTotal: 0,
       certsTotal: 0,
+      departmentsTotal: 0,
     };
   },
   methods: {
@@ -131,6 +136,23 @@ export default {
         vm.isLoading = false;
       }
     },
+
+    API_depts: async function () {
+      const vm = this;
+      vm.isLoading = true;
+      const { data } = await axios.get(`${vm.$parent.API_BASE_URL}/dept`, {
+        headers: {
+          Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+        },
+      });
+      if (data.error) {
+        vm.departmentsTotal = 0;
+        vm.isLoading = false;
+      } else {
+        vm.departmentsTotal = data.data.depts.length;
+        vm.isLoading = false;
+      }
+    },
   },
     mounted: function () {
     this.API_certs().catch((error) => {
@@ -143,6 +165,9 @@ export default {
       console.error(error);
     });
     this.API_awards().catch((error) => {
+      console.error(error);
+    });
+    this.API_depts().catch((error) => {
       console.error(error);
     });
   },

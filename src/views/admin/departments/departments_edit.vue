@@ -1,7 +1,7 @@
 <template>
   <div id="certs">
     <b-container fluid>
-      <goBack/>
+      <goBack target="AdminDepts"/>
       <b-row>
         <b-col
           ><h1>{{ LANG_HEADER }}</h1></b-col
@@ -13,7 +13,7 @@
             :to="{
               name: 'AdminDeptsAdd', params: { dept_id: this.$route.params.dept_id }
             }"
-            >Add Existing User to Department</b-button
+            ><b-icon icon="plus-square" aria-hidden="true"></b-icon> Add Existing User to Department</b-button
           >
         </b-col>
       </b-row>

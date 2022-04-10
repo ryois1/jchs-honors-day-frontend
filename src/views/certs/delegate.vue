@@ -56,21 +56,21 @@
                         variant="danger"
                         class="mr-1"
                         @click="deleteRow(index - 1)"
-                        >Remove</b-button
+                        ><b-icon icon="trash" aria-hidden="true"></b-icon> Remove</b-button
                       >
                       <b-button
                         variant="primary"
                         @click="lookupTeacher(index - 1)"
-                        >Lookup</b-button
+                        ><b-icon icon="search" aria-hidden="true"></b-icon> Lookup</b-button
                       >
                     </b-col>
                   </b-row>
                 </b-container>
               </div>
               <b-button @click="addTeacher" class="mr-1 mb-1" variant="success"
-                >Add Teacher</b-button
+                ><b-icon icon="plus-square" aria-hidden="true"></b-icon> Add Teacher</b-button
               ><br>
-              <b-button @click="verify" variant="primary">Verify</b-button>
+              <b-button @click="verify" variant="primary"><b-icon icon="patch-check" aria-hidden="true"></b-icon> Verify</b-button>
             </b-form>
           </b-card>
         </b-col>

@@ -9,13 +9,13 @@
             variant="primary"
             class="mr-1"
             :to="{ name: 'AdminStudentsImport' }"
-            >Bulk Import</b-button>
+            ><b-icon icon="file-earmark-arrow-up" aria-hidden="true"></b-icon> Bulk Import</b-button>
           <b-button
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             variant="primary"
             class="mr-1"
             :to="{ name: 'AdminStudentsImportParentEmails' }"
-            >Import Parent Emails</b-button>
+            ><b-icon icon="file-earmark-arrow-up" aria-hidden="true"></b-icon> Import Parent Emails</b-button>
         </b-col>
       </b-row>
     </b-container>

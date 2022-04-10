@@ -8,6 +8,7 @@
         <b-alert class="alertContainer" show variant="warning"><b-icon style="width: 72px; height: 72px;" icon="exclamation-triangle-fill" variant="warning"></b-icon><h3 class="verticalText" >Check ALL items before proceeding.</h3></b-alert>
         <b-list-group class="listgroup" >
           <b-list-group-item class="listgroup"><b>CONFIRM ALL PDFS ARE UPLOADED!</b></b-list-group-item>
+          <b-list-group-item class="listgroup">Did you edit the email messages in Admin -> Email Settings -> text boxes. AND click "Save"</b-list-group-item>
           <b-list-group-item class="listgroup">Did you edit the YEAR OF GRADUATION in Admin -> Email Settings -> Current YOG (AND Get a toast "Updated config")</b-list-group-item>
           <b-list-group-item class="listgroup">Confirm all spelling/years are correct in award names</b-list-group-item>
           <b-list-group-item class="listgroup">Confirm student table is updated with LATEST information for students, including Year of Graduation</b-list-group-item>

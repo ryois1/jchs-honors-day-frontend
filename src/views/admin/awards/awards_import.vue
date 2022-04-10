@@ -12,7 +12,7 @@
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             variant="primary"
             @click="downloadTemplate"
-            >Download CSV Template</b-button
+            ><b-icon icon="file-earmark-arrow-down" aria-hidden="true"></b-icon> Download CSV Template</b-button
           >
         </b-col>
       </b-row>

@@ -11,14 +11,14 @@
             variant="primary"
             class="mr-1"
             :to="{ name: 'AdminNewUser' }"
-            >New User</b-button
+            ><b-icon icon="plus-square" aria-hidden="true"></b-icon> New User</b-button
           >
           <b-button
             v-if="this.$parent.USER_INFO.role == 'ADMIN'"
             variant="primary"
             class="mr-1"
             :to="{ name: 'AdminUsersImport' }"
-            >Bulk Import</b-button
+            ><b-icon icon="file-earmark-arrow-up" aria-hidden="true"></b-icon> Bulk Import</b-button
           >
         </b-col>
       </b-row>

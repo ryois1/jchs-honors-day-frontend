@@ -55,7 +55,7 @@
           >
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
-          <b-button right variant="danger" @click="exitAdmin">Exit Admin</b-button>
+          <b-button right variant="danger" @click="exitAdmin"><b-icon icon="door-open" aria-hidden="true"></b-icon> Exit Admin</b-button>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>

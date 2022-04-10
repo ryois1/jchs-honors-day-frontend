@@ -34,7 +34,7 @@
             id="confirm_button"
             :disabled="ok_button_disabled == 1"
             :variant="ok_button_variant"
-            >Confirm</b-button
+            ><b-icon icon="check2-all" aria-hidden="true"></b-icon> Confirm</b-button
           ></b-col
         >
       </b-row>

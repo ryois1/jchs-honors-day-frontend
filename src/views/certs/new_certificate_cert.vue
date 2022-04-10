@@ -12,7 +12,7 @@
             <b-badge>{{ this.max_certs }}</b-badge> certificates remaining
           </h3>
           <b-button @click="bulkImport" class="mb-2" variant="success"
-            >Bulk Import</b-button
+            ><b-icon icon="file-earmark-arrow-up" aria-hidden="true"></b-icon> Bulk Import</b-button
           ></b-col
         >
       </b-row>
@@ -60,13 +60,13 @@
                         variant="danger"
                         class="mr-1"
                         @click="deleteRow(index - 1)"
-                        >Remove</b-button
+                        ><b-icon icon="trash" aria-hidden="true"></b-icon> Remove</b-button
                       >
                       <b-button
                         :disabled="!isNaN(student_id[index - 1])"
                         variant="primary"
                         @click="lookupStudent(index - 1)"
-                        >Lookup</b-button
+                        ><b-icon icon="search" aria-hidden="true"></b-icon> Lookup</b-button
                       >
                       <div v-if="!isNaN(student_id[index - 1])">
                         <p>Disabled when input is a student ID</p>
@@ -76,9 +76,9 @@
                 </b-container>
               </div>
               <b-button @click="addStudent" class="mr-1 mb-1" variant="success"
-                >Add Student</b-button
+                ><b-icon icon="plus-square" aria-hidden="true"></b-icon> Add Student</b-button
               ><br>
-              <b-button @click="verify" variant="primary">Verify</b-button>
+              <b-button @click="verify" variant="primary"><b-icon icon="patch-check" aria-hidden="true"></b-icon> Verify</b-button>
             </b-form>
           </b-card>
           <br>
