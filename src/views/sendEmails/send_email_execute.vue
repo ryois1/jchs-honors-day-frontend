@@ -23,6 +23,7 @@ export default {
       job_status: "created",
       job_id: this.$route.params.job_id,
       job_logs: [],
+      getJobOn: true,
     };
   },
   methods: {
@@ -51,7 +52,7 @@ export default {
     },
     getJobLogs: function(){
         const vm = this;
-        if(vm.job_status == "running" || vm.job_status == "finished"){
+        if(vm.job_status == "running" || (vm.job_status == "finished" && vm.getJobOn)){
         axios({
             method: "get",
             url: `${this.$parent.API_BASE_URL}/jobs/${vm.job_id}/logs`,
@@ -64,6 +65,9 @@ export default {
                 console.error(response);
             } else {
                 vm.job_logs = response.data.data.logs;
+                if(vm.job_status == "finished"){
+                  vm.getJobOn = false;
+                }
             }
         })
         .catch(function (response) {
