@@ -1,7 +1,7 @@
 <template>
   <div id="certs">
     <b-container fluid>
-      <goBack target="Departments"/>
+      <goBack target="DepartmentsCertificates"/>
       <b-row>
         <b-col
           ><h1>
