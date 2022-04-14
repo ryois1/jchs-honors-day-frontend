@@ -141,6 +141,9 @@ export default {
     },
     isLoaded(){
       return !this.isLoading;
+    },
+    studentIDVisible(){
+      return this.ADMINS.includes(this.USER_INFO.role);
     }
   },
   mounted: async function () {

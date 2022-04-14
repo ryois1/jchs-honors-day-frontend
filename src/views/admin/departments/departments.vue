@@ -33,13 +33,13 @@
       :per-page="0"
     >
       <template #cell(actions)="data">
-        <b-button variant="danger" class="mr-1" @click="deleteDept(data.item.dept_id)"
-          ><b-icon icon="trash-fill" aria-hidden="true"></b-icon> Delete</b-button>
-        <b-button
+        <b-button class="mr-1" 
           variant="primary"
           :to="{ name: 'AdminDeptsEdit', params: { dept_id: data.item.dept_id }}"
           ><b-icon icon="arrow-right" aria-hidden="true"></b-icon> View Department Users</b-button
         >
+        <b-button variant="danger" @click="deleteDept(data.item.dept_id)"
+          ><b-icon icon="trash-fill" aria-hidden="true"></b-icon> Delete</b-button>
       </template>
     </b-table>
     Total Departments: <b>{{totalItems}}</b>

@@ -75,10 +75,6 @@ export default {
       ],
       success_fields: [
         {
-          key: "id",
-          label: "Student ID",
-        },
-        {
           key: "first_name",
           label: "First Name",
         },

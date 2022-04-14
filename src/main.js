@@ -15,7 +15,7 @@ Sentry.init({
   ],
   tracesSampleRate: 1.0,
 });
-import { LayoutPlugin, CardPlugin, TablePlugin, FormPlugin, FormCheckboxPlugin, FormInputPlugin, PaginationPlugin, NavPlugin, NavbarPlugin, JumbotronPlugin, InputGroupPlugin, ImagePlugin, TooltipPlugin, ButtonPlugin, FormGroupPlugin, AlertPlugin, FormSelectPlugin, BadgePlugin, ListGroupPlugin } from 'bootstrap-vue';
+import { LayoutPlugin, CardPlugin, TablePlugin, FormPlugin, FormCheckboxPlugin, FormRadioPlugin, FormInputPlugin, PaginationPlugin, NavPlugin, NavbarPlugin, JumbotronPlugin, InputGroupPlugin, ImagePlugin, TooltipPlugin, ButtonPlugin, FormGroupPlugin, AlertPlugin, FormSelectPlugin, BadgePlugin, ListGroupPlugin } from 'bootstrap-vue';
 import { BootstrapVueIcons } from 'bootstrap-vue'
 import router from './router'
 import { domain, clientId, audience } from "../auth_config.json";
@@ -36,6 +36,7 @@ Vue.use(FormCheckboxPlugin)
 Vue.use(FormInputPlugin)
 Vue.use(PaginationPlugin)
 Vue.use(NavPlugin)
+Vue.use(FormRadioPlugin)
 Vue.use(NavbarPlugin)
 Vue.use(JumbotronPlugin)
 Vue.use(InputGroupPlugin)

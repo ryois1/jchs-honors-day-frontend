@@ -76,6 +76,10 @@
         <div v-if="data.item.cert_notes"><p>{{noteView(data.item.cert_notes)}}</p><b-button variant="primary" @click="notes('view', data.item.cert_id, data.item.cert_owner_id, data.item)"><b-icon icon="pencil-square" aria-hidden="true"></b-icon> View Note</b-button></div>
         <div v-if="!data.item.cert_notes"><b-button variant="primary" @click="notes('add', data.item.cert_id, data.item.cert_owner_id, data.item)"><b-icon icon="pencil-square" aria-hidden="true"></b-icon> Add Note</b-button></div>
       </template>
+      <template #cell(student_id)="data">
+        <p v-if="studentIDVisible">{{data.item.student_id}}</p>
+        <p v-if="!studentIDVisible"><i>Student IDs are not shown</i></p>
+      </template>
       <template #cell(actions)="data">
         <b-button
           variant="danger"
@@ -101,6 +105,7 @@ export default {
   name: "certs",
   data: function () {
     return {
+      studentIDVisible: this.$parent.studentIDVisible,
       delegates_fields: [
         {
           key: "user_id",

@@ -42,13 +42,13 @@
                     <b-col>
                       <b-form-group
                         id="student_id-group"
-                        label="Student ID or Name:"
+                        label="Partial Name or Student ID:"
                         label-for="student_id"
                       >
                         <b-form-input
                           id="student_id"
                           v-model="student_id[index - 1]"
-                          placeholder="Student ID or Name"
+                          placeholder="Partial Name or Student ID"
                           required
                           class="cardsinput"
                         ></b-form-input>
@@ -163,7 +163,7 @@ export default {
           const students = [];
           Object.keys(response.data.data.students).forEach(function (key) {
             const row = response.data.data.students[key];
-            const name = `${row.first_name} ${row.last_name} (${row.id})`;
+            const name = `${row.first_name} ${row.middle_name} ${row.last_name} (Homeroom: ${row.homeroom}, YOG: ${row.yog})`;
             const value = row.id;
             students.push({ name: name, value: value });
           });
