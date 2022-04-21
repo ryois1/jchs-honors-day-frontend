@@ -15,7 +15,7 @@ Sentry.init({
   ],
   tracesSampleRate: 1.0,
 });
-import { LayoutPlugin, CardPlugin, TablePlugin, FormPlugin, FormCheckboxPlugin, FormRadioPlugin, FormInputPlugin, PaginationPlugin, NavPlugin, NavbarPlugin, JumbotronPlugin, InputGroupPlugin, ImagePlugin, TooltipPlugin, ButtonPlugin, FormGroupPlugin, AlertPlugin, FormSelectPlugin, BadgePlugin, ListGroupPlugin } from 'bootstrap-vue';
+import { ProgressPlugin, LayoutPlugin, CardPlugin, TablePlugin, FormPlugin, FormCheckboxPlugin, FormRadioPlugin, FormInputPlugin, PaginationPlugin, NavPlugin, NavbarPlugin, JumbotronPlugin, InputGroupPlugin, ImagePlugin, TooltipPlugin, ButtonPlugin, FormGroupPlugin, AlertPlugin, FormSelectPlugin, BadgePlugin, ListGroupPlugin } from 'bootstrap-vue';
 import { BootstrapVueIcons } from 'bootstrap-vue'
 import router from './router'
 import { domain, clientId, audience } from "../auth_config.json";
@@ -29,6 +29,7 @@ import 'vue-toast-notification/dist/theme-default.css';
 Vue.config.productionTip = false
 Vue.use(LayoutPlugin)
 Vue.use(ListGroupPlugin)
+Vue.use(ProgressPlugin)
 Vue.use(CardPlugin)
 Vue.use(TablePlugin)
 Vue.use(FormPlugin)
