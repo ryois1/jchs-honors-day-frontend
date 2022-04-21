@@ -114,7 +114,7 @@ export default {
       vm.ADMIN_STATUS = data.data;
       vm.departmentAwardsDrilldownOptions.labels = data.data.awards.drilldown.departments;
       vm.departmentAwardsDrilldownData = data.data.awards.drilldown.amount;
-      vm.certificatesData = [data.data.certificates.current, data.data.certificates.maximum];
+      vm.certificatesData = [data.data.certificates.current, data.data.certificates.maximum-data.data.certificates.current];
       vm.studentsData = [data.data.students.withAwards, data.data.students.total-data.data.students.withAwards];
     },
   },
