@@ -37,11 +37,15 @@
     <b-card-group deck>
       <b-card bg-variant="dark" text-variant="white" header="Total Awards" class="text-center">
         <h3><b-card-text>{{ ADMIN_STATUS.awards.total }}</b-card-text></h3>
+        <div id="departmentAwardsDrilldown">
+          <p>Awards by Department:</p>
+          <apexchart type="donut" :options="departmentAwardsDrilldownOptions" :series="departmentAwardsDrilldownData"></apexchart>
+        </div>
       </b-card>
       <b-card bg-variant="dark" text-variant="white" header="Total Certificates" class="text-center">
         <h3><b-card-text>{{ ADMIN_STATUS.certificates.current }}</b-card-text></h3>
         <p>Used certificates out of {{ADMIN_STATUS.certificates.maximum}}:</p>
-        <b-progress show-value v-b-tooltip.hover title="Used certificates (Currently Used/Maximum Available)" :value="ADMIN_STATUS.certificates.current" :max="ADMIN_STATUS.certificates.maximum" variant="info" striped animated="true" class="mt-2"></b-progress>
+        <b-progress show-value v-b-tooltip.hover title="Used certificates (Currently Used/2200 Average)" :value="ADMIN_STATUS.certificates.current" :max="ADMIN_STATUS.certificates.maximum" variant="info" striped animated="true" class="mt-2"></b-progress>
       </b-card>
       <b-card bg-variant="dark" text-variant="white" header="Total Students" class="text-center">
         <h3><b-card-text>{{ ADMIN_STATUS.students.total }}</b-card-text></h3>
@@ -65,7 +69,17 @@ export default {
   data: function () {
     return {
       ADMIN_STATUS: {},
-      LANG_WELCOME: `Admin Home`
+      LANG_WELCOME: `Admin Home`,
+      departmentAwardsDrilldownData: [44, 55, 41, 17, 15],
+      departmentAwardsDrilldownOptions: {
+        labels: [],
+        chart: {
+          type: 'donut',
+        },
+        legend: {
+          show: false,
+        }
+      },
     };
   },
   methods: {
@@ -78,6 +92,8 @@ export default {
         },
       });
       vm.ADMIN_STATUS = data.data;
+      vm.departmentAwardsDrilldownOptions.labels = data.data.awards.drilldown.departments;
+      vm.departmentAwardsDrilldownData = data.data.awards.drilldown.amount;
     },
   },
     mounted: function () {
@@ -93,5 +109,9 @@ export default {
     color: #ffffff;
     background-color: var(--alt-dark-bg);
   }
+}
+.apexcharts-legend-text{
+  color: #ffffff !important;
+  fill: white !important;
 }
 </style>

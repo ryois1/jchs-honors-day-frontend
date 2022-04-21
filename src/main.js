@@ -22,6 +22,8 @@ import { domain, clientId, audience } from "../auth_config.json";
 import { Auth0Plugin, getInstance } from "./auth";
 import VueSweetalert2 from 'vue-sweetalert2';
 import VueToast from 'vue-toast-notification';
+import VueApexCharts from 'vue-apexcharts'
+
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'sweetalert2/dist/sweetalert2.min.css';
@@ -48,7 +50,9 @@ Vue.use(FormGroupPlugin)
 Vue.use(AlertPlugin)
 Vue.use(FormSelectPlugin)
 Vue.use(BadgePlugin)
+Vue.use(VueApexCharts)
 
+Vue.component('apexchart', VueApexCharts)
 Vue.use(BootstrapVueIcons)
 Vue.use(Auth0Plugin, {
   domain,
