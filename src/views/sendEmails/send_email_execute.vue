@@ -6,6 +6,7 @@
       </b-row>
         <b-alert v-if="this.job_status == 'created' " class="alertContainer" show variant="warning"><b-icon animation="spin" style="width: 72px; height: 72px;" icon="arrow-clockwise" variant="warning"></b-icon><h3 class="verticalText"> Created job. Waiting for job to run. (This could take up to a minute)</h3></b-alert>
         <b-alert v-if="this.job_status == 'running' " class="alertContainer" show variant="info"><b-icon animation="spin" style="width: 72px; height: 72px;" icon="arrow-clockwise" variant="info"></b-icon><h3 class="verticalText"> Job is running.</h3></b-alert>
+        <b-alert v-if="this.job_status == 'running' " class="smallAlertContainer" show variant="info"><b-icon animation="throb" style="width: 30px; height: 30px;" icon="exclamation-triangle" variant="info"></b-icon><h6 class="verticalText"> Did the job die? Restart it. <b-button @click="restartJob" id="restart_job_button" :variant="ok_button_variant"><b-icon icon="arrow-counterclockwise" aria-hidden="true"></b-icon> Restart Job</b-button></h6></b-alert>
         <b-alert v-if="this.job_status == 'finished' " class="alertContainer" show variant="success"><b-icon style="width: 72px; height: 72px;" icon="check-circle" variant="success"></b-icon><h3 class="verticalText"> Job finished.</h3></b-alert>
         <code>{{logOut}}</code>
     </b-container>
@@ -75,7 +76,32 @@ export default {
             console.error(response);
         });
         }
-    }
+    },
+    restartJob: function(){
+        const vm = this;
+        axios({
+            method: "post",
+            url: `${this.$parent.API_BASE_URL}/jobs/${vm.job_id}/restart`,
+            headers: {
+                Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+            },
+        })
+        .then(function (response) {
+            if (response.data.error) {
+                console.error(response);
+                vm.$parent.$toast.error("There was an error restarting the job.", { position: "top-right" });
+            } else {
+                vm.$parent.$toast.success("Successfully restarted the job.", {position: "top-right",});
+                vm.job_status = 'created';
+            }
+        })
+        .catch(function (response) {
+            vm.$parent.$toast.error("There was an error restarting the job.", { position: "top-right" });
+            console.error(response);
+        });
+    },
+  
+
   },
     mounted: function () {
       const vm = this;
@@ -113,6 +139,12 @@ export default {
   position: relative;
   display: flex;
   align-items: center
+}
+.smallAlertContainer{
+  height: 3em;
+  position: relative;
+  display: flex;
+  align-items: center 
 }
 code {
   display: block;
