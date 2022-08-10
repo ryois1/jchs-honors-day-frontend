@@ -32,6 +32,13 @@
         :to="{ name: 'AdminUsersImport' }"
         ><b-icon icon="people-fill"></b-icon> Import Users</b-button
       >
+      <b-button
+        class="mr-1"
+        v-if="this.$parent.USER_INFO.role == 'ADMIN'"
+        variant="primary"
+        @click="downloadCTEReport"
+        ><b-icon icon="file-earmark"></b-icon> Download State CTE Report</b-button
+      > 
     </b-jumbotron>
     <b-container fluid>
     <b-card-group deck>
@@ -103,6 +110,47 @@ export default {
     };
   },
   methods: {
+    downloadCTEReport: async function () {
+      const vm = this;
+      axios
+        .get(`${vm.$parent.API_BASE_URL}/state_reporting/all_attempts`, {
+          headers: {
+            Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+          },
+        })
+        .then(function (response) {
+          if (response.data.error) {
+            console.error(response);
+            vm.$parent.$toast.error("There was an error downloading the CSV.", {
+              position: "top-right",
+            });
+          } else {
+            let blob = new Blob([response.data.data.csv], {
+                type: "application/octet-stream",
+              }),
+              url = window.URL.createObjectURL(blob);
+            let tempLink = document.createElement("a");
+            tempLink.style.display = "none";
+            tempLink.href = url;
+            tempLink.setAttribute("download", response.data.data.file_name);
+            document.body.appendChild(tempLink);
+            tempLink.click();
+            document.body.removeChild(tempLink);
+            window.URL.revokeObjectURL(url);
+            vm.$parent.$toast.success("Successfully downloaded the CSV.", {
+              position: "top-right",
+            });
+            vm.nextDisabled = false;
+            vm.nextTooltip = "Go to next step";
+          }
+        })
+        .catch(function (response) {
+          vm.$parent.$toast.error("There was an error downloading the CSV.", {
+            position: "top-right",
+          });
+          console.error(response);
+        });
+    },
   API_admin_status: async function () {
       const vm = this;
       vm.isLoading = true;

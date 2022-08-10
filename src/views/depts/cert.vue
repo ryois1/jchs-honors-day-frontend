@@ -40,6 +40,9 @@
             <div v-if="item.cert_lock == true">
               <b-icon icon="lock-fill" variant="danger" aria-hidden="true"></b-icon> Locked
             </div>
+            <div v-if="item.cert_state_report == true">
+              <b-icon icon="exclamation-triangle" variant="danger" aria-hidden="true"></b-icon> This award is reported to the State of Tennessee for CTE Industry Certification Tracking
+            </div>
           </div>
           </b-col>
           </b-row>
@@ -50,6 +53,10 @@
             <b-col>
               <b-button variant="danger" v-b-tooltip.hover title="Lock Award" class="mr-1" v-if="hasEdit && item.cert_lock == false" @click="lockAward(item.cert_id)" ><b-icon icon="lock" aria-hidden="true"></b-icon></b-button>
               <b-button variant="warning" v-b-tooltip.hover title="Unlock Award" class="mr-1" v-if="hasEdit && item.cert_lock == true" @click="unlockAward(item.cert_id)"><b-icon icon="unlock" aria-hidden="true"></b-icon></b-button>
+
+              <b-button variant="danger" v-b-tooltip.hover title="Report to State" class="mr-1" v-if="hasEdit && item.cert_state_report == false" @click="makeStateReport(item.cert_id)" ><b-icon icon="eye" aria-hidden="true"></b-icon></b-button>
+              <b-button variant="warning" v-b-tooltip.hover title="Stop Reporting to State" class="mr-1" v-if="hasEdit && item.cert_state_report == true" @click="stopStateReport(item.cert_id)"><b-icon icon="eye-slash" aria-hidden="true"></b-icon></b-button>
+
               <b-button variant="warning" v-b-tooltip.hover title="Change Max Certificates" class="mr-1" v-if="hasEdit" @click="changeMaxCerts(item.cert_id, item.cert_owner_id, item)"><b-icon icon="pencil" aria-hidden="true"></b-icon></b-button>
               <b-button variant="warning" v-b-tooltip.hover title="Change Award Name" class="mr-1" v-if="hasEdit" @click="changeAwardName(item.cert_id, item.cert_owner_id, item)"><b-icon icon="input-cursor-text" aria-hidden="true"></b-icon></b-button>
               <b-button variant="danger" v-b-tooltip.hover title="Delete Award" class="mr-1" v-if="hasEdit" @click="deleteAward(item.cert_id, item.cert_owner_id)"><b-icon icon="trash-fill" aria-hidden="true"></b-icon></b-button>
@@ -422,6 +429,130 @@ export default {
           }
         });
     },
+
+    stopStateReport: async function (cert_id) {
+      const vm = this;
+      if (
+        !(
+          vm.$parent.USER_INFO.role == "ADMIN"
+        )
+      ) {
+          vm.$parent.$toast.error("No permissions.", { position: "top-right" });
+          return;
+      }
+
+      this.$parent.$swal
+        .fire({
+                              customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
+          title: `Stop reporting for state?`,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#ffc107",
+          confirmButtonText: "Yes",
+          reverseButtons: true,
+        })
+        .then(async function (result) {
+          if (result.isConfirmed) {
+            axios
+              .get(`${vm.$parent.API_BASE_URL}/certs/${cert_id}/state_report_off`, {
+                headers: {
+                  Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+                },
+              })
+              .then(function (response) {
+                if (response.data.error) {
+                  console.error(response);
+                  vm.$parent.$toast.error(
+                    "There was an error modifying the award.",
+                    { position: "top-right" }
+                  );
+                } else {
+                  vm.$parent.$toast.success("Successfully modified the award.", {
+                    position: "top-right",
+                  });
+                }
+                vm.API_certs().catch((error) => {
+                  console.error(error);
+                });
+              })
+              .catch(function (response) {
+                vm.$parent.$toast.error(
+                  "There was an error modifying the award.",
+                  { position: "top-right" }
+                );
+                console.error(response);
+              });
+          }
+        });
+    },
+
+    makeStateReport: async function (cert_id) {
+      const vm = this;
+      if (
+        !(
+          vm.$parent.USER_INFO.role == "ADMIN"
+        )
+      ) {
+          vm.$parent.$toast.error("No permissions.", { position: "top-right" });
+          return;
+      }
+
+      this.$parent.$swal
+        .fire({
+                              customClass: {
+            popup: 'popup-dark',
+            title: 'popup-dark-text',
+            content: 'popup-dark-text',
+            input: 'popup-dark-input',
+          },
+          title: `Start reporting for state?`,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#ffc107",
+          confirmButtonText: "Yes",
+          reverseButtons: true,
+        })
+        .then(async function (result) {
+          if (result.isConfirmed) {
+            axios
+              .get(`${vm.$parent.API_BASE_URL}/certs/${cert_id}/state_report_on`, {
+                headers: {
+                  Authorization: `Bearer ${vm.$parent.JWT_TOKEN}`,
+                },
+              })
+              .then(function (response) {
+                if (response.data.error) {
+                  console.error(response);
+                  vm.$parent.$toast.error(
+                    "There was an error modifying the award.",
+                    { position: "top-right" }
+                  );
+                } else {
+                  vm.$parent.$toast.success("Successfully modified the award.", {
+                    position: "top-right",
+                  });
+                }
+                vm.API_certs().catch((error) => {
+                  console.error(error);
+                });
+              })
+              .catch(function (response) {
+                vm.$parent.$toast.error(
+                  "There was an error modifying the award.",
+                  { position: "top-right" }
+                );
+                console.error(response);
+              });
+          }
+        });
+    },
+
+
     API_certs: async function () {
       const vm = this;
       const { data } = await axios.get(

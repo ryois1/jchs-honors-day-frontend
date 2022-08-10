@@ -40,6 +40,22 @@
                   class="cardsinput"
                 ></b-form-input>
               </b-form-group>
+                            <b-form-group
+                id="cert_state_report-group"
+                label="Enable State Reporting?:"
+                label-for="cert_state_report"
+                description="State Reporting"
+              >
+              <b-form-checkbox
+      id="cert_state_report"
+      v-model="cert_state_report"
+      name="cert_state_report"
+      value="1"
+      unchecked-value="0"
+    >
+      Make this a state reported item
+    </b-form-checkbox>
+    </b-form-group>
               <b-button type="submit" variant="primary">Submit</b-button>
             </b-form>
           </b-card>
@@ -115,6 +131,7 @@ export default {
       vm.$parent.showLoader = true;
       const cert_name = this.cert_name;
       const cert_max_child = this.cert_max_child;
+      const cert_state_report = this.cert_state_report;
       const cert_dept = vm.DEPT_ID;
       const data = {
         certs: [
@@ -122,6 +139,7 @@ export default {
             cert_name: cert_name,
             cert_max_child: cert_max_child,
             cert_dept: cert_dept,
+            cert_state_report: cert_state_report,
           },
         ],
       };
